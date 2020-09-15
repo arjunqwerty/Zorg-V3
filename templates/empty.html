@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="mb-4 pb-4" style="text-align:center;">
+    <img src={{ url_for('static',filename='4..png') }} alt="">
+    <h1><font size="10">Welcome to ZORG</font></h1>
+    <p class="lead">bringing excellence to the world...</p>
+    <p>New user? We recommend you to read the about page to finish your setup<br>Click here to register</p>
+    {% if session.logged_in == NULL %}
+      <a href="/registercustomer" class="btn btn-primary">Customer</a>
+      <a href="/registermnmg" class="btn btn-primary">Hospital Management</a>
+    {% endif %}
+  </div>
+{% endblock %}

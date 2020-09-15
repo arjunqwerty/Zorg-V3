@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>ZORG</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity = "sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin = "anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+	</head>
+	<body>
+<style>
+		.center {
+		  padding: 25% 0;
+		}
+</style>
+	<!-- Navigation -->
+	<style>
+	.navbar {
+		padding: .8rem;
+	}
+	.navbar-nav li {
+		position: relative;
+		padding-right: 130px;
+	}
+	.navlink {
+		font-size: 1.1em !important;
+	}
+	</style>
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+	  <a class="navbar-brand" href="/">Z O R G</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarResponsive">
+	    <ul class="navbar-nav navbar-right ml-auto">
+	      {% if session.logged_in %}
+	        {% if session.type == "H" %}
+	          <li><a class="nav-link active" href="/kindly">Update hospital details</a></li>
+	          {% else %}
+	          <li>
+	            <a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown">EMERGENCY</a>
+	            <div class="dropdown-menu" aria-labelledby="dropdown01">
+	             <a class="dropdown-item" href="/accident">Accident</a>
+	             <a class="dropdown-item" href="/heartattack">Heart attack</a>
+	             <a class="dropdown-item" href="/otherailments">Other</a>
+	           </div>
+	          </li>
+	            <li><a class="nav-link active" href="/dashboard">Dashboard</a></li>
+	          {% endif %}
+	        <li><a class="nav-link active" href="/logout">Logout</a></li>
+	      {% else %}
+	        <li><a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown">Login</a>
+	          <div class="dropdown-menu" aria-labelledby="dropdown01">
+	           <a class="dropdown-item" href="/loginmanagement">Hospital Management</a>
+	           <a class="dropdown-item" href="/logincustomer">Customer</a>
+	         </div>
+	        </li>
+	      {% endif %}
+	    </ul>
+	  </div>
+	</nav>
+
+	<!--- Image Slider -->
+	<style>
+	.carousel-caption {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.carousel-caption h1 {
+	  font-size: 500%;
+		font-weight: bold;
+	  text-transform: uppercase;
+	  text-shadow: 1px 1px 10px #000;
+	}
+	.carousel-caption h3 {
+		font-size: 200%;
+		font-weight: 500%;
+		text-shadow: 1px 1px 10px #000;
+	}
+	</style>
+	<div id="slides" class="carousel slide" data-ride="carousel">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img src={{ url_for('static',filename='bg.png')}} width="100%" alt="Background1">
+				<div class="carousel-caption" >
+		<!--			<h1 class="display-2">WELCOME TO ZORG</h1>
+					<h3>New User? click here to register</h3>-->
+					<a href="/registercustomer" class="btn btn-primary btn-lg">Customer</a>
+					<a href="/registermnmg" class="btn btn-primary btn-lg">Hospital Management</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr class="my-4">
+
+	<!--- Jumbotron -->
+	<div class="container-fluid">
+		<div class="row jumbotron">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<img src={{ url_for('static',filename='4..png') }} class="img-fluid" alt="Image1">
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
+				<div class="center"><h1>Ensure your safety</h1>
+				<h5>With Zorg, if anything happens to you (which we hope doesn't happen), hospitals near you are directly notified with the press of a button</h5>
+			</div></div>
+		</div>
+	</div>
+	<hr class="my-4">
+	<!--- Three Column Section -->
+
+	<!--- Two Column Section -->
+	<div class="container-fluid padding">
+	<div class="row padding">
+		<div class="col-sm-12 col-md-6 text-center">
+			<h1>How we work</h1>
+			<p>We use python and have written over 2000 lines of code to make sure your safety comes first
+	</p>
+		</div>
+		<div class="col-md-6">
+			<img src={{ url_for('static',filename='background.png') }} class="img-fluid" alt="Image2">
+		</div>
+	</div>
+	</div>
+	<hr class="my-4">
+
+	<!--- Welcome Section -->
+	<div class="container-fluid padding">
+		<div class="row jumbotron welcome text-center">
+			<div class="col-12">
+				<h1 class="display-5">Who did it?</h1>
+			</div>
+			<div class="col-12">
+				<p size="14" class="lead">Just four friends who have big visions of saving the world from any more sorrows...</p>
+			</div>
+		</div>
+	</div>
+	<hr class="my-4">
+	<!--- Fixed background -->
+
+	<!--- Emoji Section -->
+
+	<!--- Meet the team -->
+
+	<!--- Cards -->
+
+	<!--- Two Column Section -->
+
+	<!--- Connect -->
+	<div class="container-fluid padding">
+		<div class="row welcome text-center">
+			<div class="col-12">
+				<h1 class="display-5">Come, Ensure your life, Free of cost</h1>
+			</div>
+			<div class="col-5"></div>
+			<div class="col-2">
+				<button onclick="topFunction()" class="btn btn-primary btn-lg" id="myBtn" title="Go to top">Register</button>
+				<script>
+				//Get the button
+				var mybutton = document.getElementById("myBtn");
+
+				// When the user scrolls down 20px from the top of the document, show the button
+				/*window.onscroll = function() {scrollFunction()};
+				function scrollFunction() {
+				  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+				    mybutton.style.display = "block";
+				  } else {
+				    mybutton.style.display = "none";
+				  }
+				}*/
+				// When the user clicks on the button, scroll to the top of the document
+				function topFunction() {
+				  document.body.scrollTop = 0;
+				  document.documentElement.scrollTop = 0;
+				}
+				</script>
+			</div>
+		</div>
+	</div>
+	<hr class="my-4">
+
+	<!--- Footer -->
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+	</body>
+</html>

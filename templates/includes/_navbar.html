@@ -1,0 +1,45 @@
+<style>
+.navbar {
+  padding: .8rem;
+}
+.navbar-nav li {
+  position: relative;
+  padding-right: 130px;
+}
+.navlink {
+  font-size: 1.1em !important;
+}
+</style>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+  <a class="navbar-brand" href="/">Z O R G</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarResponsive">
+    <ul class="navbar-nav navbar-right ml-auto">
+      {% if session.logged_in %}
+        {% if session.type == "H" %}
+          <li><a class="nav-link active" href="/kindly">Update hospital details</a></li>
+          {% else %}
+          <li>
+            <a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown">EMERGENCY</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+             <a class="dropdown-item" href="/accident">Accident</a>
+             <a class="dropdown-item" href="/heartattack">Heart attack</a>
+             <a class="dropdown-item" href="/otherailments">Other</a>
+           </div>
+          </li>
+            <li><a class="nav-link active" href="/dashboard">Dashboard</a></li>
+          {% endif %}
+        <li><a class="nav-link active" href="/logout">Logout</a></li>
+      {% else %}
+        <li><a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown">Login</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown01">
+           <a class="dropdown-item" href="/loginmanagement">Hospital Management</a>
+           <a class="dropdown-item" href="/logincustomer">Customer</a>
+         </div>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
