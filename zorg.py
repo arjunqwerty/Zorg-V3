@@ -206,7 +206,7 @@ def dashboard():
     profile = db.session.query(custprof).filter(custprof.username == username).first()#111
     db.session.commit()
     if profile is not None:
-        return render_template('dashboard.html', profile=profile)#111
+        return render_template('dashboard.html')
     else:
         return redirect(url_for('add_profile'))
     return render_template('dashboard.html')    
