@@ -81,13 +81,15 @@ class RegisterCustomer(db.Model):
     password = db.Column(db.String(20))
     pincode = db.Column(db.Integer())
     address = db.Column(db.Text())
+    gmail_id = db.column(db.String(200))
 
-    def __init__(self, namecust, username, password, pincode, address):
+    def __init__(self, namecust, username, password, pincode, address, gmail_id):
         self.namecust = namecust
         self.username = username
         self.password = password
         self.pincode = pincode
         self.address = address
+        self.gmail_id = gmail_id
 @app.route('/registercustomer', methods=['GET','POST'])
 def registercustomer():
     if request.method == 'POST':
@@ -96,6 +98,7 @@ def registercustomer():
         password = request.form['password']
         pincode = request.form['pincode'] 
         address = request.form['address']
+        gmail_id = request.form['gmail_id']
 
         if db.session.query(RegisterCustomer).filter(RegisterCustomer.username == username).count() == 0:
             data = RegisterCustomer(namecust, username, password, pincode, address)
@@ -105,24 +108,7 @@ def registercustomer():
             return redirect(url_for('logincustomer'))
         else:
             flash("Username already exists", 'danger')
-    return render_template('recust.html')
-
-''' 
-class Hospupdate(form):
-    name = StringField('Name',[validators.Length(min=3, max=50)])
-    gender = StringField('Gender',[validators.Length(min=4, max=10)])
-    age = StringField('Age',[validators.Length(min=1, max=3)])
-    sal = StringField('Salary',[validators.Length(max=10)])
-    spec = StringField('Speciality',[validators.Length(min=5, max=50)])
-    id = StringField('ID',[validators.Length(max=20)])
-'''        
-@app.route('/kindly')
-def kindly():
-    return render_template('kindly.html')
-
-@app.route('/f2')
-def f2():
-    return render_template('f2.html')
+    return render_template('recust.html')    
 
 @app.route('/loginmanagement', methods=['GET','POST'])
 def loginmanagement():
@@ -229,7 +215,7 @@ def add_profile():
             flash('Profile Created', 'success')
             return redirect(url_for('loginmanagement'))
         else:
-            return redirect(url_for('kindly'))
+            return redirect(url_for('editprofile'))
     return render_template('add_profile.html')
 
 @app.route('/editprofile', methods=['GET','POST'])
@@ -248,25 +234,21 @@ def editprofile():
         db.commit()
         flash('Profile Updated','success')
         return redirect(url_for('dashboard'))
-    else:
-        return redirect(url_for('kindly'))
-    cur.close()
     return render_template('editprofile.html')
 
 class orders(db.Model):
     __tablename__ = 'orders'
-    name_of_hptls_sent = db.Column(db.String(200))
+    hptl_username_in_vicinity = db.Column(db.String(200))
     username_cust = db.Column(db.String(200))
     type = db.Column(db.String(50))
     address = db.Column(db.Text())
-    namecust = db.Column(db.String(200))
-    aadhar = db.Column(db.Integer, primary_key=True)
     age = db.Column(db.Integer)
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
+    result = db.Column(db.String(1))
 
-    def __init__(self, name_of_hptls_sent, username_cust, type, address, namecust, aadhar, age, gender, prevmedrcrds):
-        self.name_of_hptls_sent = name_of_hptls_sent
+    def __init__(self, hptl_username_in_vicinity, username_cust, type, address, age, gender, prevmedrcrds, result):
+        self.hptl_username_in_vicinity = hptl_username_in_vicinity
         self.username_cust = username_cust
         self.type = type
         self.address = address
@@ -275,6 +257,7 @@ class orders(db.Model):
         self.age = age
         self.gender = gender
         self.prevmedrcrds = prevmedrcrds
+        self.result = result
 
 @app.route('/accident')
 @is_logged_in
@@ -291,24 +274,10 @@ def accident():
                 if hospital.pincode == pincode_cust:
                     list_of_hosp_to_send_message.append(hospital.username)
             #send to all hospitals at the same time
-            for name_of_hptls_sent in list_of_hosp_to_send_message:
-                data = orders(name_of_hptls_sent, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
+            for hptl_username_in_vicinity in list_of_hosp_to_send_message:
+                data = orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
                 db.session.add(data)
                 db.session.commit()
-            if db.session.query(result).filter(result.username_cust == username).count() == 1:
-                result = db.session.query(result).filter(result.username_cust == username).first()
-                row_to_be_sent_to_past_order = db.session.query(orders).filter_by(result.username_cust=username).first()
-                row = pastorders(row_to_be_sent_to_past_order)
-                db.session.add(row)
-                rows_to_be_deleted = db.session.query(orders).filter(orders.username_cust == username).all()
-                db.session.delete(rows_to_be_deleted)
-                hospdetails = db.session.query(hospdetails).all()
-                db.session.commit()
-                if result.acc_or_dec == "a":
-                    gilibiligilibi = result.name_of_hptl_result
-                    return redirect(url_for('saved'))
-                else:
-                    return redirect(url_for('not_saved'))
             return render_template('accident.html')
         else:
             flash('you have already sent a request, kindly wait till it is processed','danger')
@@ -339,7 +308,7 @@ def heartattack():
                 db.session.commit()
             if db.session.query(result).filter(result.username_cust == username).count() == 1:
                 result = db.session.query(result).filter(result.username_cust == username).first()
-                row_to_be_sent_to_past_order = db.session.query(orders).filter_by(result.username_cust=username).first()
+                row_to_be_sent_to_past_order = db.session.query(orders).filter_by(result.username_cust==username).first()
                 row = pastorders(row_to_be_sent_to_past_order)
                 db.session.add(row)
                 rows_to_be_deleted = db.session.query(orders).filter(orders.username_cust == username).all()
