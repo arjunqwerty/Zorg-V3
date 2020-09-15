@@ -7,7 +7,7 @@ from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 import csv
 import os
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+#from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 
 
 app=Flask(__name__)
@@ -24,7 +24,7 @@ if ENV=='dev':
         app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Tarun@postgresql@localhost/Zorg'
 else:
     app.debug=False
-    app.config['SQLALCHEMY_DATABASE_URI'] = ''
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://nodkzxyxsbqfdj:e12cbd58f24bb6ee6c9896c2731480a784a73b81fd860b2a245135b372c4f32@ec2-54-236-146-234.compute-1.amazonaws.com:5432/d2hmpp8n530vvp'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(app)
