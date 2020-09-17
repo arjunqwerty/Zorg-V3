@@ -81,7 +81,7 @@ class custdetails(db.Model):
     password = db.Column(db.String(20))
     pincode = db.Column(db.Integer())
     address = db.Column(db.Text())
-    gmail_id = db.column(db.String(200))
+    gmail_id = db.Column(db.String(200))
     aadhar = db.Column(db.Integer, unique=True)
     age = db.Column(db.Integer)
     gender = db.Column(db.String(1))
@@ -229,7 +229,7 @@ def editprofile():
 class orders(db.Model):
     __tablename__ = 'orders'
     hptl_username_in_vicinity = db.Column(db.String(200))
-    username_cust = db.Column(db.String(200))
+    username_cust = db.Column(db.String(200), primary_key=True)
     type = db.Column(db.String(50))
     address = db.Column(db.Text())
     age = db.Column(db.Integer)
@@ -337,17 +337,19 @@ def otherailments():
 
 class pastorders(db.Model):
     __tablename__ = 'pastorders'
+    number = db.Column(db.Integer, primary_key=True)
     name_of_hptl_accepting_responsibilty = db.Column(db.String(200))
     username_cust = db.Column(db.String(200))
     type = db.Column(db.String(50))
     address = db.Column(db.Text())
     namecust = db.Column(db.String(200))
-    aadhar = db.Column(db.Integer, primary_key=True)
+    aadhar = db.Column(db.Integer)
     age = db.Column(db.Integer)
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
 
-    def __init__(self, name_of_hptl_accepting_responsibilty, username_cust, type, address, namecust, aadhar, age, gender, prevmedrcrds):
+    def __init__(self, number, name_of_hptl_accepting_responsibilty, username_cust, type, address, namecust, aadhar, age, gender, prevmedrcrds):
+        self.number = number
         self.name_of_hptl_accepting_responsibilty = name_of_hptl_accepting_responsibilty
         self.username_cust = username_cust
         self.type = type
