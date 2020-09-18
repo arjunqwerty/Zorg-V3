@@ -14,7 +14,7 @@ app=Flask(__name__)
 
 ENV = 'dev'
 
-developer='Tarun' #arjun nee idha maathikko, naa idha inga ezhudhi vekkalana password marandhuruven
+developer='Arjun'
 
 if ENV=='dev':
     app.debug=True
@@ -74,7 +74,7 @@ def registermnmg():
             flash("Username already exists", 'danger')
     return render_template('remnmg.html')
 
-class custdetails(db.Model):
+class CustomerDet(db.Model):#changed the class name since it is getting confused between the class and the table name
     __tablename__ = 'custdetails'
     namecust = db.Column(db.String(200))
     username = db.Column(db.String(200), primary_key=True)
@@ -106,9 +106,15 @@ def custdetails():
         username = request.form['username']
         password = request.form['password']
         gmail_id = request.form['gmail_id']
+        address = ''
+        pincode = 0
+        aadhar = 0
+        age = 0
+        gender = ''
+        prevmedrcrds = ''
 
-        if db.session.query(custdetails).filter(custdetails.username == username).count() == 0:
-            data = custdetails(namecust, username, password, gmail_id)
+        if db.session.query(CustomerDet).filter(CustomerDet.username == username).count() == 0:
+            data = CustomerDet(namecust, username, password, pincode, address, gmail_id, aadhar, age, gender, prevmedrcrds)#needs all the columns to run without errors
             db.session.add(data)
             db.session.commit()
             flash('you are now registered', 'success')
@@ -142,7 +148,7 @@ def logincustomer():
     if request.method == 'POST':
         usercust = request.form['username']
         password_candidate = request.form['password']
-        user = db.session.query(custdetails).filter(custdetails.username == usercust).first()
+        user = db.session.query(CustomerDet).filter(CustomerDet.username == usercust).first()
         db.session.commit()
         if password_candidate == user.password:
             session['logged_in'] = True
@@ -178,7 +184,7 @@ def logout():
 @is_logged_in
 def dashboard():
     username = session['username']
-    profile = db.session.query(custdetails).filter(custdetails.username == username).first()#111
+    profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()#111
     db.session.commit()
     if profile is not None:
         return render_template('dashboard.html')
@@ -197,8 +203,8 @@ def add_profile():
         prevmedrcrds = request.form['prevmedrcrds']
         address = request.form['address']
         pincode = request.form['pincode']
-        if db.session.query(custdetails).filter(custdetails.username == username).count() == 0:
-            data = custdetails(name, aadhar, age, gender,prevmedrcrds, address, pincode)
+        if db.session.query(CustomerDet).filter(CustomerDet.username == username).count() == 0:
+            data = CustomerDet(name, aadhar, age, gender,prevmedrcrds, address, pincode)
             db.session.add(data)
             db.session.commit()
             flash('Profile Created', 'success')
@@ -211,7 +217,7 @@ def add_profile():
 @is_logged_in
 def editprofile():
     username = session['username']
-    user = db.session.query(custdetails).filter(custdetails.username == username).first()
+    user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if request.method == 'POST':
         user.aadhar = request.form['aadhar']

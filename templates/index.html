@@ -6,15 +6,9 @@
 		<title>ZORG</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity = "sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin = "anonymous">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-
 	</head>
 	<body>
-<style>
-		.center {
-		  padding: 25% 0;
-		}
-</style>
-	<!-- Navigation -->
+	
 	<style>
 	.navbar {
 		padding: .8rem;
@@ -27,9 +21,8 @@
 		font-size: 1.1em !important;
 	}
 	</style>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
-	  <a class="navbar-brand" href="/">Z O R G</a>
+	  <img src={{ url_for('static',filename='Untitled.png') }} class="navbar-brand" href="/" width="5%" alt="Favicon">
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
@@ -62,33 +55,37 @@
 	  </div>
 	</nav>
 
-	<!--- Image Slider -->
 	<style>
-	.carousel-caption {
-		position: absolute;
-		top: 50%;
-		transform: translateY(-50%);
-	}
-	.carousel-caption h1 {
-	  font-size: 500%;
-		font-weight: bold;
-	  text-transform: uppercase;
-	  text-shadow: 1px 1px 10px #000;
-	}
-	.carousel-caption h3 {
+		.footer {
+			background-color: black;
+			color: cornsilk;
+			padding-top: 2rem;
+		}
+		.carousel-caption {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-15%);
+		}
+		.carousel-caption h1 {
 		font-size: 200%;
-		font-weight: 500%;
+			font-weight: bold;
+		text-transform: uppercase;
 		text-shadow: 1px 1px 10px #000;
-	}
+		}
+		.carousel-caption h3 {
+			font-size: 100%;
+			font-weight: 500%;
+			text-shadow: 1px 1px 10px #000;
+		}
 	</style>
 	<div id="slides" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img src={{ url_for('static',filename='bg.png')}} width="100%" alt="Background1">
-				<div class="carousel-caption" >
-		<!--			<h1 class="display-2">WELCOME TO ZORG</h1>
-					<h3>New User? click here to register</h3>-->
-					<a href="/registercustomer" class="btn btn-primary btn-lg">Customer</a>
+				<img src={{ url_for('static',filename='IMG-20200820-WA0001.jpg')}} width="100%" height="100%" alt="Background1">
+				<div class="carousel-caption">
+					<h1 class="display-2">WELCOME TO ZORG</h1>
+					<h3>New User? click here to register</h3>
+					<a href="/custdetails" class="btn btn-primary btn-lg">Customer</a>
 					<a href="/registermnmg" class="btn btn-primary btn-lg">Hospital Management</a>
 				</div>
 			</div>
@@ -96,59 +93,63 @@
 	</div>
 	<hr class="my-4">
 
-	<!--- Jumbotron -->
+	<style>
+		.centerimg1{
+			padding-top: 8%;
+		}
+	</style>
+
 	<div class="container-fluid">
 		<div class="row jumbotron">
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-				<img src={{ url_for('static',filename='4..png') }} class="img-fluid" alt="Image1">
-			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
-				<div class="center"><h1>Ensure your safety</h1>
+				<img src={{ url_for('static',filename='Img1.jpg') }} class="img-fluid" alt="Image1">
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center centerimg1">
+				<h1>Ensure your safety</h1>
 				<h5>With Zorg, if anything happens to you (which we hope doesn't happen), hospitals near you are directly notified with the press of a button</h5>
-			</div></div>
+			</div>
 		</div>
 	</div>
 	<hr class="my-4">
-	<!--- Three Column Section -->
 
-	<!--- Two Column Section -->
+	<style>
+		.centerimg2{
+			padding-top: 12%;
+		}
+	</style>
 	<div class="container-fluid padding">
 	<div class="row padding">
-		<div class="col-sm-12 col-md-6 text-center">
+		<div class="col-sm-12 col-md-6 text-center centerimg2">
 			<h1>How we work</h1>
-			<p>We use python and have written over 2000 lines of code to make sure your safety comes first
-	</p>
+			<h5>We use python and have written over 2000 lines of code to make sure your safety comes first</h5>
 		</div>
-		<div class="col-md-6">
-			<img src={{ url_for('static',filename='background.png') }} class="img-fluid" alt="Image2">
+		<div class="col-md-6 text-center">
+			<img src={{ url_for('static',filename='Img2.jpg') }} class="img-fluid" alt="Image2">
 		</div>
 	</div>
 	</div>
 	<hr class="my-4">
-
-	<!--- Welcome Section -->
+	
+	<style>
+		.centerimg3{
+			padding-top: 20%;
+		}
+	</style>
 	<div class="container-fluid padding">
-		<div class="row jumbotron welcome text-center">
-			<div class="col-12">
-				<h1 class="display-5">Who did it?</h1>
+		<div class="row jumbotron">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
+				<img src={{ url_for('static',filename='Img3.jpg') }} class="img-fluid" width="60%" alt="Image3">
 			</div>
-			<div class="col-12">
-				<p size="14" class="lead">Just four friends who have big visions of saving the world from any more sorrows...</p>
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
+				<div class="centerimg3">
+					<h1>Who did it?</h1>
+					<h5>Just four friends who have big visions of saving the world from any more sorrows...</h5>
+				</div>
 			</div>
 		</div>
 	</div>
 	<hr class="my-4">
-	<!--- Fixed background -->
 
-	<!--- Emoji Section -->
-
-	<!--- Meet the team -->
-
-	<!--- Cards -->
-
-	<!--- Two Column Section -->
-
-	<!--- Connect -->
 	<div class="container-fluid padding">
 		<div class="row welcome text-center">
 			<div class="col-12">
@@ -156,21 +157,9 @@
 			</div>
 			<div class="col-5"></div>
 			<div class="col-2">
-				<button onclick="topFunction()" class="btn btn-primary btn-lg" id="myBtn" title="Go to top">Register</button>
+				<button onclick="topFunction()" class="btn btn-primary btn-lg" id="myBtn" title="Go to top">Scroll to Top</button>
 				<script>
-				//Get the button
 				var mybutton = document.getElementById("myBtn");
-
-				// When the user scrolls down 20px from the top of the document, show the button
-				/*window.onscroll = function() {scrollFunction()};
-				function scrollFunction() {
-				  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-				    mybutton.style.display = "block";
-				  } else {
-				    mybutton.style.display = "none";
-				  }
-				}*/
-				// When the user clicks on the button, scroll to the top of the document
 				function topFunction() {
 				  document.body.scrollTop = 0;
 				  document.documentElement.scrollTop = 0;
@@ -181,7 +170,40 @@
 	</div>
 	<hr class="my-4">
 
-	<!--- Footer -->
+	<style>
+		footer {
+			background-color: black;
+			color: cornsilk;
+			padding-top: 2rem;
+		}
+		hr.light {
+			border-top: 1px solid cornsilk;
+			width: 75%;
+			margin-top: .8rem;
+			margin-bottom: 1rem;
+		}
+		hr.light-100 {
+			border-top: 1px solid cornsilk;
+			width: 100%;
+			margin-top: .8rem;
+			margin-bottom: 1rem;
+		}
+	</style>
+	<footer>
+		<div class="container-fluid padding">
+			<div class="col-md-12 text-center">
+				<img src={{ url_for('static',filename='Untitled.png') }} width="5%" alt="Favicon">
+				<hr class="dark-100">
+			</div>
+		</div>
+		<div class="col-12 text-center">
+			<hr class="light-100">
+			<hr class="dark-100">
+			<h5 class="display-5">&copy;zorg.com</h5>
+			<hr class="dark-100">
+			<hr class="dark-100">
+		</div>
+	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
