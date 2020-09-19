@@ -7,7 +7,7 @@ from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 import csv
 import os
-#from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 
 
 app=Flask(__name__)
@@ -130,16 +130,19 @@ def loginmanagement():
         password_candidate = request.form['password']
         user = db.session.query(RegisterMnmg).filter(RegisterMnmg.username == usermnmg).first()
         db.session.commit()
-        if password_candidate == user.password:
-            session['logged_in'] = True
-            session['username'] = usermnmg
-            flash('You are now logged in','success')
-            return redirect(url_for('kindly'))
-        elif user is None:
+        if user is None:
             flash('No such username exists', 'danger')
-        else:
-            flash('invalid login credentials','danger')
             return render_template('lomnmg.html')
+        else:
+            if password_candidate == user.password:
+                session['logged_in'] = True
+                session['username'] = usermnmg
+                session['name'] = user.namehptl
+                flash('You are now logged in','success')
+                return redirect(url_for('kindly'))
+            else:
+                flash('Incorrect password','danger')
+                return render_template('lomnmg.html')
     else:
         return render_template('lomnmg.html')
 
@@ -150,16 +153,19 @@ def logincustomer():
         password_candidate = request.form['password']
         user = db.session.query(CustomerDet).filter(CustomerDet.username == usercust).first()
         db.session.commit()
-        if password_candidate == user.password:
-            session['logged_in'] = True
-            session['username'] = usercust
-            flash('You are now logged in','success')
-            return redirect(url_for('dashboard'))
-        elif user is None:
+        if user is None:
             flash('No such username exists', 'danger')
-        else:
-            flash('invalid login credentials','danger')
             return render_template('locust.html')
+        else:
+            if password_candidate == user.password:
+                session['logged_in'] = True
+                session['username'] = usercust
+                session['name'] = user.namecust
+                flash('You are now logged in','success')
+                return redirect(url_for('dashboard'))
+            else:
+                flash('Incorrect password','danger')
+                return render_template('locust.html')
     else:
         return render_template('locust.html')
 
@@ -184,11 +190,12 @@ def logout():
 @is_logged_in
 def dashboard():
     username = session['username']
-    profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()#111
+    custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()#111
     db.session.commit()
-    if profile is not None:
-        return render_template('dashboard.html')
+    if custdata.aadhar !=0 and custdata.age != 0 and custdata.gender != '' and custdata.prevmedrcrds != '' and custdata.address != '' and custdata.pincode != 0:
+        return render_template('dashboard.html', profile = custdata.query.all())
     else:
+        flash("Please fill these details","danger")
         return redirect(url_for('add_profile'))
     return render_template('dashboard.html')    
 
