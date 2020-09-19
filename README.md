@@ -1,19 +1,29 @@
 # Zorg-V3
 Under construction
-1)wtforms was a pretty good thing, but I'm not sure why we removed it, there should surely be some way to incorporate both wtforms as well as flask-sqlalchemy(even if it is not there, its fine)
-2)according to vs-code filter_by has "==", i am not sure if it is the right syntax
-for the time being i am removing shivaram's part, we can include it after he sends the online forms version
+"Arjun"
+1. I have changed the class custdetails to class CustomerDet since the program is getting confused between the table 'custdetails' and class 'custdetails'.
+2. Added empty string and 0 as value in registering since the adding to the table needs all the coloumn to be added. Hence we need to update in addprofile and edit profile and not add.
+3. Added register & login htmls, the static folder pics, etc.
 
-3)flash, redirect are all part of flask according to the modules imported, please check again if it is actually a part of wtforms only
+The program flows like :
+I(Management)
+Home(index.html) -> Register(remnmg.html) -> Login(lomnmg.html) -> Hospital dashboard(=dashboardmnmg.html) -> Update staff details(updatestaff.html) -> Accept / Decline -> Send mail to customer w.r.mssg
+{register - add the info in hospdetails}
+{login - compare the info in hospdetails and details entered}
+{hospital dashboard - display all the requests, details of staff of the hospital, provision to edit the latter}
+{accept / decline - delete the record on such request from order}
 
-4) right now the prog works like this:
-    4.1)after all registering logging part is done, when a customer presses accident,
-    following things happen:
-        to orders table a row is created with the same username of the customer, with different usernames of the hospitals, whose so ever is in the same area as that of the customer
-        That is, if A, B, C are three hospitals in the same as area as the customer, three rows are created in the order table
-    4.2)in dashboard management for every order placed, it showes to them with two links next to it, one to accept, one to decline, when one of them is pressed, it is updated in result 
+II(Customer)
+Home(index.html) -> Register(recust.html) -> Login(locust.html) -> Add profile(add_profile.html) / Customer dashboard(=dashboardcust.html) -> Edit profile(editprofile.html) -> Dashboard(dashboardcust.html) -> Accident / Heart attack / Otherailments (request_sent.html) -> Recieve mail from hospital
+{register - add info in custdetails}
+{login - compare the info in custdetails and details entered}
+{addprofile - check if the extra details needed for completion of the custdetails and retrieve details from cust and store in custdetails}
+{customer dashboard - display all the customer's info and provision to edit them}
+{edit profile - display the previous details and ask for the new ones}
+{accident/heartattack/otherailments - check the hospitals in the locality and add the resp. details in order table}
 
-    WE WILL CHANGE IT NOW LIKE THIS
+
+WE WILL CHANGE IT NOW LIKE THIS
     a mail is sent from zorg45365@gmail.com to customer's mail id, with subject Zorg-email(something like that), message stating that particular hospital has declined/accepted to save them.
 
      here mails act in a way similar of whatsapp

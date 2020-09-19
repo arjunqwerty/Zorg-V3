@@ -232,7 +232,7 @@ def editprofile():
         return redirect(url_for('dashboard'))
     return render_template('editprofile.html')
 
-class orders(db.Model):
+class Orders(db.Model):
     __tablename__ = 'orders'
     hptl_username_in_vicinity = db.Column(db.String(200))
     username_cust = db.Column(db.String(200), primary_key=True)
@@ -261,17 +261,17 @@ def accident():
     username = session['username']
     pincode = session['pincode']
     list_of_hosp_to_send_message = []
-    profile = db.session.query(custdetails).filter(custdetails.username == username).first()
+    profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if profile is not None:
-        if db.session.query(orders).filter(orders.username == username).count() == 0:
+        if db.session.query(Orders).filter(Orders.username == username).count() == 0:
             type='accident'
             for hospital in hospdetails:
                 if hospital.pincode == pincode_cust:
                     list_of_hosp_to_send_message.append(hospital.username)
             #send to all hospitals at the same time
             for hptl_username_in_vicinity in list_of_hosp_to_send_message:
-                data = orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
+                data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
                 db.session.add(data)
                 db.session.commit()
             return render_template('request_sent.html')
@@ -289,17 +289,17 @@ def heartattack():
     username = session['username']
     pincode = session['pincode']
     list_of_hosp_to_send_message = []
-    profile = db.session.query(custdetails).filter(custdetails.username == username).first()
+    profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if profile is not None:
-        if db.session.query(orders).filter(orders.username == username).count() == 0:
+        if db.session.query(Orders).filter(Orders.username == username).count() == 0:
             type='heart attack'
             for hospital in hospdetails:
                 if hospital.pincode == pincode_cust:
                     list_of_hosp_to_send_message.append(hospital.username)
             #send to all hospitals at the same time
             for hptl_username_in_vicinity in list_of_hosp_to_send_message:
-                data = orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
+                data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
                 db.session.add(data)
                 db.session.commit()
             return render_template('request_sent.html')
@@ -318,17 +318,17 @@ def otherailments():
     username = session['username']
     pincode = session['pincode']
     list_of_hosp_to_send_message = []
-    profile = db.session.query(custdetails).filter(custdetails.username == username).first()
+    profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if profile is not None:
-        if db.session.query(orders).filter(orders.username == username).count() == 0:
+        if db.session.query(Orders).filter(Orders.username == username).count() == 0:
             type='other ailments'
             for hospital in hospdetails:
                 if hospital.pincode == pincode_cust:
                     list_of_hosp_to_send_message.append(hospital.username)
             #send to all hospitals at the same time
             for hptl_username_in_vicinity in list_of_hosp_to_send_message:
-                data = orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
+                data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
                 db.session.add(data)
                 db.session.commit()
             return render_template('request_sent.html')
@@ -341,7 +341,7 @@ def otherailments():
     return render_template('request_sent.html')
 
 
-class pastorders(db.Model):
+class PastOrders(db.Model):
     __tablename__ = 'pastorders'
     number = db.Column(db.Integer, primary_key=True)
     name_of_hptl_accepting_responsibilty = db.Column(db.String(200))
@@ -378,7 +378,7 @@ def dashboardmnmg():
         return redirect(url_for('dashboardmnmg.html'))
     return render_template('dashboardmnmg.html') 
 
-class result(db.Model):
+class Result(db.Model):
     __tablename__ = 'result'
     name_of_hptl_result = db.Column(db.String(200))
     username_cust = db.Column(db.String(200), primary_key=True)
@@ -392,13 +392,13 @@ class result(db.Model):
 @app.route('/accepted/<username>')
 @is_logged_in
 def accepted(username):
-    if db.session.query(orders).filter(orders.username_cust == username).count() == 1:
+    if db.session.query(Orders).filter(Orders.username_cust == username).count() == 1:
         acc_or_dec = "a"
         name_of_hptl_result = session['name']
         username_cust = username
 
         #send mail to that person!!!!! important
-        user = db.session.query(custdetails).filter(custdetails.username == username).first()
+        user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
         gmail_id = user.gmail_id
         #delete data from orders
         #add data to past orders
@@ -408,13 +408,13 @@ def accepted(username):
 @app.route('/declined/<username>')
 @is_logged_in
 def declined(username):
-    if db.session.query(orders).filter(orders.username_cust == username).count() == 1:
+    if db.session.query(Orders).filter(Orders.username_cust == username).count() == 1:
         acc_or_dec = "d"
         name_of_hptl_result = session['name']
         username_cust = username
 
         #send mail to that person!!!!! important
-        user = db.session.query(custdetails).filter(custdetails.username == username).first()
+        user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
         gmail_id = user.gmail_id
         #delete data from orders
         #add data to past orders

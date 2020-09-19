@@ -8,61 +8,62 @@
   </head>
   <body>
     <div class="main-block">
-    <form method="POST" action="/add_profile">
-      <h1 class="text-center">Create a free account</h1>
-      <fieldset>
-        <div  class="account-details">
-            <div class="form-group"><!--aadhar-->
-                <input
-                    class="text"
-                    type="text" 
-                    name="aadhar" 
-                    placeholder="Aadhar Number" 
-                    required="">
-            </div>
-            <div class="form-group"><!--age-->
-                <input
-                    class="text"
-                    type="text" 
-                    name="age" 
-                    placeholder="Age" 
-                    required="">
-            </div>
-            <div class="form-group"><!--gender-->
-                <input
-                    class="text"
-                    type="text" 
-                    name="gender" 
-                    placeholder="Gender" 
-                    required="">
-            </div>
-            <div class="form-group"><!--prevmedrcrds-->
-                <input
-                    class="text"
-                    type="text" 
-                    name="prevmedrcrds" 
-                    placeholder="Prevmedrcrds" 
-                    required="">
-            </div>
-            <div class="form-group"><!--address-->
-                <input
-                    class="text"
-                    type="text" 
-                    name="address" 
-                    placeholder="Address" 
-                    required="">
-            </div>
-            <div class="form-group"><!--pincode-->
-                <input
-                    class="text"
-                    type="text" 
-                    name="pincode" 
-                    placeholder="Pincode" 
-                    required="">
+      {% include "includes/_messages.html" %}
+      <form method="POST" action="/add_profile">
+        <h1 class="text-center">Create a free account</h1>
+        <fieldset>
+          <div  class="account-details">
+              <div class="form-group"><!--aadhar-->
+                  <input
+                      class="text"
+                      type="text" 
+                      name="aadhar" 
+                      placeholder="Aadhar Number" 
+                      required="">
               </div>
-      </fieldset>
-      <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
-    </form>
+              <div class="form-group"><!--age-->
+                  <input
+                      class="text"
+                      type="text" 
+                      name="age" 
+                      placeholder="Age" 
+                      required="">
+              </div>
+              <div class="form-group"><!--gender-->
+                  <input
+                      class="text"
+                      type="text" 
+                      name="gender" 
+                      placeholder="Gender" 
+                      required="">
+              </div>
+              <div class="form-group"><!--prevmedrcrds-->
+                  <input
+                      class="text"
+                      type="text" 
+                      name="prevmedrcrds" 
+                      placeholder="Prevmedrcrds" 
+                      required="">
+              </div>
+              <div class="form-group"><!--address-->
+                  <input
+                      class="text"
+                      type="text" 
+                      name="address" 
+                      placeholder="Address" 
+                      required="">
+              </div>
+              <div class="form-group"><!--pincode-->
+                  <input
+                      class="text"
+                      type="text" 
+                      name="pincode" 
+                      placeholder="Pincode" 
+                      required="">
+                </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+      </form>
     </div> 
   </body>
 </html>
