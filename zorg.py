@@ -105,8 +105,8 @@ def custdetails():
         gender = ''
         prevmedrcrds = ''
 
-        if db.session.query(custdetails).filter(custdetails.username == username).count() == 0:
-            data = custdetails(namecust, username, password, pincode, address, gmail_id, aadhar, age, gender, prevmedrcrds)#needs all the columns to run without errors
+        if db.session.query(CustomerDet).filter(CustomerDet.username == username).count() == 0:
+            data = CustomerDet(namecust, username, password, pincode, address, gmail_id, aadhar, age, gender, prevmedrcrds)#needs all the columns to run without errors
             db.session.add(data)
             db.session.commit()
             flash('you are now registered', 'success')
@@ -143,7 +143,7 @@ def logincustomer():
     if request.method == 'POST':
         usercust = request.form['username']
         password_candidate = request.form['password']
-        user = db.session.query(custdetails).filter(custdetails.username == usercust).first()
+        user = db.session.query(CustomerDet).filter(CustomerDet.username == usercust).first()
         db.session.commit()
         if user is None:
             flash('No such username exists', 'danger')
@@ -202,8 +202,8 @@ def add_profile():
         prevmedrcrds = request.form['prevmedrcrds']
         address = request.form['address']
         pincode = request.form['pincode']
-        if db.session.query(custdetails).filter(custdetails.username == username).count() == 0:
-            data = custdetails(name, aadhar, age, gender,prevmedrcrds, address, pincode)
+        if db.session.query(CustomerDet).filter(CustomerDet.username == username).count() == 0:
+            data = CustomerDet(name, aadhar, age, gender,prevmedrcrds, address, pincode)
             db.session.add(data)
             db.session.commit()
             flash('Profile Created', 'success')
@@ -216,7 +216,7 @@ def add_profile():
 @is_logged_in
 def editprofile():
     username = session['username']
-    user = db.session.query(custdetails).filter(custdetails.username == username).first()
+    user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if request.method == 'POST':
         user.aadhar = request.form['aadhar']
@@ -260,7 +260,7 @@ def accident():
     username = session['username']
     pincode = session['pincode']
     list_of_hosp_to_send_message = []
-    profile = db.session.query(custdetails).filter(custdetails.username == username).first()
+    profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if profile is not None:
         if db.session.query(Orders).filter(Orders.username == username).count() == 0:
@@ -288,7 +288,7 @@ def heartattack():
     username = session['username']
     pincode = session['pincode']
     list_of_hosp_to_send_message = []
-    profile = db.session.query(custdetails).filter(custdetails.username == username).first()
+    profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if profile is not None:
         if db.session.query(Orders).filter(Orders.username == username).count() == 0:
@@ -317,7 +317,7 @@ def otherailments():
     username = session['username']
     pincode = session['pincode']
     list_of_hosp_to_send_message = []
-    profile = db.session.query(custdetails).filter(custdetails.username == username).first()
+    profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if profile is not None:
         if db.session.query(Orders).filter(Orders.username == username).count() == 0:
@@ -397,7 +397,7 @@ def accepted(username):
         username_cust = username
 
         #send mail to that person!!!!! important
-        user = db.session.query(custdetails).filter(custdetails.username == username).first()
+        user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
         gmail_id = user.gmail_id
         #delete data from orders
         #add data to past orders
@@ -413,7 +413,7 @@ def declined(username):
         username_cust = username
 
         #send mail to that person!!!!! important
-        user = db.session.query(custdetails).filter(custdetails.username == username).first()
+        user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
         gmail_id = user.gmail_id
         #delete data from orders
         #add data to past orders
