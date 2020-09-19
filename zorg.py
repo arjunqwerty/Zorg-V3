@@ -182,11 +182,7 @@ def logout():
 @is_logged_in
 def dashboard():
     username = session['username']
-<<<<<<< HEAD
     custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()#111
-=======
-    profile = db.session.query(custdetails).filter(custdetails.username == username).first()#111
->>>>>>> ef6155ee561bc330a9a633ece8da9d833ae6a186
     db.session.commit()
     if custdata.aadhar !=0 and custdata.age != 0 and custdata.gender != '' and custdata.prevmedrcrds != '' and custdata.address != '' and custdata.pincode != 0:
         return render_template('dashboard.html', profile = custdata.query.all())
