@@ -1,9 +1,6 @@
 # Zorg-V3
 Under construction
-"Arjun"
-1. I have changed the class "custdetails" to "CustomerDet", class "order" to "Order", class "pastorder" to "PastOrder", class "result" to "Result" since the program is getting confused between the table 'custdetails' and class 'custdetails'.....
-2. Added empty string and 0 as value in registering since the adding to the table needs all the coloumn to be added. Hence we need to update in addprofile and edit profile and not add.
-3. Added register & login htmls, the static folder pics, etc.
+
 
 The program flows like :
 I(Management)
