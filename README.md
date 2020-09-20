@@ -1,7 +1,6 @@
 # Zorg-V3
 Under construction
 
-
 The program flows like :
 I(Management)
 Home(index.html) -> Register(remnmg.html) -> Login(lomnmg.html) -> Hospital dashboard(=dashboardmnmg.html) -> Update staff details(updatestaff.html) -> Accept / Decline -> Send mail to customer w.r.mssg
@@ -20,8 +19,8 @@ Home(index.html) -> Register(recust.html) -> Login(locust.html) -> Add profile(a
 {accident/heartattack/otherailments - check the hospitals in the locality and add the resp. details in order table}
 
 
-WE WILL CHANGE IT NOW LIKE THIS
-    a mail is sent from zorg45365@gmail.com to customer's mail id, with subject Zorg-email(something like that), message stating that particular hospital has declined/accepted to save them.
+    WE WILL CHANGE IT NOW LIKE THIS
+        a mail is sent from zorg45365@gmail.com to customer's mail id, with subject Zorg-email(something like that), message stating that particular hospital has declined/accepted to save them.
 
      here mails act in a way similar of whatsapp
 
