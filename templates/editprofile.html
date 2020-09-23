@@ -1,67 +1,143 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Account registration form</title>
-    <link rel="icon" type="image/png" href="/static/Untitled.png"/>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" href="static/addprof.css">
+    <title>ZORG</title>
+    <link rel="icon" type="image/png" href="/static/Favicon.png"/>
+    <style>
+      html, body {
+        min-height: 100%;
+      }
+      body, div, form, input, select, p { 
+        padding: 0;
+        margin: 0;
+        outline: none;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 14px;
+        color: #666;
+      }
+      h1 {
+        margin: 0;
+        font-weight: 400;
+      }
+      h3 {
+        margin: 12px 0;
+        color: #8ebf42;
+      }
+      form {
+        transform: translateX(10%);
+        width:80%;
+        padding: 20px;
+      }
+      fieldset {
+        border: none;
+        border-top: 1px solid black;
+      }
+      .account-details{
+        transform: translateX(10%);
+      }
+      .account-details >div{
+        width: 80%;
+      }
+      .right-heading {
+        transform: translateX(40%);
+      }
+      input {
+        width: 60%;
+        padding: 5px;
+        vertical-align: middle; 
+      }
+      button {
+        width: 15%;
+        padding: 10px 0;
+        margin: 10px auto;
+        border-radius: 5px; 
+        border: none;
+        background: #8ebf42; 
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+      }
+      button:hover {
+        background: #82b534;
+      }
+      @media (max-width: 568px) {
+      .account-details >div {
+        width: 80%;
+      }
+      label {
+        width: 40%;
+      }
+      input {
+        width: 60%;
+      }
+      }
+    </style>
   </head>
   <body>
-    <div class="main-block">
-      {% include "includes/_messages.html" %}
+    {% for profile in profile %}
+    {% include "layout.html" %}
+    <div class="padding text-center">
       <form method="POST" action="/editprofile">
-        <h1 class="text-center">Create a free account</h1>
-        <fieldset>
-          <div  class="account-details">
-            <div class="form-group"><!--aadhar-->
-                <input
+        <h1 class="text-center">Edit your account</h1>
+          <div class="account-details text-center">
+            <div class="form-group" align="left"><!--aadhar-->
+              <h4>Aadhar Number :</h4>
+              <input
                   class="text"
-                  type="text"
-                  name="aadhar"
-                  placeholder="Aadhar Number"
-                  required="">
-              </div>
-              <div class="form-group"><!--age-->
-                <input
-                class="text"
+                  type="text" 
+                  name="aadhar" 
+                  placeholder={{profile.aadhar}}
+                  >
+            </div>
+            <div class="form-group" align="right"><!--age-->
+              <h4 class="right-heading" align="left">Age :</h4>
+              <input
+                  class="text"
+                  type="text" 
+                  name="age" 
+                  placeholder={{profile.age}}
+                  >
+            </div>
+            <div class="form-group" align="left"><!--prevmedrcrds-->
+              <h4>Previous Medical Records :</h4>
+              <input
+                  class="text"
+                  type="text" 
+                  name="prevmedrcrds" 
+                  placeholder={{profile.prevmedrcrds}}
+                  >
+            </div>
+            <div class="form-group" align="right"><!--address-->
+              <h4 class="right-heading" align="left">Address :</h4>
+              <input
+                  class="text"
+                  type="text" 
+                  name="address" 
+                  placeholder={{profile.address}}
+                  >
+            </div>
+            <div class="form-group" align="left"><!--pincode-->
+              <h4>Pincode :</h4>
+              <input
+                  class="text"
+                  type="text" 
+                  name="pincode" 
+                  placeholder={{profile.pincode}}
+                  >
+            </div>
+            <div class="form-group" align="right">
+              <h4 class="right-heading" align="left">Gmail id :</h4>
+              <input
+                class="text" 
                 type="text"
-                name="age"
-                placeholder="Age"
-                required="">
-              </div>
-              <div class="form-group"><!--gender-->
-                <input
-                class="text"
-                type="text"
-                name="gender"
-                placeholder="Gender"
-                required="">
-              </div>
-              <div class="form-group"><!--prevmedrcrds-->
-                <input
-                class="text"
-                type="text"
-                name="prevmedrcrds"
-                placeholder="Prevmedrcrds"
-                required="">
-              </div>
-              <div class="form-group"><!--address-->
-                <input
-                class="text"
-                type="text"
-                name="address"
-                placeholder="Address"
-                required="">
-              </div>
-              <div class="form-group"><!--pincode-->
-                <input
-                class="text"
-                type="text"
-                name="pincode"
-                placeholder="Pincode"
-                required="">
-              </div>
-              <p><input type="submit" class="btn btn-primary" value="Submit"></input></p>
-        </form>
-{% endblock %}
+                name="gmail_id"
+                placeholder={{profile.gmail_id}}
+                >
+            </div>
+          </div>
+        <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+      </form>
+    </div>
+    {% endfor %}
+  </body>
+</html>

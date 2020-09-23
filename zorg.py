@@ -14,7 +14,7 @@ app=Flask(__name__)
 
 ENV = 'dev'
 
-developer='Tarun'
+developer='Arjun'
 
 if ENV=='dev':
     app.debug=True
@@ -38,7 +38,7 @@ class RegisterMnmg(db.Model):
     namehptl = db.Column(db.String(200))
     username = db.Column(db.String(200), primary_key=True)
     password = db.Column(db.String(20))
-    pincode = db.Column(db.Integer)
+    pincode = db.Column(db.String(10))
     address = db.Column(db.Text())
 
     def __init__(self, namehptl, username, password, pincode, address):
@@ -71,11 +71,11 @@ class CustomerDet(db.Model):#changed the class name since it is getting confused
     namecust = db.Column(db.String(200))
     username = db.Column(db.String(200), primary_key=True)
     password = db.Column(db.String(20))
-    pincode = db.Column(db.Integer())
+    pincode = db.Column(db.String(10))
     address = db.Column(db.Text())
     gmail_id = db.Column(db.String(200))
-    aadhar = db.Column(db.Integer, unique=True)
-    age = db.Column(db.Integer)
+    aadhar = db.Column(db.String(20), unique=True)
+    age = db.Column(db.String(5))
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
 
@@ -99,9 +99,9 @@ def custdetails():
         password = request.form['password']
         gmail_id = request.form['gmail_id']
         address = ''
-        pincode = 0
-        aadhar = 0
-        age = 0
+        pincode = ''
+        aadhar = ''
+        age = ''
         gender = ''
         prevmedrcrds = ''
 
@@ -182,13 +182,13 @@ def logout():
 @is_logged_in
 def dashboard():
     username = session['username']
-    custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()#111
+    custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
-    if custdata.aadhar !=0 and custdata.age != 0 and custdata.gender != '' and custdata.prevmedrcrds != '' and custdata.address != '' and custdata.pincode != 0:
-        return render_template('dashboard.html', profile = custdata.query.all())
-    else:
+    if custdata.aadhar !='' and custdata.age != '' and custdata.gender != '' and custdata.prevmedrcrds != '' and custdata.address != '' and custdata.pincode != '':
         flash("Please fill these details","danger")
         return redirect(url_for('add_profile'))
+    else:
+        return render_template('dashboard.html', profile = custdata.query.all())
     return render_template('dashboard.html')    
 
 @app.route('/add_profile', methods=['GET','POST'])
@@ -202,9 +202,14 @@ def add_profile():
         prevmedrcrds = request.form['prevmedrcrds']
         address = request.form['address']
         pincode = request.form['pincode']
-        if db.session.query(CustomerDet).filter(CustomerDet.username == username).count() == 0:
-            data = CustomerDet(name, aadhar, age, gender,prevmedrcrds, address, pincode)
-            db.session.add(data)
+        if db.session.query(CustomerDet).filter(CustomerDet.username == username).count() == 1:
+            update = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
+            update.aadhar = aadhar
+            update.age = age
+            update.gender = gender
+            update.prevmedrcrds = prevmedrcrds
+            update.address = address
+            update.pincode = pincode
             db.session.commit()
             flash('Profile Created', 'success')
             return redirect(url_for('loginmanagement'))
@@ -219,17 +224,28 @@ def editprofile():
     user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if request.method == 'POST':
-        user.aadhar = request.form['aadhar']
-        user.age = request.form['age']
-        user.gender = request.form['gender']
-        user.prevmedrcrds = request.form['prevmedrcrds']
-        user.address = request.form['address']
-        user.pincode = request.form['pincode']
-        user.gmail_id = request.form['gmail_id']
-        db.commit()
+        aadhar = request.form['aadhar']
+        if aadhar != '':
+            user.aadhar = aadhar
+        age = request.form['age']
+        if age != '':
+            user.age = age
+        prevmedrcrds = request.form['prevmedrcrds']
+        if prevmedrcrds != '':
+            user.prevmedrcrds = prevmedrcrds
+        address = request.form['address']
+        if address != '':
+            user.address = address
+        pincode = request.form['pincode']
+        if pincode != '':
+            user.pincode = pincode
+        gmail_id = request.form['gmail_id']
+        if gmail_id != '':
+            user.gmail_id = gmail_id
+        db.session.commit()
         flash('Profile Updated','success')
         return redirect(url_for('dashboard'))
-    return render_template('editprofile.html')
+    return render_template('editprofile.html',profile = user.query.all())
 
 class Orders(db.Model):
     __tablename__ = 'orders'
@@ -237,7 +253,7 @@ class Orders(db.Model):
     username_cust = db.Column(db.String(200), primary_key=True)
     type = db.Column(db.String(50))
     address = db.Column(db.Text())
-    age = db.Column(db.Integer)
+    age = db.Column(db.String(5))
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
     result = db.Column(db.String(1))
@@ -348,8 +364,8 @@ class PastOrders(db.Model):
     type = db.Column(db.String(50))
     address = db.Column(db.Text())
     namecust = db.Column(db.String(200))
-    aadhar = db.Column(db.Integer)
-    age = db.Column(db.Integer)
+    aadhar = db.Column(db.String(20))
+    age = db.Column(db.String(5))
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
 

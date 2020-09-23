@@ -4,7 +4,7 @@
   <h1>Dashboard <small>Welcome {{session.name}}</small></h1>
   <table class="table table-striped">
     <tr>
-      <th>Name</th>
+      <th>Userame</th>
       <th>Aadhar</th>
       <th>Age</th>
       <th>Gender</th>
@@ -16,7 +16,7 @@
     </tr>
     {% for profile in profile %}
       <tr>
-        <td>{{profile.namecust}}</td>
+        <td>{{profile.username}}</td>
         <td>{{profile.aadhar}}</td>
         <td>{{profile.age}}</td>
         <td>{{profile.gender}}</td>
