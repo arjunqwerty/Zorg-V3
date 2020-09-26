@@ -68,13 +68,14 @@ def registermnmg():
 
 class CustomerDet(db.Model):#changed the class name since it is getting confused between the class and the table name
     __tablename__ = 'custdetails'
+    custid = db.Column(db.Integer, primary_key=True)
     namecust = db.Column(db.String(200))
-    username = db.Column(db.String(200), primary_key=True)
+    username = db.Column(db.String(200))
     password = db.Column(db.String(20))
     pincode = db.Column(db.String(10))
     address = db.Column(db.Text())
     gmail_id = db.Column(db.String(200))
-    aadhar = db.Column(db.String(20), unique=True)
+    aadhar = db.Column(db.String(20))
     age = db.Column(db.String(5))
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
@@ -98,9 +99,9 @@ def custdetails():
         username = request.form['username']
         password = request.form['password']
         gmail_id = request.form['gmail_id']
+        aadhar = request.form['aadhar']
         address = ''
         pincode = ''
-        aadhar = ''
         age = ''
         gender = ''
         prevmedrcrds = ''
@@ -274,17 +275,16 @@ class Orders(db.Model):
 @is_logged_in
 def accident():
     username = session['username']
-    cust_pincode = session['pincode']
     list_of_hosp_to_send_message = []
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
-    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode=cust_pincode).all() 
+    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode=profile.pincode).all() 
     db.session.commit()
+    for hospital in hospital_to_send_request:
+        list_of_hosp_to_send_message.append(hospital.username)
     if profile is not None:
-        if hospital_to_send_request is not None:
-            if db.session.query(Orders).filter(Orders.username == username).count() == 0:
+        if list_of_hosp_to_send_message != []:
+            if db.session.query(Orders).filter(Orders.username_cust == username).count() == 0:
                 type='accident'
-                for hospital in hospital_to_send_request:
-                    list_of_hosp_to_send_message.append(hospital.username)
                 #send to all hospitals at the same time
                 for hptl_username_in_vicinity in list_of_hosp_to_send_message:
                     data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
@@ -295,7 +295,7 @@ def accident():
                 flash('you have already sent a request, kindly wait till it is processed','danger')
                 return render_template('request_sent.html')
         else:
-            return rendertemplate('sorry.html')
+            return render_template('sorry.html')
     else:
         flash('please fill in your details so that we can send it to the hospitals','danger')
         return redirect(url_for('add_profile'))
