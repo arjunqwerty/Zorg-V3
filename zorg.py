@@ -14,7 +14,7 @@ app=Flask(__name__)
 
 ENV = 'dev'
 
-developer='Arjun'
+developer='Tarun'
 
 if ENV=='dev':
     app.debug=True
@@ -68,13 +68,14 @@ def registermnmg():
 
 class CustomerDet(db.Model):#changed the class name since it is getting confused between the class and the table name
     __tablename__ = 'custdetails'
+    custid = db.Column(db.Integer, primary_key=True)
     namecust = db.Column(db.String(200))
-    username = db.Column(db.String(200), primary_key=True)
+    username = db.Column(db.String(200))
     password = db.Column(db.String(20))
     pincode = db.Column(db.String(10))
     address = db.Column(db.Text())
     gmail_id = db.Column(db.String(200))
-    aadhar = db.Column(db.String(20), unique=True)
+    aadhar = db.Column(db.String(20))
     age = db.Column(db.String(5))
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
@@ -97,9 +98,9 @@ def custdetails():
         username = request.form['username']
         password = request.form['password']
         gmail_id = request.form['gmail_id']
+        aadhar = request.form['aadhar']
         address = ''
         pincode = ''
-        aadhar = ''
         age = ''
         gender = ''
         prevmedrcrds = ''
@@ -276,11 +277,14 @@ class Orders(db.Model):
 @is_logged_in
 def accident():
     username = session['username']
-    pincode = session['pincode']
     list_of_hosp_to_send_message = []
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
+    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode=profile.pincode).all() 
     db.session.commit()
+    for hospital in hospital_to_send_request:
+        list_of_hosp_to_send_message.append(hospital.username)
     if profile is not None:
+<<<<<<< HEAD
         if db.session.query(Orders).filter(Orders.username_cust == username).count() == 0:
             type='accident'
             total_num_of_hosp = db.session.query(RegisterMnmg).filter(RegisterMnmg.pincode == pincode).all()
@@ -292,9 +296,22 @@ def accident():
                 db.session.add(data)
                 db.session.commit()
             return render_template('request_sent.html')
+=======
+        if list_of_hosp_to_send_message != []:
+            if db.session.query(Orders).filter(Orders.username_cust == username).count() == 0:
+                type='accident'
+                #send to all hospitals at the same time
+                for hptl_username_in_vicinity in list_of_hosp_to_send_message:
+                    data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
+                    db.session.add(data)
+                    db.session.commit()
+                return render_template('request_sent.html')
+            else:
+                flash('you have already sent a request, kindly wait till it is processed','danger')
+                return render_template('request_sent.html')
+>>>>>>> 48868054f6a14450696545b239f7b19e32ddd61c
         else:
-            flash('you have already sent a request, kindly wait till it is processed','danger')
-            return render_template('request_sent.html')
+            return render_template('sorry.html')
     else:
         flash('please fill in your details so that we can send it to the hospitals','danger')
         return redirect(url_for('add_profile'))
@@ -304,11 +321,13 @@ def accident():
 @is_logged_in
 def heartattack():
     username = session['username']
-    pincode = session['pincode']
+    cust_pincode = session['pincode']
     list_of_hosp_to_send_message = []
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
+    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode=cust_pincode).all() 
     db.session.commit()
     if profile is not None:
+<<<<<<< HEAD
         if db.session.query(Orders).filter(Orders.username_cust == username).count() == 0:
             type='heart attack'
             total_num_of_hosp = db.session.query(RegisterMnmg).filter(RegisterMnmg.pincode == pincode).count()
@@ -320,9 +339,24 @@ def heartattack():
                 db.session.add(data)
                 db.session.commit()
             return render_template('request_sent.html')
+=======
+        if hospital_to_send_request is not None:
+            if db.session.query(Orders).filter(Orders.username == username).count() == 0:
+                type='heart attack'
+                for hospital in hospital_to_send_request:
+                    list_of_hosp_to_send_message.append(hospital.username)
+                #send to all hospitals at the same time
+                for hptl_username_in_vicinity in list_of_hosp_to_send_message:
+                    data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
+                    db.session.add(data)
+                    db.session.commit()
+                return render_template('request_sent.html')
+            else:
+                flash('you have already sent a request, kindly wait till it is processed','danger')
+                return render_template('request_sent.html')
+>>>>>>> 48868054f6a14450696545b239f7b19e32ddd61c
         else:
-            flash('you have already sent a request, kindly wait till it is processed','danger')
-            return render_template('request_sent.html')
+            return rendertemplate('sorry.html')
     else:
         flash('please fill in your details so that we can send it to the hospitals','danger')
         return redirect(url_for('add_profile'))
@@ -332,11 +366,13 @@ def heartattack():
 @is_logged_in
 def otherailments():
     username = session['username']
-    pincode = session['pincode']
+    cust_pincode = session['pincode']
     list_of_hosp_to_send_message = []
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
+    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode=cust_pincode).all() 
     db.session.commit()
     if profile is not None:
+<<<<<<< HEAD
         if db.session.query(Orders).filter(Orders.username_cust == username).count() == 0:
             type='other ailments'
             total_num_of_hosp = db.session.query(RegisterMnmg).filter(RegisterMnmg.pincode == pincode).count()
@@ -348,9 +384,24 @@ def otherailments():
                 db.session.add(data)
                 db.session.commit()
             return render_template('request_sent.html')
+=======
+        if hospital_to_send_request is not None:
+            if db.session.query(Orders).filter(Orders.username == username).count() == 0:
+                type='other ailments'
+                for hospital in hospital_to_send_request:
+                    list_of_hosp_to_send_message.append(hospital.username)
+                #send to all hospitals at the same time
+                for hptl_username_in_vicinity in list_of_hosp_to_send_message:
+                    data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
+                    db.session.add(data)
+                    db.session.commit()
+                return render_template('request_sent.html')
+            else:
+                flash('you have already sent a request, kindly wait till it is processed','danger')
+                return render_template('request_sent.html')
+>>>>>>> 48868054f6a14450696545b239f7b19e32ddd61c
         else:
-            flash('you have already sent a request, kindly wait till it is processed','danger')
-            return render_template('request_sent.html')
+            return rendertemplate('sorry.html')
     else:
         flash('please fill in your details so that we can send it to the hospitals','danger')
         return redirect(url_for('add_profile'))
@@ -384,6 +435,7 @@ class PastOrders(db.Model):
 @app.route('/dashboardmnmg')
 @is_logged_in
 def dashboardmnmg():
+<<<<<<< HEAD
     username = session['username']
     hospdata = db.session.query(Orders).all()
     db.session.commit()
@@ -393,6 +445,15 @@ def dashboardmnmg():
     else:
         return redirect(url_for('dashboardmnmg.html'))
     return render_template('dashboardmnmg.html') 
+=======
+   help = db.session.query(orders).filter(orders.hptl_username_in_vicinity == username).first()
+   db.session.commit()
+   if help.username_cust =='':
+       flash("you have no one to save","success")
+   else:
+       return render_template('dashboardmnmg.html', profile = help.query.all())
+   return render_template('dashboardmnmg.html')
+>>>>>>> 48868054f6a14450696545b239f7b19e32ddd61c
 
 @app.route('/accepted/<username>')
 @is_logged_in
@@ -467,10 +528,3 @@ def declined(username):
 if __name__=='__main__':
     app.secret_key='secret123'
     app.run()
-
-'''needed htmls
-1)dashboardmnmg.html
-2)not sure if we need accepted/declined.html
-3)saved.html
-4)not_saved.html
-'''
