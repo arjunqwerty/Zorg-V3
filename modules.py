@@ -6,19 +6,19 @@ import imaplib
 def emailsend(to,mssg):
     smtp_ssl_host = 'smtp.gmail.com'
     smtp_ssl_port = 465
-    username = 'zorg123546@gmail.com'
+    username_mail = 'zorg123546@gmail.com'
     password = 'zorg87654321'
 
     from_addr = 'zorg123546@gmail.com'
     to_addrs = to
 
     message = MIMEText(mssg)
-    message['subject'] = username
+    message['subject'] = username_mail
     message['from'] = from_addr
     message['to'] = ''.join(to_addrs)
 
     server = smtplib.SMTP_SSL(smtp_ssl_host, smtp_ssl_port)
-    server.login(username, password)
+    server.login(username_mail,password)
     server.sendmail(from_addr, to_addrs, message.as_string())
     server.quit()
 

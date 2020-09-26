@@ -21,8 +21,8 @@
         <td>{{profile.age}}</td>
         <td>{{profile.gender}}</td>
         <td>{{profile.prevmedrcrds}}</td>
-        <td><a href="/accept" class="btn btn-success pull-right">Accept</a></td>
-        <td><a href="/decile" class="btn btn-danger pull-right">Decline</a></td>
+        <td><a href="/accepted/{{profile.username_cust}}" class="btn btn-success pull-right">Accept</a></td>
+        <td><a href="/declined/{{profile.username_cust}}" class="btn btn-danger pull-right">Decline</a></td>
       </tr>
     {% endfor %}
   </table>
