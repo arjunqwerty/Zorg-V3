@@ -7,7 +7,7 @@ from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 import csv
 import os
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+#from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 
 
 app=Flask(__name__)
@@ -47,6 +47,7 @@ class RegisterMnmg(db.Model):
         self.password = password
         self.pincode = pincode
         self.address = address
+        
 @app.route('/registermnmg', methods=['GET','POST'])
 def registermnmg():
     if request.method == 'POST':
@@ -55,7 +56,6 @@ def registermnmg():
         password = request.form['password']
         pincode = request.form['pincode'] 
         address = request.form['address']
-
         if db.session.query(RegisterMnmg).filter(RegisterMnmg.username == username).count() == 0:
             data = RegisterMnmg(namehptl, username, password, pincode, address)
             db.session.add(data)
@@ -78,7 +78,6 @@ class CustomerDet(db.Model):#changed the class name since it is getting confused
     age = db.Column(db.String(5))
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
-
     def __init__(self, namecust, username, password, pincode, address, gmail_id, aadhar, age, gender, prevmedrcrds):
         self.namecust = namecust
         self.username = username
@@ -104,7 +103,6 @@ def custdetails():
         age = ''
         gender = ''
         prevmedrcrds = ''
-
         if db.session.query(CustomerDet).filter(CustomerDet.username == username).count() == 0:
             data = CustomerDet(namecust, username, password, pincode, address, gmail_id, aadhar, age, gender, prevmedrcrds)#needs all the columns to run without errors
             db.session.add(data)
@@ -130,8 +128,9 @@ def loginmanagement():
                 session['logged_in'] = True
                 session['username'] = usermnmg
                 session['name'] = user.namehptl
+                session['pincode'] = user.pincode
                 flash('You are now logged in','success')
-                return redirect(url_for('kindly'))
+                return redirect(url_for('dashboardmnmg'))
             else:
                 flash('Incorrect password','danger')
                 return render_template('lomnmg.html')
@@ -153,6 +152,7 @@ def logincustomer():
                 session['logged_in'] = True
                 session['username'] = usercust
                 session['name'] = user.namecust
+                session['pincode'] = user.pincode
                 flash('You are now logged in','success')
                 return redirect(url_for('dashboard'))
             else:
@@ -184,11 +184,13 @@ def dashboard():
     username = session['username']
     custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
-    if custdata.aadhar !='' and custdata.age != '' and custdata.gender != '' and custdata.prevmedrcrds != '' and custdata.address != '' and custdata.pincode != '':
+    if custdata.aadhar == '' or custdata.age == '' or custdata.gender == '' or custdata.prevmedrcrds == '' or custdata.address == '' or custdata.pincode == '':
         flash("Please fill these details","danger")
         return redirect(url_for('add_profile'))
     else:
-        return render_template('dashboard.html', profile = custdata.query.all())
+        for i in custdata:
+            if i[1] == username:
+                return render_template('dashboard.html', profile = i.query.all())
     return render_template('dashboard.html')    
 
 @app.route('/add_profile', methods=['GET','POST'])
@@ -212,7 +214,7 @@ def add_profile():
             update.pincode = pincode
             db.session.commit()
             flash('Profile Created', 'success')
-            return redirect(url_for('loginmanagement'))
+            return redirect(url_for('dashboard'))
         else:
             return redirect(url_for('editprofile'))
     return render_template('add_profile.html')
@@ -249,15 +251,15 @@ def editprofile():
 
 class Orders(db.Model):
     __tablename__ = 'orders'
+    number = db.Column(db.Integer, primary_key=True)
     hptl_username_in_vicinity = db.Column(db.String(200))
-    username_cust = db.Column(db.String(200), primary_key=True)
+    username_cust = db.Column(db.String(200))
     type = db.Column(db.String(50))
     address = db.Column(db.Text())
     age = db.Column(db.String(5))
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
     result = db.Column(db.String(1))
-
     def __init__(self, hptl_username_in_vicinity, username_cust, type, address, age, gender, prevmedrcrds, result):
         self.hptl_username_in_vicinity = hptl_username_in_vicinity
         self.username_cust = username_cust
@@ -279,11 +281,11 @@ def accident():
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if profile is not None:
-        if db.session.query(Orders).filter(Orders.username == username).count() == 0:
+        if db.session.query(Orders).filter(Orders.username_cust == username).count() == 0:
             type='accident'
-            for hospital in hospdetails:
-                if hospital.pincode == pincode_cust:
-                    list_of_hosp_to_send_message.append(hospital.username)
+            total_num_of_hosp = db.session.query(RegisterMnmg).filter(RegisterMnmg.pincode == pincode).all()
+            for i in range (len(total_num_of_hosp)):
+                list_of_hosp_to_send_message.append(total_num_of_hosp[i][1])
             #send to all hospitals at the same time
             for hptl_username_in_vicinity in list_of_hosp_to_send_message:
                 data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
@@ -307,11 +309,11 @@ def heartattack():
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if profile is not None:
-        if db.session.query(Orders).filter(Orders.username == username).count() == 0:
+        if db.session.query(Orders).filter(Orders.username_cust == username).count() == 0:
             type='heart attack'
-            for hospital in hospdetails:
-                if hospital.pincode == pincode_cust:
-                    list_of_hosp_to_send_message.append(hospital.username)
+            total_num_of_hosp = db.session.query(RegisterMnmg).filter(RegisterMnmg.pincode == pincode).count()
+            for i in range(total_num_of_hosp):
+                list_of_hosp_to_send_message.append(hospital.username)
             #send to all hospitals at the same time
             for hptl_username_in_vicinity in list_of_hosp_to_send_message:
                 data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
@@ -326,7 +328,6 @@ def heartattack():
         return redirect(url_for('add_profile'))
     return render_template('request_sent.html')
 
-
 @app.route('/otherailments')
 @is_logged_in
 def otherailments():
@@ -336,11 +337,11 @@ def otherailments():
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if profile is not None:
-        if db.session.query(Orders).filter(Orders.username == username).count() == 0:
+        if db.session.query(Orders).filter(Orders.username_cust == username).count() == 0:
             type='other ailments'
-            for hospital in hospdetails:
-                if hospital.pincode == pincode_cust:
-                    list_of_hosp_to_send_message.append(hospital.username)
+            total_num_of_hosp = db.session.query(RegisterMnmg).filter(RegisterMnmg.pincode == pincode).count()
+            for i in range(total_num_of_hosp):
+                list_of_hosp_to_send_message.append(hospital.username)
             #send to all hospitals at the same time
             for hptl_username_in_vicinity in list_of_hosp_to_send_message:
                 data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.name, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
@@ -369,14 +370,13 @@ class PastOrders(db.Model):
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
 
-    def __init__(self, number, name_of_hptl_accepting_responsibilty, username_cust, type, address, namecust, aadhar, age, gender, prevmedrcrds):
-        self.number = number
+    def __init__(self, name_of_hptl_accepting_responsibilty, username_cust, type, address, namecust, aadhar, age, gender, prevmedrcrds):
         self.name_of_hptl_accepting_responsibilty = name_of_hptl_accepting_responsibilty
         self.username_cust = username_cust
         self.type = type
         self.address = address
         self.namecust = namecust
-        self.aadhar = aadhar 
+        self.aadhar = aadhar
         self.age = age
         self.gender = gender
         self.prevmedrcrds = prevmedrcrds
@@ -385,29 +385,19 @@ class PastOrders(db.Model):
 @is_logged_in
 def dashboardmnmg():
     username = session['username']
-    profile = db.session.query(order).all()
-    db.commit()
-    if profile is not None:
-        return render_template('dashboardmnmg.html', profile=profile)
+    hospdata = db.session.query(Orders).all()
+    db.session.commit()
+    if hospdata is not None:
+        for i in hospdata:
+            return render_template('dashboardmnmg.html', profile = i.query.all())#statement is wrong
     else:
         return redirect(url_for('dashboardmnmg.html'))
     return render_template('dashboardmnmg.html') 
 
-class Result(db.Model):
-    __tablename__ = 'result'
-    name_of_hptl_result = db.Column(db.String(200))
-    username_cust = db.Column(db.String(200), primary_key=True)
-    acc_or_dec = db.Column(db.String(1))
-
-    def __init__(self, name_of_hptl_result, username_cust, acc_or_dec):
-        self.name_of_hptl_result = name_of_hptl_result
-        self.username_cust = username_cust
-        self.acc_or_dec = acc_or_dec
-
 @app.route('/accepted/<username>')
 @is_logged_in
 def accepted(username):
-    if db.session.query(Orders).filter(Orders.username_cust == username).count() == 1:
+    if db.session.query(Orders).filter(Orders.username_cust == username).count() > 0:
         acc_or_dec = "a"
         name_of_hptl_result = session['name']
         username_cust = username
@@ -415,15 +405,35 @@ def accepted(username):
         #send mail to that person!!!!! important
         user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
         gmail_id = user.gmail_id
+
+        smtp_ssl_host = 'smtp.gmail.com'
+        smtp_ssl_port = 465
+        username = 'zorg123546@gmail.com'
+        password = 'zorg87654321'
+
+        from_addr = 'zorg123546@gmail.com'
+        to_addrs = gmail_id
+
+        message = MIMEText(name_of_hptl_result+' has accepted to help you. They will arrive to your place soon.')
+        message['subject'] = username
+        message['from'] = from_addr
+        message['to'] = ''.join(to_addrs)
+
+        server = smtplib.SMTP_SSL(smtp_ssl_host, smtp_ssl_port)
+        server.login(username, password)
+        server.sendmail(from_addr, to_addrs, message.as_string())
+        server.quit()
+
         #delete data from orders
         #add data to past orders
+        data = PastOrders()
         flash('you have accepted to save '+username, 'success')
     return render_template('dashboardmnmg.html')
 
 @app.route('/declined/<username>')
 @is_logged_in
 def declined(username):
-    if db.session.query(Orders).filter(Orders.username_cust == username).count() == 1:
+    if db.session.query(Orders).filter(Orders.username_cust == username).count() > 0:
         acc_or_dec = "d"
         name_of_hptl_result = session['name']
         username_cust = username
@@ -431,8 +441,26 @@ def declined(username):
         #send mail to that person!!!!! important
         user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
         gmail_id = user.gmail_id
+
+        smtp_ssl_host = 'smtp.gmail.com'
+        smtp_ssl_port = 465
+        username = 'zorg123546@gmail.com'
+        password = 'zorg87654321'
+
+        from_addr = 'zorg123546@gmail.com'
+        to_addrs = gmail_id
+
+        message = MIMEText(name_of_hptl_result+' has declined to help you. We are very sorry.')
+        message['subject'] = username
+        message['from'] = from_addr
+        message['to'] = ''.join(to_addrs)
+
+        server = smtplib.SMTP_SSL(smtp_ssl_host, smtp_ssl_port)
+        server.login(username, password)
+        server.sendmail(from_addr, to_addrs, message.as_string())
+        server.quit()
+
         #delete data from orders
-        #add data to past orders
         flash('you have declined to save '+username, 'danger')
     return render_template('dashboardmnmg.html')
 

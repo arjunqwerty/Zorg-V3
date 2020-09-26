@@ -4,7 +4,7 @@
   <h1>Dashboard <small>Welcome {{session.name}}</small></h1>
   <table class="table table-striped">
     <tr>
-      <th>Userame</th>
+      <th>Username</th>
       <th>Aadhar</th>
       <th>Age</th>
       <th>Gender</th>
@@ -14,18 +14,20 @@
       <th>Mail</th>
       <th></th>
     </tr>
-    {% for profile in profile %}
-      <tr>
-        <td>{{profile.username}}</td>
-        <td>{{profile.aadhar}}</td>
-        <td>{{profile.age}}</td>
-        <td>{{profile.gender}}</td>
-        <td>{{profile.prevmedrcrds}}</td>
-        <td>{{profile.address}}</td>
-        <td>{{profile.pincode}}</td>
-        <td>{{profile.gmail_id}}</td>
-        <td><a href="/editprofile" class="btn btn-default pull-right">Edit</a></td>
-      </tr>
+    {% for custdata in custdata %}
+      {% if session.name == session.name %}
+        <tr>
+          <td>{{custdata.username}}</td>
+          <td>{{custdata.aadhar}}</td>
+          <td>{{custdata.age}}</td>
+          <td>{{custdata.gender}}</td>
+          <td>{{custdata.prevmedrcrds}}</td>
+          <td>{{custdata.address}}</td>
+          <td>{{custdata.pincode}}</td>
+          <td>{{custdata.gmail_id}}</td>
+          <td><a href="/editprofile" class="btn btn-default pull-right">Edit</a></td>
+        </tr>
+      {% endif %}
     {% endfor %}
   </table>
 

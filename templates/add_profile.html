@@ -79,15 +79,7 @@
       <form method="POST" action="/add_profile">
         <h1 class="text-center">Create an account</h1>
           <div class="account-details text-center">
-            <div class="form-group" align="left"><!--aadhar-->
-              <h4>Aadhar Number :</h4>
-              <input
-                  class="text"
-                  type="text" 
-                  name="aadhar" 
-                  required="">
-            </div>
-            <div class="form-group" align="right"><!--age-->
+            <div class="form-group" align="left"><!--age-->
               <h4 class="right-heading" align="left">Age :</h4>
               <input
                   class="text"
@@ -95,32 +87,31 @@
                   name="age" 
                   required="">
             </div>
-            <div class="form-group" align="left"><!--gender-->
-              <h4>Gender(M/F) :</h4>
-              <input
-                  class="text"
-                  type="text" 
-                  name="gender" 
-                  required="">
+            <div class="form-group" align="right"><!--gender-->
+              <h4 class="right-heading" align="left">Gender:</h4>
+              <select name="gender">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
             </div>
-            <div class="form-group" align="right"><!--prevmedrcrds-->
-              <h4 class="right-heading" align="left">Previous Medical Records :</h4>
+            <div class="form-group" align="left"><!--prevmedrcrds-->
+              <h4>Previous Medical Records :</h4>
               <input
                   class="text"
                   type="text" 
                   name="prevmedrcrds" 
                   required="">
             </div>
-            <div class="form-group" align="left"><!--address-->
-              <h4>Address :</h4>
+            <div class="form-group" align="right"><!--address-->
+              <h4 class="right-heading" align="left">Address :</h4>
               <input
                   class="text"
                   type="text" 
                   name="address" 
                   required="">
             </div>
-            <div class="form-group" align="right"><!--pincode-->
-              <h4 class="right-heading" align="left">Pincode :</h4>
+            <div class="form-group" align="left"><!--pincode-->
+              <h4>Pincode :</h4>
               <input
                   class="text"
                   type="text" 
