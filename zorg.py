@@ -15,7 +15,7 @@ app=Flask(__name__)
 
 ENV = 'dev'
 
-developer='Arjun'
+developer='Tarun'
 
 if ENV=='dev':
     app.debug=True
@@ -130,6 +130,7 @@ def loginmanagement():
                 session['logged_in'] = True
                 session['username'] = usermnmg
                 session['name'] = user.namehptl
+                session['type'] = 'H'
                 session['pincode'] = user.pincode
                 flash('You are now logged in','success')
                 return redirect(url_for('dashboardmnmg'))
@@ -153,6 +154,7 @@ def logincustomer():
             if password_candidate == user.password:
                 session['logged_in'] = True
                 session['username'] = usercust
+                session['type'] = 'C'
                 session['name'] = user.namecust
                 session['pincode'] = user.pincode
                 flash('You are now logged in','success')
@@ -224,9 +226,6 @@ def editprofile():
     user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
     if request.method == 'POST':
-        aadhar = request.form['aadhar']
-        if aadhar != '':
-            user.aadhar = aadhar
         age = request.form['age']
         if age != '':
             user.age = age
@@ -245,7 +244,7 @@ def editprofile():
         db.session.commit()
         flash('Profile Updated','success')
         return redirect(url_for('dashboard'))
-    return render_template('editprofile.html',profile = user.query.all())
+    return render_template('editprofile.html',profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).all())
 
 class Orders(db.Model):
     __tablename__ = 'orders'
@@ -391,8 +390,9 @@ def dashboardmnmg():
    username = session['username']
    help = db.session.query(Orders).filter(Orders.hptl_username_in_vicinity == username).first()
    db.session.commit()
-   if help.username_cust =='':
+   if help is None:
        flash("you have no one to save","success")
+       return render_template('dashboardmnmg.html')
    else:
        return render_template('dashboardmnmg.html', profile = db.session.query(Orders).filter(Orders.hptl_username_in_vicinity == username).all())
    return render_template('dashboardmnmg.html')
@@ -412,11 +412,10 @@ def accepted(username):
         emailsend(gmail_id, message)
         
         #add data to past orders
-        if db.session.query(PastOrders).filter(PastOrders.username_cust == username).count == 0:
-            user_order = db.session.query(Orders).filter(Orders.username_cust == username).first()
-            data = PastOrders(name_of_hptl_result, user_order.username_cust, user_order.type, user_order.address, user_order.namecust, user_order.aadhar, user_order.age, user_order.gender, user_order.prevmedrcrds)
-            db.session.add(data)
-            db.session.commit()
+        user_order = db.session.query(Orders).filter(Orders.username_cust == username).first()
+        data = PastOrders(name_of_hptl_result, user_order.username_cust, user_order.type, user_order.address, user_order.namecust, user_order.aadhar, user_order.age, user_order.gender, user_order.prevmedrcrds)
+        db.session.add(data)
+        db.session.commit()
 
         #delete data from orders
         db.session.delete(user_order)
@@ -448,6 +447,19 @@ def declined(username):
         flash('You have declined to save '+user.namecust, 'danger')
         return redirect(url_for('dashboardmnmg'))
     return render_template('dashboardmnmg.html')
+
+@app.route('/patienthistory')
+@is_logged_in
+def patienthistory():
+   username = session['username']
+   help = db.session.query(PastOrders).filter(PastOrders.name_of_hptl_accepting_responsibilty == username).first()
+   db.session.commit()
+   if help is None:
+       flash("you have no one to save","success")
+       return render_template('patienthistory.html')
+   else:
+       return render_template('patienthistory.html', profile = db.session.query(PastOrders).filter(PastOrders.name_of_hptl_accepting_responsibilty == username).all())
+   return render_template('patienthistory.html')
 
 if __name__=='__main__':
     app.secret_key='secret123'
