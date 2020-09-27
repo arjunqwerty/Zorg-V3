@@ -2,7 +2,6 @@
 #discarded wtforms, which created the trouble
 #features lost: password encryption, has to be changed everywhere
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
-from passlib.hash import sha256_crypt
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 import csv
