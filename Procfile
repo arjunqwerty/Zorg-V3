@@ -1,1 +1,1 @@
-web:gunicorn zorg-emergency:app
+web:gunicorn zorg:app
