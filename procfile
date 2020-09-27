@@ -1,1 +1,1 @@
-web: gunicorn app:zorg
+web: gunicorn zorg:app

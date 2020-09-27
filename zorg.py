@@ -13,9 +13,9 @@ from modules import *
 
 app=Flask(__name__)
 
-ENV = 'dev'
+ENV = 'prod'
 
-developer='Tarun'
+developer='p'
 
 if ENV=='dev':
     app.debug=True
