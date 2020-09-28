@@ -23,7 +23,7 @@ if ENV=='dev':
     elif developer=='Tarun':
         app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Tarun@postgresql@localhost/Zorg'
 else:
-    app.debug=False
+    app.debug=True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://clrlgimqhrehyz:98975c8866eb814bdf030d4b06e12c62f1a643b09f35df320b476efc4e890e2f@ec2-100-25-100-81.compute-1.amazonaws.com:5432/d3ftva6r4n71f'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -109,7 +109,7 @@ def custdetails():
             db.session.add(data)
             db.session.commit()
             flash('you are now registered', 'success')
-            return render_template('locust.html')
+            return redirect(url_for('logincustomer'))
         else:
             flash("Username already exists", 'danger')
     return render_template('recust.html')    
