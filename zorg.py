@@ -109,7 +109,7 @@ def custdetails():
             db.session.add(data)
             db.session.commit()
             flash('you are now registered', 'success')
-            return redirect(url_for('logincustomer'))
+            return redirect(url_for('zorg-emergency.herokuapp.com/logincustomer'))
         else:
             flash("Username already exists", 'danger')
     return render_template('recust.html')    
