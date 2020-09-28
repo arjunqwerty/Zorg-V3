@@ -14,7 +14,7 @@ app=Flask(__name__)
 
 ENV = 'prod'
 
-developer='p'
+developer='Tarun'
 
 if ENV=='dev':
     app.debug=True
@@ -109,7 +109,7 @@ def custdetails():
             db.session.add(data)
             db.session.commit()
             flash('you are now registered', 'success')
-            return redirect(url_for('zorg-emergency.herokuapp.com/logincustomer'))
+            return redirect(url_for('logincustomer'))
         else:
             flash("Username already exists", 'danger')
     return render_template('recust.html')    
