@@ -23,7 +23,7 @@ if ENV=='dev':
     elif developer=='Tarun':
         app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Tarun@postgresql@localhost/Zorg'
 else:
-    app.debug=True
+    app.debug=False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://clrlgimqhrehyz:98975c8866eb814bdf030d4b06e12c62f1a643b09f35df320b476efc4e890e2f@ec2-100-25-100-81.compute-1.amazonaws.com:5432/d3ftva6r4n71f'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
