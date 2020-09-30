@@ -25,8 +25,9 @@ if ENV=='dev':
 else:
     app.debug=False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://clrlgimqhrehyz:98975c8866eb814bdf030d4b06e12c62f1a643b09f35df320b476efc4e890e2f@ec2-100-25-100-81.compute-1.amazonaws.com:5432/d3ftva6r4n71f'
+    app.config['SECRET_KEY'] = str(os.urandom(16))
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db=SQLAlchemy(app)
 
 @app.route('/')
@@ -465,5 +466,4 @@ def patienthistory():
    return render_template('patienthistory.html')
 
 if __name__=='__main__':
-    app.secret_key= 'zorg-emergency123456'
     app.run() 
