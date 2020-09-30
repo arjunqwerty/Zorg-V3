@@ -465,5 +465,5 @@ def patienthistory():
    return render_template('patienthistory.html')
 
 if __name__=='__main__':
-    app.secret_key= '[\xe1\xc1\x96_\xe0\xcc\xad\xff\xb9\xed\xdf\x018W\xe6d\xc6\xf7G\x04\xc4\x81\xa4'
+    app.secret_key= 'zorg-emergency123456'
     app.run() 
