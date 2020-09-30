@@ -461,5 +461,5 @@ def patienthistory():
    return render_template('patienthistory.html')
 
 if __name__=='__main__':
-    app.secret_key='123456123456'
+    app.secret_key= os.urandom(24)
     app.run()
