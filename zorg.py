@@ -34,7 +34,7 @@ def home():
     return  render_template('index.html')
 
 @app.route('/google91184105f55d44d3')
-def home():
+def google91184105f55d44d3():
     return  render_template('google91184105f55d44d3.html')
 
 class RegisterMnmg(db.Model):
