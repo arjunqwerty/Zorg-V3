@@ -1,14 +1,10 @@
-#postgresql might work
-#discarded wtforms, which created the trouble
-#features lost: password encryption, has to be changed everywhere
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
+from passlib.hash import sha256_crypt as sa
 import csv
 import os
 from modules import *
-#from wtforms import Form, StringField, TextAreaField, PasswordField, validators
-
 
 app=Flask(__name__)
 
@@ -18,6 +14,7 @@ developer='Tarun'
 
 if ENV=='dev':
     app.debug=True
+    app.config['SECRET_KEY'] = str(os.urandom(16))
     if developer=='Arjun':
         app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Postgre-arj4703@localhost/Zorg'
     elif developer=='Tarun':
@@ -32,17 +29,17 @@ db=SQLAlchemy(app)
 
 @app.route('/')
 def home():
-    return  render_template('index.html')
+    return render_template('index.html')
 
 @app.route('/google91184105f55d44d3')
 def google91184105f55d44d3():
-    return  render_template('google91184105f55d44d3.html')
+    return render_template('google91184105f55d44d3.html')
 
 class RegisterMnmg(db.Model):
     __tablename__ = 'hospdetails'
     namehptl = db.Column(db.String(200))
     username = db.Column(db.String(200), primary_key=True)
-    password = db.Column(db.String(20))
+    password = db.Column(db.String(300))
     pincode = db.Column(db.String(10))
     address = db.Column(db.Text())
 
@@ -58,7 +55,7 @@ def registermnmg():
     if request.method == 'POST':
         namehptl = request.form['namehptl'] 
         username = request.form['username']
-        password = request.form['password']
+        password = sa.hash(request.form['password'])
         pincode = request.form['pincode'] 
         address = request.form['address']
         if db.session.query(RegisterMnmg).filter(RegisterMnmg.username == username).count() == 0:
@@ -76,7 +73,7 @@ class CustomerDet(db.Model):#changed the class name since it is getting confused
     custid = db.Column(db.Integer, primary_key=True)
     namecust = db.Column(db.String(200))
     username = db.Column(db.String(200))
-    password = db.Column(db.String(20))
+    password = db.Column(db.String(300))
     pincode = db.Column(db.String(10))
     address = db.Column(db.Text())
     gmail_id = db.Column(db.String(200))
@@ -101,7 +98,7 @@ def custdetails():
     if request.method == 'POST':
         namecust = request.form['namecust'] 
         username = request.form['username']
-        password = request.form['password']
+        password = sa.hash(request.form['password'])
         gmail_id = request.form['gmail_id']
         aadhar = request.form['aadhar']
         address = ''
@@ -130,7 +127,7 @@ def loginmanagement():
             flash('No such username exists', 'danger')
             return render_template('lomnmg.html')
         else:
-            if password_candidate == user.password:
+            if sa.verify(password_candidate, user.password):
                 session['logged_in'] = True
                 session['username'] = usermnmg
                 session['name'] = user.namehptl
@@ -155,7 +152,7 @@ def logincustomer():
             flash('No such username exists', 'danger')
             return render_template('locust.html')
         else:
-            if password_candidate == user.password:
+            if sa.verify(password_candidate, user.password):
                 session['logged_in'] = True
                 session['username'] = usercust
                 session['type'] = 'C'
