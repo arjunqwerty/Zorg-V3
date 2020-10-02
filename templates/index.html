@@ -3,8 +3,6 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="google-site-verification" content="ran8ah5lFr2voKrGaKFFlZtqXsKsR6_thLWxqf583ps" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>ZORG</title>
 		<link rel="icon" type="image/png" href="/static/favicon.png"/>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity = "sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin = "anonymous">
@@ -12,51 +10,8 @@
 	</head>
 	<body>
 	
-	<style>
-	.navbar {
-		padding: .8rem;
-	}
-	.navbar-nav li {
-		position: relative;
-		padding-right: 130px;
-	}
-	.navlink {
-		font-size: 1.1em !important;
-	}
-	</style>
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
-	  <div class="collapse navbar-collapse" id="navbarResponsive">
-	    <ul class="navbar-nav navbar-right ml-auto">
-	      {% if session.logged_in %}
-	        {% if session.type == "H" %}
-	          <li><a class="nav-link active" href="/kindly">Update hospital details</a></li>
-	          {% else %}
-	          <li>
-	            <a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown">EMERGENCY</a>
-	            <div class="dropdown-menu" aria-labelledby="dropdown01">
-	             <a class="dropdown-item" href="/accident">Accident</a>
-	             <a class="dropdown-item" href="/heartattack">Heart attack</a>
-	             <a class="dropdown-item" href="/otherailments">Other</a>
-	           </div>
-	          </li>
-	            <li><a class="nav-link active" href="/dashboard">Dashboard</a></li>
-	          {% endif %}
-	        <li><a class="nav-link active" href="/logout">Logout</a></li>
-	      {% else %}
-	        <li><a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown">Login</a>
-	          <div class="dropdown-menu" aria-labelledby="dropdown01">
-	           <a class="dropdown-item" href="/loginmanagement">Hospital Management</a>
-	           <a class="dropdown-item" href="/logincustomer">Customer</a>
-	         </div>
-	        </li>
-	      {% endif %}
-	    </ul>
-	  </div>
-	</nav>
-
+	{% include "includes/_messages.html" %}
+	{% include "includes/_navbar.html" %}
 	<style>
 		.footer {
 			background-color: black;
@@ -145,7 +100,7 @@
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
 				<div class="centerimg3">
 					<h1>Who did it?</h1>
-					<h5>Just 12 friends who have big visions of saving the world from any more sorrows...</h5>
+					<h5>Just three friends who have big visions of saving the world from any more sorrows...</h5>
 				</div>
 			</div>
 		</div>
@@ -198,6 +153,7 @@
 			</div>
 		<div class="col-12 text-center">
 			<h5 class="display-5">&copy;zorg.com</h5>
+			<br class="dark-2">
 		</div>
 	</div>
 	</footer>
