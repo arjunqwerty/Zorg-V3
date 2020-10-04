@@ -39,7 +39,7 @@ def google91184105f55d44d3():
 
 
 def username_predict(u,t):
-    user = db.session.query(t).filter_by(t.username.startswith(u)).all()
+    user = db.session.query(t).filter(t.username == u).all()
     while u in user.username:
         x=random.randint(0,6000)
         u+=str(x)
@@ -77,7 +77,7 @@ def registermnmg():
             flash('you are now registered', 'success')
             return redirect(url_for('loginmanagement'))
         else:
-            flash("Username already exists"+username_predict(username), 'danger')
+            flash("Username already exists"+username_predict(username, RegisterMnmg), 'danger')
     return render_template('remnmg.html')
 
 class CustomerDet(db.Model):#changed the class name since it is getting confused between the class and the table name
@@ -125,7 +125,7 @@ def custdetails():
             flash('you are now registered', 'success')
             return redirect(url_for('logincustomer'))
         else:
-            flash("Username already exists"+username_predict(username), 'danger')
+            flash("Username already exists"+username_predict(username, CustomerDet), 'danger')
     return render_template('recust.html')    
 
 @app.route('/loginmanagement', methods=['GET','POST'])
