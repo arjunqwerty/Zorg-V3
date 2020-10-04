@@ -10,7 +10,7 @@ from modules import *
 
 app=Flask(__name__)
 
-ENV = 'prod'
+ENV = 'dev'
 
 developer='Tarun'
 
@@ -39,11 +39,13 @@ def google91184105f55d44d3():
 
 
 def username_predict(u,t):
-    user = db.session.query(t).filter(t.username == u).all()
-    while u in user.username:
-        x=random.randint(0,6000)
-        u+=str(x)
-    s="Try "+u
+    c=True
+    while c:
+        if not db.session.query(t).filter(t.username == u).count() == 0:
+            x=random.randint(0,6000)
+            u+=str(x)
+            s=". Try "+u
+            c=False
     return s
 
 
@@ -188,13 +190,6 @@ def is_logged_in(f):
             return redirect(url_for('home'))
     return wrap
 
-@app.route('/logout')
-@is_logged_in
-def logout():
-    session.clear()
-    flash('You are now logged out','success')
-    return redirect(url_for('home'))
-
 @app.route('/dashboard', methods=['GET','POST'])
 @is_logged_in
 def dashboard():
@@ -336,7 +331,7 @@ def heartattack():
                 flash('you have already sent a request, kindly wait till it is processed','danger')
                 return render_template('request_sent.html')
         else:
-            return rendertemplate('sorry.html')
+            return render_template('sorry.html')
     else:
         flash('Please fill in your details so that we can send it to the hospitals','danger')
         return redirect(url_for('add_profile'))
@@ -366,7 +361,7 @@ def otherailments():
                 flash('you have already sent a request, kindly wait till it is processed','danger')
                 return render_template('request_sent.html')
         else:
-            return rendertemplate('sorry.html')
+            return render_template('sorry.html')
     else:
         flash('please fill in your details so that we can send it to the hospitals','danger')
         return redirect(url_for('add_profile'))
@@ -451,6 +446,10 @@ def declined(username):
 
         #send mail to that person!!!!! important
         emailsend(gmail_id, message)
+        """try:
+            emailsend(gmail_id, message)
+        except:
+            flash('The person had registered with an invalid email. Could not deliver the message.', 'danger')"""
 
         #delete data from orders
         user_order = db.session.query(Orders).filter(Orders.username_cust == username).first()
@@ -464,15 +463,22 @@ def declined(username):
 @app.route('/patienthistory')
 @is_logged_in
 def patienthistory():
-   username = session['username']
+   username = session['name']
    help = db.session.query(PastOrders).filter(PastOrders.name_of_hptl_accepting_responsibilty == username).first()
    db.session.commit()
    if help is None:
-       flash("you have no one to save","success")
-       return render_template('patienthistory.html')
+       flash("you have not saved anyone yet","danger")
+       return render_template('patienthistory.html', profile = db.session.query(PastOrders).filter(PastOrders.name_of_hptl_accepting_responsibilty == username).all())
    else:
        return render_template('patienthistory.html', profile = db.session.query(PastOrders).filter(PastOrders.name_of_hptl_accepting_responsibilty == username).all())
    return render_template('patienthistory.html')
+
+@app.route('/logout')
+@is_logged_in
+def logout():
+    session.clear()
+    flash('You are now logged out','success')
+    return redirect(url_for('home'))
 
 if __name__=='__main__':
     app.run() 
