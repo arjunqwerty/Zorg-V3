@@ -191,67 +191,73 @@ def is_logged_in(f):
     return wrap
 
 @app.route('/dashboard', methods=['GET','POST'])
-@is_logged_in
 def dashboard():
-    username = session['username']
-    custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
-    db.session.commit()
-    if custdata.aadhar == '' or custdata.age == '' or custdata.gender == '' or custdata.prevmedrcrds == '' or custdata.address == '' or custdata.pincode == '':
-        flash("Please fill these details","danger")
-        return redirect(url_for('add_profile'))
+    if session['logged_in'] == True:
+        username = session['username']
+        custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
+        db.session.commit()
+        if custdata.aadhar == '' or custdata.age == '' or custdata.gender == '' or custdata.prevmedrcrds == '' or custdata.address == '' or custdata.pincode == '':
+            flash("Please fill these details","danger")
+            return redirect(url_for('add_profile'))
+        else:
+           return render_template('dashboard.html', custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).all())
     else:
-        return render_template('dashboard.html', custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).all())
-    return render_template('dashboard.html')    
+        return redirect(url_for('home'))
+    return render_template('dashboard.html')  
 
 @app.route('/add_profile', methods=['GET','POST'])
-@is_logged_in
 def add_profile():
-    username = session['username']
-    if request.method =='POST':
-        age = request.form['age']
-        gender = request.form['gender']
-        prevmedrcrds = request.form['prevmedrcrds']
-        address = request.form['address']
-        pincode = request.form['pincode']
-        if db.session.query(CustomerDet).filter(CustomerDet.username == username).count() == 1:
-            update = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
-            update.age = age
-            update.gender = gender
-            update.prevmedrcrds = prevmedrcrds
-            update.address = address
-            update.pincode = pincode
-            db.session.commit()
-            flash('Profile Created', 'success')
-            return redirect(url_for('dashboard'))
-        else:
-            return redirect(url_for('editprofile'))
+    if session['logged_in'] == True:
+        username = session['username']
+        if request.method =='POST':
+            age = request.form['age']
+            gender = request.form['gender']
+            prevmedrcrds = request.form['prevmedrcrds']
+            address = request.form['address']
+            pincode = request.form['pincode']
+            if db.session.query(CustomerDet).filter(CustomerDet.username == username).count() == 1:
+                update = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
+                update.age = age
+                update.gender = gender
+                update.prevmedrcrds = prevmedrcrds
+                update.address = address
+                update.pincode = pincode
+                db.session.commit()
+                flash('Profile Created', 'success')
+                return redirect(url_for('dashboard'))
+            else:
+                return redirect(url_for('editprofile'))
+    else:
+        return redirect(url_for('home'))
     return render_template('add_profile.html')
 
 @app.route('/editprofile', methods=['GET','POST'])
-@is_logged_in
 def editprofile():
-    username = session['username']
-    user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
-    db.session.commit()
-    if request.method == 'POST':
-        age = request.form['age']
-        if age != '':
-            user.age = age
-        prevmedrcrds = request.form['prevmedrcrds']
-        if prevmedrcrds != '':
-            user.prevmedrcrds = prevmedrcrds
-        address = request.form['address']
-        if address != '':
-            user.address = address
-        pincode = request.form['pincode']
-        if pincode != '':
-            user.pincode = pincode
-        gmail_id = request.form['gmail_id']
-        if gmail_id != '':
-            user.gmail_id = gmail_id
+    if session['logged_in'] == True:
+        username = session['username']
+        user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
         db.session.commit()
-        flash('Profile Updated','success')
-        return redirect(url_for('dashboard'))
+        if request.method == 'POST':
+            age = request.form['age']
+            if age != '':
+                user.age = age
+            prevmedrcrds = request.form['prevmedrcrds']
+            if prevmedrcrds != '':
+                user.prevmedrcrds = prevmedrcrds
+            address = request.form['address']
+            if address != '':
+                user.address = address
+            pincode = request.form['pincode']
+            if pincode != '':
+                user.pincode = pincode
+            gmail_id = request.form['gmail_id']
+            if gmail_id != '':
+                user.gmail_id = gmail_id
+            db.session.commit()
+            flash('Profile Updated','success')
+            return redirect(url_for('dashboard'))
+    else:
+        return redirect(url_for('home'))
     return render_template('editprofile.html',profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).all())
 
 class Orders(db.Model):
