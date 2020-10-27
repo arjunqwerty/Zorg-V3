@@ -417,7 +417,10 @@ def accepted(username):
         gmail_id = user.gmail_id
 
         #send mail to that person!!!!! important
-        emailsend(gmail_id, message)
+        try:
+            emailsend(gmail_id, message)
+        except:
+            flash('The person had registered with an invalid email. Could not deliver the message.', 'danger')
         
         #add data to past orders
         user_order = db.session.query(Orders).filter(Orders.username_cust == username).first()
@@ -445,11 +448,11 @@ def declined(username):
         gmail_id = user.gmail_id
 
         #send mail to that person!!!!! important
-        emailsend(gmail_id, message)
-        """try:
+        #emailsend(gmail_id, message)
+        try:
             emailsend(gmail_id, message)
         except:
-            flash('The person had registered with an invalid email. Could not deliver the message.', 'danger')"""
+            flash('The person had registered with an invalid email. Could not deliver the message.', 'danger')
 
         #delete data from orders
         user_order = db.session.query(Orders).filter(Orders.username_cust == username).first()
