@@ -37,6 +37,9 @@ def home():
 def google91184105f55d44d3():
     return render_template('google91184105f55d44d3.html')
 
+@app.route('/.well-known/pki-validation/22BF78F1880472211C2C4580C3EBCEF4.txt')
+def ssl():
+    return render_template('ssl.html')
 
 def username_predict(u,t):
     c=True
