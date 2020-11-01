@@ -5,7 +5,7 @@ import imaplib
 
 def emailsend(to,mssg):
     smtp_ssl_host = 'smtp.gmail.com'
-    smtp_ssl_port = 465
+    smtp_ssl_port = 587
     username_mail = 'zorg123546@gmail.com'
     password = 'zorg87654321'
 
