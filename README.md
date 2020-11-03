@@ -3,9 +3,9 @@
 
 The program flows like :
 i)Management
-> Home
-> Register(remnmg.html)
-> Login(lomnmg.html) 
+1. Home
+2. Register you hospital details
+3. Login(lomnmg.html)
 > Hospital dashboard(=dashboardmnmg.html)
 > Update staff details(updatestaff.html) -> Accept / Decline -> Send mail to customer w.r.mssg
 {register - add the info in hospdetails}
