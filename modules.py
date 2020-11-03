@@ -1,27 +1,28 @@
-import smtplib, ssl
+import smtplib
 from email.mime.text import MIMEText
-import email
-import imaplib
+#import email, ssl
+#import imaplib
 
 def emailsend(to,mssg):
-    smtp_ssl_host = 'smtp.gmail.com'
-    smtp_ssl_port = 587
-    username_mail = 'zorg123546@gmail.com'
-    password = 'zorg87654321'
+    port = 2525
+    smtp_server = 'smtp.mailtrap.io'
+    login = '18cc8c2ea71e43'
+    password = '27abc8c416d687'
+    #username_mail = 'zorg123546@gmail.com'
+    #password = 'zorg87654321'
 
-    from_addr = 'zorg123546@gmail.com'
-    to_addrs = to
+    sender_email = 'zorg123546@gmail.com'
 
-    message = MIMEText(mssg)
-    message['subject'] = username_mail
-    message['from'] = from_addr
-    message['to'] = ''.join(to_addrs)
+    message = MIMEText(mssg, 'html')
+    message['Subject'] = 'Zorg'
+    message['From'] = sender_email
+    message['To'] = str(to)
 
-    server = smtplib.SMTP_SSL(smtp_ssl_host, smtp_ssl_port)
-    server.login(username_mail,password)
-    server.sendmail(from_addr, to_addrs, message.as_string())
-    server.quit()
+    with smtplib.SMTP(smtp_server, port) as server:
+        server.login(login,password)
+        server.sendmail(sender_email, to, message.as_string())
 
+'''
 def emailrecieve(area_emer):
     EMAIL = 'zorg45365@gmail.com'
     PASSWORD = 'zorg12345678'
@@ -78,3 +79,4 @@ def emailrecieve(area_emer):
         if l[i][1]==area_emer:
             req_hosp_emails.append(l[i][2])
     return req_hosp_emails
+'''

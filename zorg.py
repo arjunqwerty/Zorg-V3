@@ -10,7 +10,7 @@ from modules import *
 
 app=Flask(__name__)
 
-ENV = 'prod'
+ENV = 'dev'
 
 developer='Tarun'
 
@@ -415,15 +415,12 @@ def accepted(username):
         acc_or_dec = "a"
         name_of_hptl_result = session['name']
 
-        message = name_of_hptl_result + ' has accepted to help you. They will arrive to your place soon.'
+        message = f"<p>{name_of_hptl_result} has accepted to help you. They will arrive to your place soon.</p>"
         user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
         gmail_id = user.gmail_id
 
         #send mail to that person!!!!! important
-        try:
-            emailsend(gmail_id, message)
-        except:
-            flash('The person had registered with an invalid email. Could not deliver the message.', 'danger')
+        emailsend(gmail_id, message)
         
         #add data to past orders
         user_order = db.session.query(Orders).filter(Orders.username_cust == username).first()
@@ -446,7 +443,7 @@ def declined(username):
         acc_or_dec = "d"
         name_of_hptl_result = session['name']
 
-        message = name_of_hptl_result + ' has declined to help you. We are very sorry.'
+        message = f"<p>{name_of_hptl_result} has declined to help you. We are sorry.</p>"
         user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
         gmail_id = user.gmail_id
 
