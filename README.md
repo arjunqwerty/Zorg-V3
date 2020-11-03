@@ -1,5 +1,6 @@
 # Zorg-V3
-Under construction
+Under testing
+Applying makeup
 
 The program flows like :
 i)Management
