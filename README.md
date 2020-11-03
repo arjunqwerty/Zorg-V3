@@ -3,10 +3,11 @@
 
 The program flows like :
 i)Management
->Home
+> Home
 > Register(remnmg.html)
 > Login(lomnmg.html) 
-> Hospital dashboard(=dashboardmnmg.html) -> Update staff details(updatestaff.html) -> Accept / Decline -> Send mail to customer w.r.mssg
+> Hospital dashboard(=dashboardmnmg.html)
+> Update staff details(updatestaff.html) -> Accept / Decline -> Send mail to customer w.r.mssg
 {register - add the info in hospdetails}
 {login - compare the info in hospdetails and details entered}
 {hospital dashboard - display all the requests, details of staff of the hospital, provision to edit the latter}
