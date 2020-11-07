@@ -33,6 +33,10 @@ db=SQLAlchemy(app)
 def home():
     return render_template('index.html')
 
+@app.route('/route')
+def route():
+    return render_template('route.html')
+
 @app.route('/google91184105f55d44d3')
 def google91184105f55d44d3():
     return render_template('google91184105f55d44d3.html')
