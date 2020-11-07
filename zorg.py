@@ -487,5 +487,93 @@ def logout():
     flash('You are now logged out','success')
     return redirect(url_for('home'))
 
+# Shivaram proj
+class profileformhos(db.Model):
+    __tablename__ = 'staffdetails'
+    name = db.Column(db.String(200))
+    age = db.Column(db.String(20))
+    gender = db.Column(db.String(4))
+    salary = db.Column(db.String(10))
+    docid = db.Column(db.Integer, primary_key=True)
+    spec = db.Column(db.String(200))
+    hospitalid = db.Column(db.String(200))
+
+    def __init__(self, name, age, gender, salary, spec, hospitalid):
+        self.name = name
+        self.age = age
+        self.gender = gender
+        self.salary = salary
+        self.spec = spec
+        self.hospitalid = hospitalid
+
+
+@app.route('/addprofile_hos', methods=['GET','POST'])
+@is_logged_in
+def addprofile_hos():
+    username = session['username']
+    if request.method =='POST':
+        name = request.form['name']
+        age = request.form['age']
+        gender = request.form['gender']
+        salary = request.form['salary']
+        spec = request.form['spec']
+        hospitalid = username
+        if db.session.query(profileformhos).filter(profileformhos.name == name).count() != 0:
+            userdata = db.session.query(profileformhos).filter(profileformhos.name == name).first()
+            if userdata.age == age and userdata.gender == gender and userdata.salary == salary and userdata.spec == spec and userdata.hospitalid == hospitalid:
+                flash('Worker already exists','danger')
+                return redirect(url_for('hosdetails'))
+        else:
+            data = profileformhos(name, age, gender, salary, spec, hospitalid)
+            db.session.add(data)
+            db.session.commit()
+            flash('Profile Created', 'success')
+            return redirect(url_for('hosdetails'))
+    return render_template('addprofile_hos.html')
+
+@app.route('/editprofilehos/<docid>', methods=['GET','POST'])
+@is_logged_in
+def editprofilehos(docid):
+    user = db.session.query(profileformhos).filter(profileformhos.docid == docid).first()
+    db.session.commit()
+    if request.method == 'POST':
+        name = request.form['name']
+        if name != '':
+            user.name = name
+        age = request.form['age']
+        if age != '':
+            user.age = age
+        gender = request.form['gender']
+        if gender != '':
+            user.gender = gender
+        salary = request.form['salary']
+        if salary != '':
+            user.salary = salary
+        spec = request.form['spec']
+        if spec != '':
+            user.spec = spec
+        '''hospitalid = request.form['hospitalid']
+        if hospitalid != '':
+            user.hospitalid = hospitalid'''
+        db.session.commit()
+        flash('Profile Updated','success')
+        return redirect(url_for('hosdetails'))
+    return render_template('editprofilehos.html',profile = db.session.query(profileformhos).filter(profileformhos.docid == docid).all())
+
+@app.route('/deletedoc/<docid>',methods=['GET','POST'])
+def deletedoc(docid):
+    data = db.session.query(profileformhos).filter(profileformhos.docid == docid).first()
+    db.session.delete(data)
+    db.session.commit()
+    return redirect(url_for('hosdetails'))
+
+@app.route('/hosdetails', methods=['GET','POST'])
+@is_logged_in
+def hosdetails():
+    username = session['username']
+    help = db.session.query(profileformhos).filter(profileformhos.hospitalid == username).first()
+    db.session.commit()
+    return render_template('doctors.html', custdata = db.session.query(profileformhos).filter(profileformhos.hospitalid == username).all())
+
 if __name__=='__main__':
     app.run() 
