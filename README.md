@@ -6,8 +6,8 @@ i)Management
 1. Home
 2. Register you hospital details
 3. Login(lomnmg.html)
-> Hospital dashboard(=dashboardmnmg.html)
-> Update staff details(updatestaff.html) -> Accept / Decline -> Send mail to customer w.r.mssg
+4. Hospital dashboard(=dashboardmnmg.html)
+5. Update staff details(updatestaff.html) -> Accept / Decline -> Send mail to customer w.r.mssg
 {register - add the info in hospdetails}
 {login - compare the info in hospdetails and details entered}
 {hospital dashboard - display all the requests, details of staff of the hospital, provision to edit the latter}
@@ -21,7 +21,10 @@ Home(index.html) -> Register(recust.html) -> Login(locust.html) -> Add profile(a
 {customer dashboard - display all the customer's info and provision to edit them}
 {edit profile - display the previous details and ask for the new ones}
 {accident/heartattack/otherailments - check the hospitals in the locality and add the resp. details in order table}
-
+<p align="center">
+  <img src="/static/zorgcr.png" width="350" title="hover text">
+  <img src="/static/zorghr.png" width="350" alt="accessibility text">
+</p>
 !! IMPORTANT:
 Create a branch when you are not sure if your code is correct. you can do that in cli by the following command:
 
