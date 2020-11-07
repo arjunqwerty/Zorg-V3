@@ -12,7 +12,7 @@ app=Flask(__name__)
 
 ENV = 'prod'
 
-developer='Tarun'
+developer='Arjun'
 
 if ENV=='dev':
     app.debug=True
@@ -31,6 +31,11 @@ db=SQLAlchemy(app)
 
 @app.route('/')
 def home():
+    if request.method == "POST":
+        mailid = form.request['mailid']
+        feedback = form.request['feedback']
+        emailsend(mailid, feedback)
+        return render_template('index.html')
     return render_template('index.html')
 
 @app.route('/route')
