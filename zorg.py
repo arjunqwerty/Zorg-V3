@@ -10,7 +10,7 @@ from modules import *
 
 app=Flask(__name__)
 
-ENV = 'prod'
+ENV = 'dev'
 
 developer='Arjun'
 
@@ -94,7 +94,7 @@ def registermnmg():
             flash("Username already exists"+username_predict(username, RegisterMnmg), 'danger')
     return render_template('remnmg.html')
 
-class CustomerDet(db.Model):#changed the class name since it is getting confused between the class and the table name
+class CustomerDet(db.Model):
     __tablename__ = 'custdetails'
     custid = db.Column(db.Integer, primary_key=True)
     namecust = db.Column(db.String(200))
@@ -580,5 +580,23 @@ def hosdetails():
     db.session.commit()
     return render_template('doctors.html', custdata = db.session.query(profileformhos).filter(profileformhos.hospitalid == username).all())
 
+@app.route('/displaytables/<number>',methods=['GET','POST'])
+def displaytables(number):
+    session['number'] = number
+    if number == '1':
+        return render_template('displaytables.html', registermnmg = db.session.query(RegisterMnmg).all())
+    elif number == '2':
+        return render_template('displaytables.html', customerdet = db.session.query(CustomerDet).all())
+    elif number == '3':
+        return render_template('displaytables.html', orders = db.session.query(Orders).all())
+    elif number == '4':
+        return render_template('displaytables.html', pastorders = db.session.query(PastOrders).all())
+    elif number == '5':
+        return render_template('displaytables.html', ProfileFormHos = db.session.query(profileformhos).all())
+    else:
+        flash("No such table exists","danger")
+        return redirect(url_for('home'))
+    return render_template('displaytables.html')
+    
 if __name__=='__main__':
     app.run() 

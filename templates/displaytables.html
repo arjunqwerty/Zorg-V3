@@ -1,0 +1,153 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+{% if session.number == '1' %}
+  <h1>Hospital Details</h1>
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Pincode</th>
+      <th>Address</th>
+    </tr>
+    {% for registermnmg in registermnmg %}
+    <tr>
+        <td>{{registermnmg.namehptl}}</td>
+        <td>{{registermnmg.username}}</td>
+        <td>{{registermnmg.password}}</td>
+        <td>{{registermnmg.pincode}}</td>
+        <td>{{registermnmg.address}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+{% if session.number == '2' %}
+  <h1>Customer Details</h1>
+  <table class="table table-striped">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Pincode</th>
+      <th>Address</th>
+      <th>Mail Id</th>
+      <th>Aadhar No.</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Prevmedrcrds</th>
+    </tr>
+    {% for customerdet in customerdet %}
+    <tr>
+      <td>{{customerdet.custid}}</td>
+      <td>{{customerdet.namecust}}</td>
+      <td>{{customerdet.username}}</td>
+      <td>{{customerdet.password}}</td>
+      <td>{{customerdet.pincode}}</td>
+      <td>{{customerdet.address}}</td>
+      <td>{{customerdet.gmail_id}}</td>
+      <td>{{customerdet.aadhar}}</td>
+      <td>{{customerdet.age}}</td>
+      <td>{{customerdet.gender}}</td>
+      <td>{{customerdet.prevmedrcrds}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+
+{% if session.number == '3' %}
+  <h1>Orders Details</h1>
+  <table class="table table-striped">
+    <tr>
+      <th>ID</th>
+      <th>Hospitals</th>
+      <th>Cust Username</th>
+      <th>Type</th>
+      <th>Address</th>
+      <th>Cust name</th>
+      <th>Aadhar No.</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Prevmedrcrds</th>
+    </tr>
+    {% for orders in orders %}
+    <tr>
+        <td>{{orders.number}}</td>
+        <td>{{orders.hptl_username_in_vicinity}}</td>
+        <td>{{orders.username_cust}}</td>
+        <td>{{orders.type}}</td>
+        <td>{{orders.address}}</td>
+        <td>{{orders.namecust}}</td>
+        <td>{{orders.aadhar}}</td>
+        <td>{{orders.age}}</td>
+        <td>{{orders.gender}}</td>
+        <td>{{orders.prevmedrcrds}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+
+{% if session.number == '4' %}
+  <h1>Past Orders Details</h1>
+  <table class="table table-striped">
+    <tr>
+      <th>ID</th>
+      <th>Hospitals</th>
+      <th>Cust Username</th>
+      <th>Type</th>
+      <th>Address</th>
+      <th>Cust name</th>
+      <th>Aadhar No.</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Prevmedrcrds</th>
+    </tr>
+    {% for pastorders in pastorders %}
+    <tr>
+        <td>{{pastorders.number}}</td>
+        <td>{{pastorders.hptl_username_in_vicinity}}</td>
+        <td>{{pastorders.username_cust}}</td>
+        <td>{{pastorders.type}}</td>
+        <td>{{pastorders.address}}</td>
+        <td>{{pastorders.namecust}}</td>
+        <td>{{pastorders.aadhar}}</td>
+        <td>{{pastorders.age}}</td>
+        <td>{{pastorders.gender}}</td>
+        <td>{{pastorders.prevmedrcrds}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+
+{% if session.number == '5' %}
+  <h1>Staff Details</h1>
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Salary</th>
+      <th>Doc id</th>
+      <th>Sepcification</th>
+      <th>Hospital id</th>
+    </tr>
+    {% for ProfileFormHos in ProfileFormHos %}
+    <tr>
+        <td>{{ProfileFormHos.name}}</td>
+        <td>{{ProfileFormHos.age}}</td>
+        <td>{{ProfileFormHos.gender}}</td>
+        <td>{{ProfileFormHos.salary}}</td>
+        <td>{{ProfileFormHos.docid}}</td>
+        <td>{{ProfileFormHos.spec}}</td>
+        <td>{{ProfileFormHos.hospitalid}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+{% endblock %}
