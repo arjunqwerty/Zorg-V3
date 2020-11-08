@@ -34,7 +34,7 @@ def home():
     if request.method == "POST":
         mailid = request.form['mailid']
         feedback = request.form['feedback']
-        emailsend(mailid, feedback)
+        emailsend(mailid, "Feedback Submitted:/n"+feedback)
         return render_template('index.html')
     return render_template('index.html')
 
@@ -465,7 +465,7 @@ def declined(username):
             flash('The person had registered with an invalid email. Could not deliver the message.', 'danger')
 
         #delete data from orders
-        user_order = db.session.query(Orders).filter(Orders.username_cust == username).first()
+        user_order = db.session.query(Orders).filter(Orders.username_cust == username, Orders.hptl_username_in_vicinity == name_of_hptl_result).first()
         db.session.delete(user_order)
         db.session.commit()
         
