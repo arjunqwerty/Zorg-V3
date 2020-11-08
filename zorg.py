@@ -438,7 +438,8 @@ def accepted(username):
         db.session.commit()
 
         #delete data from orders
-        db.session.delete(user_order)
+        edhavudhu = db.session.query(Orders).filter(Orders.username_cust == username).all()
+        db.session.delete(edhavadhu)
         db.session.commit()
 
         flash('You have accepted to save '+user.namecust, 'success')
