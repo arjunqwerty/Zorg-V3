@@ -32,8 +32,8 @@ db=SQLAlchemy(app)
 @app.route('/', methods=['GET','POST'])
 def home():
     if request.method == "POST":
-        mailid = form.request['mailid']
-        feedback = form.request['feedback']
+        mailid = request.form['mailid']
+        feedback = request.form['feedback']
         emailsend(mailid, feedback)
         return render_template('index.html')
     return render_template('index.html')
