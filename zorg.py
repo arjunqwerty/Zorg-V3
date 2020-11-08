@@ -29,7 +29,7 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db=SQLAlchemy(app)
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def home():
     if request.method == "POST":
         mailid = form.request['mailid']
@@ -38,7 +38,7 @@ def home():
         return render_template('index.html')
     return render_template('index.html')
 
-@app.route('/route')
+@app.route('/route', methods=['GET','POST'])
 def route():
     return render_template('route.html')
 
