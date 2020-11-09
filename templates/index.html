@@ -170,18 +170,29 @@
 		.edhavadhu20 {
 			width: 50%;
 		}
+		textarea {
+			width: 100%;
+			height: 150px;
+			padding: 12px 20px;
+			box-sizing: border-box;
+			border: 2px solid #ccc;
+			border-radius: 4px;
+			background-color: #f8f8f8;
+			font-size: 16px;
+			resize: none;
+		}
 	</style>
 	<footer>
-		<h1>Don't worry, we won't bother you with random newsletters.</h1>
+		<h1 style="color:white;">Don't worry, we won't bother you with random newsletters.</h1>
 		<div class="container-fluid padding">
 			<form method="POST">
 				<div class="form-group edhavadhu">
 					<h4>Mail Id</h4>
-					<input class="text" type="text" name="mailid">
+					<input class="text" type="text" name="mailid" size="50">
 				</div>
 				<div class="form-group edhavadhu20">
 					<h4>Feedback</h4>
-					<input class="text" type="text" name="feedback">
+					<textarea name="feedback"></textarea>
 				</div>
 				<button type="submit" class="btn btn-primary" value="Submit">Submit</button>
 			</form>
