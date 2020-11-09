@@ -38,7 +38,7 @@ def home():
             emailsend(mailid, "Feedback Submitted:\n"+feedback)
             flash('Your response has been recorded','success')
         except:
-            flash('Please enter all the details asked for')
+            flash('Please enter all the details asked for','danger')
         return render_template('index.html')
     return render_template('index.html')
 
