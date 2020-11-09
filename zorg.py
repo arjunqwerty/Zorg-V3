@@ -444,9 +444,9 @@ def accepted(username):
         #delete data from orders
         edha = db.session.query(Orders).filter(Order.username_cust == username).count()
         for i in range(edha):
-            edhavudhu = db.session.query(Orders).filter(Orders.username_cust == username).all()
+            edhavudhu = db.session.query(Orders).filter(Orders.username_cust == username).first()
             db.session.delete(edhavadhu)
-        db.session.commit()
+            db.session.commit()
 
         flash('You have accepted to save '+user.namecust, 'success')
         return redirect(url_for('dashboardmnmg'))
