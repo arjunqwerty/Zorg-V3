@@ -34,7 +34,7 @@ def home():
     if request.method == "POST":
         mailid = request.form['mailid']
         feedback = request.form['feedback']
-        emailsend(mailid, "Feedback Submitted:/n"+feedback)
+        emailsend(mailid, "Feedback Submitted:\n"+feedback)
         return render_template('index.html')
     return render_template('index.html')
 
