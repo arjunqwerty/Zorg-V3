@@ -439,11 +439,9 @@ def accepted(username):
         user_order = db.session.query(Orders).filter(Orders.username_cust == username).first()
         data = PastOrders(name_of_hptl_result, user_order.username_cust, user_order.type, user_order.address, user_order.namecust, user_order.aadhar, user_order.age, user_order.gender, user_order.prevmedrcrds)
         db.session.add(data)
-        db.session.commit()
 
         #delete data from orders
         edhavudhu = db.session.query(Orders).filter(Orders.username_cust == username).delete()
-        db.session.delete(edhavadhu)
         db.session.commit()
 
         flash('You have accepted to save '+user.namecust, 'success')
