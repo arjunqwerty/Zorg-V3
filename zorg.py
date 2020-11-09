@@ -34,7 +34,11 @@ def home():
     if request.method == "POST":
         mailid = request.form['mailid']
         feedback = request.form['feedback']
-        emailsend(mailid, "Feedback Submitted:\n"+feedback)
+        try:
+            emailsend(mailid, "Feedback Submitted:\n"+feedback)
+            flash('Your response has been recorded','success')
+        except:
+            flash('Please enter all the details asked for')
         return render_template('index.html')
     return render_template('index.html')
 
