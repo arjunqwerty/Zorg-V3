@@ -272,6 +272,7 @@ def editprofile():
             user.gmail_id = gmail_id
         if phnum != '':
             user.phnum = phnum
+        phnum = request.form['phnum']
         db.session.commit()
         flash('Profile Updated','success')
         return redirect(url_for('dashboard'))
