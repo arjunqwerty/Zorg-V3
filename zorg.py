@@ -111,8 +111,7 @@ class CustomerDet(db.Model):
     age = db.Column(db.String(5))
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
-    phnum = db.Column(db.String(15))
-    def __init__(self, namecust, username, password, pincode, address, gmail_id, aadhar, age, gender, prevmedrcrds, phnum):
+    def __init__(self, namecust, username, password, pincode, address, gmail_id, aadhar, age, gender, prevmedrcrds):
         self.namecust = namecust
         self.username = username
         self.password = password
@@ -123,7 +122,6 @@ class CustomerDet(db.Model):
         self.age = age
         self.gender = gender
         self.prevmedrcrds = prevmedrcrds
-        self.phnum = phnum
 
 @app.route('/custdetails', methods=['GET','POST'])
 def custdetails():
@@ -138,9 +136,8 @@ def custdetails():
         age = ''
         gender = ''
         prevmedrcrds = ''
-        phnum = ''
         if db.session.query(CustomerDet).filter(CustomerDet.username == username).count() == 0:
-            data = CustomerDet(namecust, username, password, pincode, address, gmail_id, aadhar, age, gender, prevmedrcrds, phnum)#needs all the columns to run without errors
+            data = CustomerDet(namecust, username, password, pincode, address, gmail_id, aadhar, age, gender, prevmedrcrds)#needs all the columns to run without errors
             db.session.add(data)
             db.session.commit()
             flash('you are now registered', 'success')
@@ -215,7 +212,7 @@ def dashboard():
     username = session['username']
     custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
-    if custdata.aadhar == '' or custdata.age == '' or custdata.gender == '' or custdata.prevmedrcrds == '' or custdata.address == '' or custdata.pincode == '' or custdata.phnum == '':
+    if custdata.aadhar == '' or custdata.age == '' or custdata.gender == '' or custdata.prevmedrcrds == '' or custdata.address == '' or custdata.pincode == '':
         flash("Please fill these details","danger")
         return redirect(url_for('add_profile'))
     else:
@@ -232,7 +229,6 @@ def add_profile():
         prevmedrcrds = request.form['prevmedrcrds']
         address = request.form['address']
         pincode = request.form['pincode']
-        phnum = request.form['phnum']
         if db.session.query(CustomerDet).filter(CustomerDet.username == username).count() == 1:
             update = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
             update.age = age
@@ -240,7 +236,6 @@ def add_profile():
             update.prevmedrcrds = prevmedrcrds
             update.address = address
             update.pincode = pincode
-            update.phnum = phnum
             db.session.commit()
             flash('Profile Created', 'success')
             return redirect(url_for('dashboard'))
@@ -270,9 +265,6 @@ def editprofile():
         gmail_id = request.form['gmail_id']
         if gmail_id != '':
             user.gmail_id = gmail_id
-        if phnum != '':
-            user.phnum = phnum
-        phnum = request.form['phnum']
         db.session.commit()
         flash('Profile Updated','success')
         return redirect(url_for('dashboard'))
@@ -290,8 +282,7 @@ class Orders(db.Model):
     age = db.Column(db.String(5))
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
-    phnum = db.Column(db.String(15))
-    def __init__(self, hptl_username_in_vicinity, username_cust, type, address, namecust, aadhar, age, gender, prevmedrcrds, phnum):
+    def __init__(self, hptl_username_in_vicinity, username_cust, type, address, namecust, aadhar, age, gender, prevmedrcrds):
         self.hptl_username_in_vicinity = hptl_username_in_vicinity
         self.username_cust = username_cust
         self.type = type
@@ -301,7 +292,6 @@ class Orders(db.Model):
         self.age = age
         self.gender = gender
         self.prevmedrcrds = prevmedrcrds
-        self.phnum = phnum
 
 @app.route('/accident')
 @is_logged_in
@@ -319,7 +309,7 @@ def accident():
                 type='Accident'
                 #send to all hospitals at the same time
                 for hptl_username_in_vicinity in list_of_hosp_to_send_message:
-                    data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.namecust, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds, profile.phnum)
+                    data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.namecust, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
                     db.session.add(data)
                     db.session.commit()
                 return render_template('request_sent.html')
@@ -349,7 +339,7 @@ def heartattack():
                 type='Heart Attack'
                 #send to all hospitals at the same time
                 for hptl_username_in_vicinity in list_of_hosp_to_send_message:
-                    data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.namecust, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds, profile.phnum)
+                    data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.namecust, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
                     db.session.add(data)
                     db.session.commit()
                 return render_template('request_sent.html')
@@ -379,7 +369,7 @@ def otherailments():
                 type='Other Ailments'
                 #send to all hospitals at the same time
                 for hptl_username_in_vicinity in list_of_hosp_to_send_message:
-                    data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.namecust, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds, profile.phnum)
+                    data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.namecust, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
                     db.session.add(data)
                     db.session.commit()
                 return render_template('request_sent.html')
@@ -406,9 +396,8 @@ class PastOrders(db.Model):
     age = db.Column(db.String(5))
     gender = db.Column(db.String(1))
     prevmedrcrds = db.Column(db.Text())
-    phnum = db.Column(db.String(15))
 
-    def __init__(self, name_of_hptl_accepting_responsibilty, username_cust, type, address, namecust, aadhar, age, gender, prevmedrcrds, phnum):
+    def __init__(self, name_of_hptl_accepting_responsibilty, username_cust, type, address, namecust, aadhar, age, gender, prevmedrcrds):
         self.name_of_hptl_accepting_responsibilty = name_of_hptl_accepting_responsibilty
         self.username_cust = username_cust
         self.type = type
@@ -418,7 +407,6 @@ class PastOrders(db.Model):
         self.age = age
         self.gender = gender
         self.prevmedrcrds = prevmedrcrds
-        self.phnum = phnum
 
 @app.route('/dashboardmnmg')
 @is_logged_in
