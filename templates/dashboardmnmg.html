@@ -5,6 +5,7 @@
   <table class="table table-striped">
     <tr>
       <th>Username</th>
+      <th>Phone number</th>
       <th>Type</th>
       <th>Address</th>
       <th>Age</th>
@@ -16,6 +17,7 @@
     {% for profile in profile %}
       <tr>
         <td>{{profile.username_cust}}</td>
+        <td>{{profile.aadhar}}</td>
         <td>{{profile.type}}</td>
         <td>{{profile.address}}</td>
         <td>{{profile.age}}</td>
