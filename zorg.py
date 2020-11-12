@@ -10,7 +10,7 @@ from modules import *
 
 app=Flask(__name__)
 
-ENV = 'prod'
+ENV = 'dev'
 
 developer='Arjun'
 
@@ -31,17 +31,26 @@ db=SQLAlchemy(app)
 
 @app.route('/', methods=['GET','POST'])
 def home():
+    return render_template('index.html')
+
+@app.route('/feedback', methods=['GET','POST'])
+def feedback():
     if request.method == "POST":
         mailid = request.form['mailid']
         feedback = request.form['feedback']
         try:
             emailsend(mailid, "Feedback Submitted:\n"+feedback)
             flash('Your response has been recorded','success')
+            return redirect(url_for('home'))
         except:
             flash('Please enter all the details asked for','danger')
-        return render_template('index.html')
-    return render_template('index.html')
+            return render_template('feedback.html')
+        return render_template('feedback.html')
+    return render_template('feedback.html')
 
+@app.route('/footer',methods=['GET','POST'])
+def footer():
+    return render_template('Bootstrap Footer Template.html')
 @app.route('/route', methods=['GET','POST'])
 def route():
     return render_template('route.html')

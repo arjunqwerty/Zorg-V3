@@ -14,11 +14,6 @@
 	{% include "includes/_messages.html" %}
 	{% include "includes/_navbar.html" %}
 	<style>
-		.footer {
-			background-color: black;
-			color: cornsilk;
-			padding-top: 2rem;
-		}
 		.carousel-caption {
 			position: absolute;
 			top: 50%;
@@ -152,57 +147,53 @@
 			color: cornsilk;
 			padding-top: 2rem;
 		}
-		hr.light {
-			border-top: 1px solid cornsilk;
-			width: 75%;
-			margin-top: .8rem;
-			margin-bottom: 1rem;
-		}
-		hr.light-100 {
-			border-top: 1px solid cornsilk;
-			width: 100%;
-			margin-top: .8rem;
-			margin-bottom: 1rem;
-		}
-		.edhavadhu {
-			width: 100%;
-		}
-		.edhavadhu20 {
-			width: 50%;
-		}
-		textarea {
-			width: 100%;
-			height: 150px;
-			padding: 12px 20px;
-			box-sizing: border-box;
-			border: 2px solid #ccc;
-			border-radius: 4px;
-			background-color: #f8f8f8;
-			font-size: 16px;
-			resize: none;
-		}
 	</style>
 	<footer>
-		<h1 style="color:white; font-size:larger;"> Don't worry, we won't bother you with random newsletters.</h1>
-		<div class="container-fluid padding">
-			<form method="POST">
-				<div class="form-group edhavadhu">
-					<h4>Mail Id</h4>
-					<input class="text" type="text" name="mailid" size="50">
+		<div class="footer-top">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3 footer-about wow fadeInUp">
+						<img class="logo-footer" src={{ url_for('static',filename='Favicon.png') }} alt="logo-footer" width="30%">
+						<p>We are a young company always looking for new and creative ideas to help you with our products in your everyday work.</p>
+						<p><a href="#">Our Team</a></p>
+					</div>
+					<div class="col-md-4 offset-md-1 footer-contact wow fadeInDown">
+						<h3>Contact</h3>
+						<p><i class="fas fa-map-marker-alt"></i> Via Rossini 10, 10136 Turin Italy</p>
+						<p><i class="fas fa-phone"></i> Phone: (0039) 333 12 68 347</p>
+						<p><i class="fas fa-envelope"></i> Email: <a href="mailto:hello@domain.com">hello@domain.com</a></p>
+						<p><i class="fab fa-skype"></i> Skype: you_online</p>
+					</div>
+					<div class="col-md-4 footer-links wow fadeInUp">
+						<div class="row">
+							<div class="col">
+								<h3>Links</h3>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<p><a class="scroll-link" href="#top-content">Home</a></p>
+								<p><a href="#">Features</a></p>
+								<p><a href="#">How it works</a></p>
+								<p><a href="#">Our clients</a></p>
+							</div>
+							<div class="col-md-6">
+								<p><a href="#">Plans &amp; pricing</a></p>
+								<p><a href="#">Affiliates</a></p>
+								<p><a href="#">Terms</a></p>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="form-group edhavadhu20">
-					<h4>Feedback</h4>
-					<textarea name="feedback"></textarea>
-				</div>
-				<button type="submit" class="btn btn-primary" value="Submit">Submit</button>
-			</form>
+			</div>
 		</div>
-		<div class="container-fluid padding">
+		<div class="col-11" align="right">
+			<a href="/feedback" class="btn btn-primary btn-lg">Feedback</a>
+		</div>
 		<div class="col-12 text-center">
 			<h5 class="display-5">&copy;zorg-emergency.herokuapp.com</h5>
 			<br class="dark-2">
 		</div>
-
 	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
