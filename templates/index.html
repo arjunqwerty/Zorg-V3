@@ -7,30 +7,43 @@
 		<title>ZORG</title>
 		<link rel="icon" type="image/png" href="/static/Favicon.png"/>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity = "sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin = "anonymous">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+		<style>
+			h1{
+				font-style: normal;
+			}
+			.carousel-caption {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-15%);
+			}
+			.carousel-caption h1 {
+				font-size: 200%;
+				font-weight: bold;
+				text-transform: uppercase;
+				text-shadow: 1px 1px 10px #000;
+			}
+			.carousel-caption h3 {
+				font-size: 100%;
+				font-weight: 500%;
+				text-shadow: 1px 1px 10px #000;
+			}
+			.centerimg1{
+				padding-top: 8%;
+			}
+			.centerimg2{
+				padding-top: 12%;
+			}
+			.centerimg3{
+				padding-top: 20%;
+			}
+			.centerimg4{
+				padding-top: 12%;
+			}
+		</style>
 	</head>
 	<body>
-	
 	{% include "includes/_messages.html" %}
 	{% include "includes/_navbar.html" %}
-	<style>
-		.carousel-caption {
-			position: absolute;
-			top: 50%;
-			transform: translateY(-15%);
-		}
-		.carousel-caption h1 {
-		font-size: 200%;
-			font-weight: bold;
-		text-transform: uppercase;
-		text-shadow: 1px 1px 10px #000;
-		}
-		.carousel-caption h3 {
-			font-size: 100%;
-			font-weight: 500%;
-			text-shadow: 1px 1px 10px #000;
-		}
-	</style>
 	<div id="slides" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
 			<div class="carousel-item active">
@@ -46,12 +59,6 @@
 	</div>
 	<hr class="my-4">
 
-	<style>
-		.centerimg1{
-			padding-top: 8%;
-		}
-	</style>
-
 	<div class="container-fluid">
 		<div class="row jumbotron">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
@@ -65,11 +72,6 @@
 	</div>
 	<hr class="my-4">
 
-	<style>
-		.centerimg2{
-			padding-top: 12%;
-		}
-	</style>
 	<div class="container-fluid padding">
 	<div class="row padding">
 		<div class="col-sm-12 col-md-6 text-center centerimg2">
@@ -83,11 +85,6 @@
 	</div>
 	<hr class="my-4">
 	
-	<style>
-		.centerimg3{
-			padding-top: 20%;
-		}
-	</style>
 	<div class="container-fluid padding">
 		<div class="row jumbotron">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
@@ -103,11 +100,6 @@
 	</div>
 	<hr class="my-4">
 
-	<style>
-		.centerimg4{
-			padding-top: 12%;
-		}
-	</style>
 	<div class="container-fluid padding">
 	<div class="row padding">
 		<div class="col-sm-12 col-md-6 text-center centerimg2">
@@ -128,7 +120,7 @@
 			</div>
 			<div class="col-5"></div>
 			<div class="col-2">
-				<button onclick="topFunction()" class="btn btn-primary btn-lg" id="myBtn" title="Go to top">Register</button>
+				<button onclick="topFunction()" class="btn btn-primary btn-lg" id="myBtn">Register</button>
 				<script>
 				var mybutton = document.getElementById("myBtn");
 				function topFunction() {
@@ -139,62 +131,8 @@
 			</div>
 		</div>
 	</div>
-	<hr class="my-4">
 
-	<style>
-		footer {
-			background-color: black;
-			color: cornsilk;
-			padding-top: 2rem;
-		}
-	</style>
-	<footer>
-		<div class="footer-top">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-3 footer-about wow fadeInUp">
-						<img class="logo-footer" src={{ url_for('static',filename='Favicon.png') }} alt="logo-footer" width="30%">
-						<p>We are a young company always looking for new and creative ideas to help you with our products in your everyday work.</p>
-						<p><a href="#">Our Team</a></p>
-					</div>
-					<div class="col-md-4 offset-md-1 footer-contact wow fadeInDown">
-						<h3>Contact</h3>
-						<p><i class="fas fa-map-marker-alt"></i> Via Rossini 10, 10136 Turin Italy</p>
-						<p><i class="fas fa-phone"></i> Phone: (0039) 333 12 68 347</p>
-						<p><i class="fas fa-envelope"></i> Email: <a href="mailto:hello@domain.com">hello@domain.com</a></p>
-						<p><i class="fab fa-skype"></i> Skype: you_online</p>
-					</div>
-					<div class="col-md-4 footer-links wow fadeInUp">
-						<div class="row">
-							<div class="col">
-								<h3>Links</h3>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<p><a class="scroll-link" href="#top-content">Home</a></p>
-								<p><a href="#">Features</a></p>
-								<p><a href="#">How it works</a></p>
-								<p><a href="#">Our clients</a></p>
-							</div>
-							<div class="col-md-6">
-								<p><a href="#">Plans &amp; pricing</a></p>
-								<p><a href="#">Affiliates</a></p>
-								<p><a href="#">Terms</a></p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-11" align="right">
-			<a href="/feedback" class="btn btn-primary btn-lg">Feedback</a>
-		</div>
-		<div class="col-12 text-center">
-			<h5 class="display-5">&copy;zorg-emergency.herokuapp.com</h5>
-			<br class="dark-2">
-		</div>
-	</footer>
+{% extends "footer.html" %}
 
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

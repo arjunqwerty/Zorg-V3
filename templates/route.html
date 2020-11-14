@@ -6,18 +6,12 @@
 		<title>ZORG</title>
 		<link rel="icon" type="image/png" href="/static/Favicon.png"/>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity = "sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin = "anonymous">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 	</head>
 	<body>
 	
 	{% include "includes/_messages.html" %}
 	{% include "includes/_navbar.html" %}
 	<style>
-		.footer {
-			background-color: black;
-			color: cornsilk;
-			padding-top: 2rem;
-		}
 		.carousel-caption {
 			position: absolute;
 			top: 50%;
@@ -34,10 +28,18 @@
 			font-weight: 500%;
 			text-shadow: 1px 1px 10px #000;
 		}
-	</style>
-	<hr class="my-4">
-
-	<style>
+		.centerimg1{
+			padding-top: 8%;
+		}
+		.centerimg2{
+			padding-top: 12%;
+		}
+		.centerimg1{
+			padding-top: 8%;
+		}
+		.centerimg2{
+			padding-top: 12%;
+		}
 		.centerimg1{
 			padding-top: 8%;
 		}
@@ -56,11 +58,6 @@
 	</div>
 	<hr class="my-4">
 
-	<style>
-		.centerimg2{
-			padding-top: 12%;
-		}
-	</style>
 	<div class="container-fluid padding">
 	<div class="row padding">
 		<div class="col-sm-12 col-md-6 text-center centerimg2">
@@ -74,11 +71,6 @@
 	</div>
 	<hr class="my-4">
 
-	<style>
-		.centerimg1{
-			padding-top: 8%;
-		}
-	</style>
 	<div class="container-fluid">
 		<div class="row jumbotron">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
@@ -92,11 +84,6 @@
 	</div>
 	<hr class="my-4">
 
-	<style>
-		.centerimg2{
-			padding-top: 12%;
-		}
-	</style>
 	<div class="container-fluid padding">
 	<div class="row padding">
 		<div class="col-sm-12 col-md-6 text-center centerimg2">
@@ -109,11 +96,6 @@
 	</div>
 	<hr class="my-4">
 
-	<style>
-		.centerimg1{
-			padding-top: 8%;
-		}
-	</style>
 	<div class="container-fluid">
 		<div class="row jumbotron">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
@@ -125,43 +107,11 @@
 		</div>
 	</div>
 	<hr class="my-4">
-
-	<style>
-		footer {
-			background-color: black;
-			color: cornsilk;
-			padding-top: 2rem;
-		}
-		hr.light {
-			border-top: 1px solid cornsilk;
-			width: 75%;
-			margin-top: .8rem;
-			margin-bottom: 1rem;
-		}
-		hr.light-100 {
-			border-top: 1px solid cornsilk;
-			width: 100%;
-			margin-top: .8rem;
-			margin-bottom: 1rem;
-		}
-	</style>
-	<footer>
-		<div class="container-fluid padding">
-			<div class="col-md-12">
-				<img src={{ url_for('static',filename='Favicon.png') }} width="5%" alt="Favicon">
-			</div>
-		<div class="col-12 text-center">
-			<h5 class="display-5">&copy;zorg-emergency.herokuapp.com</h5>
-			<br class="dark-2">
-		</div>
-	</div>
-	</footer>
-
+{% extends "footer.html" %}
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
 	</body>
 </html>

@@ -10,7 +10,7 @@ from modules import *
 
 app=Flask(__name__)
 
-ENV = 'dev'
+ENV = 'prod'
 
 developer='Arjun'
 
@@ -50,7 +50,8 @@ def feedback():
 
 @app.route('/footer',methods=['GET','POST'])
 def footer():
-    return render_template('Bootstrap Footer Template.html')
+    return render_template('footer.html')
+    
 @app.route('/route', methods=['GET','POST'])
 def route():
     return render_template('route.html')
