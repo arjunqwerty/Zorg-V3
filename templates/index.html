@@ -50,10 +50,12 @@
 			<div class="carousel-item active">
 				<img src={{ url_for('static',filename='IMG-20200820-WA0001.jpg')}} width="100%" height="100%" alt="Background1">
 				<div class="carousel-caption">
-					<h1 class="display-2">WELCOME TO ZORG</h1>
-					<h3>New User? click here to register</h3>
-					<a href="/custdetails" class="btn btn-primary btn-lg">Customer</a>
-					<a href="/registermnmg" class="btn btn-primary btn-lg">Hospital Management</a>
+					<div class="col-md-3 footer-about wow fadeInUp">
+						<h1 class="display-2">WELCOME TO ZORG</h1>
+						<h3>New User? click here to register</h3>
+						<a href="/custdetails" class="btn btn-primary btn-lg">Customer</a>
+						<a href="/registermnmg" class="btn btn-primary btn-lg">Hospital Management</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -61,6 +63,7 @@
 	<hr class="my-4">
 
 	<!-- Section 2-->
+	<div class="col-md-3 footer-about wow fadeInLeft">
 	<div class="container-fluid">
 		<div class="row jumbotron">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
@@ -72,9 +75,11 @@
 			</div>
 		</div>
 	</div>
+	</div>
 	<hr class="my-4">
 
 	<!-- Section 3-->
+	<div class="col-md-3 footer-about wow fadeInRight">
 	<div class="container-fluid padding">
 	<div class="row padding">
 		<div class="col-sm-12 col-md-6 text-center centerimg2">
@@ -86,9 +91,11 @@
 		</div>
 	</div>
 	</div>
+	</div>
 	<hr class="my-4">
 	
 	<!-- Section 4-->
+	<div class="col-md-3 footer-about wow fadeInLeft">
 	<div class="container-fluid padding">
 		<div class="row jumbotron">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
@@ -102,9 +109,11 @@
 			</div>
 		</div>
 	</div>
+	</div>
 	<hr class="my-4">
 
 	<!-- Section 5-->
+	<div class="col-md-3 footer-about wow fadeInRight">
 	<div class="container-fluid padding">
 	<div class="row padding">
 		<div class="col-sm-12 col-md-6 text-center centerimg2">
@@ -116,9 +125,11 @@
 		</div>
 	</div>
 	</div>
+	</div>
 	<hr class="my-4">
 
 	<!-- Section 6-->
+	<div class="col-md-3 footer-about wow fadeInLeft">
 	<div class="container-fluid padding">
 		<div class="row jumbotron text-center">
 			<div class="col-12">
@@ -136,6 +147,7 @@
 				</script>
 			</div>
 		</div>
+	</div>
 	</div>
 
 {% extends "footer.html" %}
