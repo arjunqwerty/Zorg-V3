@@ -467,7 +467,7 @@ def accepted(username):
 def declined(username):
     if db.session.query(Orders).filter(Orders.username_cust == username).count() > 0:
         acc_or_dec = "d"
-        name_of_hptl_result = session['name']
+        name_of_hptl_result = session['username']
 
         message = f"<p>{name_of_hptl_result} has declined to help you. We are sorry.</p>"
         user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
