@@ -226,7 +226,7 @@ def dashboard():
     username = session['username']
     custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
-    if custdata.aadhar == '' or custdata.age == '' or custdata.gender == '' or custdata.prevmedrcrds == '' or custdata.address == '' or custdata.pincode == '':
+    if custdata.age == '' or custdata.gender == '' or custdata.prevmedrcrds == '' or custdata.address == '' or custdata.pincode == '':
         flash("Please fill these details","danger")
         return redirect(url_for('add_profile'))
     else:
