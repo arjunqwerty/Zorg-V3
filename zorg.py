@@ -11,9 +11,7 @@ from modules import *
 app=Flask(__name__)
 
 ENV = 'prod'
-
-developer='Arjun'
-
+developer=''
 if ENV=='dev':
     app.debug=True
     app.config['SECRET_KEY'] = 'awwfaw'
@@ -25,7 +23,6 @@ else:
     app.debug=False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://hxceiafawftfoj:be308eb925667514c2f0102ea54672bd5b11a3c6643062b2012dedc396304b36@ec2-54-237-155-151.compute-1.amazonaws.com:5432/d82ngqr88afvm9'
     app.config['SECRET_KEY'] = os.environ['secret']
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db=SQLAlchemy(app)
 
@@ -78,7 +75,6 @@ def username_predict(u,t):
             c=False
     return s
 
-
 class RegisterMnmg(db.Model):
     __tablename__ = 'hospdetails'
     namehptl = db.Column(db.String(200))
@@ -86,7 +82,6 @@ class RegisterMnmg(db.Model):
     password = db.Column(db.String(300))
     pincode = db.Column(db.String(10))
     address = db.Column(db.Text())
-
     def __init__(self, namehptl, username, password, pincode, address):
         self.namehptl = namehptl
         self.username = username
@@ -151,7 +146,7 @@ def custdetails():
         gender = ''
         prevmedrcrds = ''
         if db.session.query(CustomerDet).filter(CustomerDet.username == username).count() == 0:
-            data = CustomerDet(namecust, username, password, pincode, address, gmail_id, aadhar, age, gender, prevmedrcrds)#needs all the columns to run without errors
+            data = CustomerDet(namecust, username, password, pincode, address, gmail_id, aadhar, age, gender, prevmedrcrds)
             db.session.add(data)
             db.session.commit()
             flash('you are now registered', 'success')
@@ -321,7 +316,6 @@ def accident():
         if list_of_hosp_to_send_message != []:
             if db.session.query(Orders).filter(Orders.username_cust == username).count() == 0:
                 type='Accident'
-                #send to all hospitals at the same time
                 for hptl_username_in_vicinity in list_of_hosp_to_send_message:
                     data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.namecust, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
                     db.session.add(data)
@@ -351,7 +345,6 @@ def heartattack():
         if list_of_hosp_to_send_message != []   :
             if db.session.query(Orders).filter(Orders.username_cust == username).count() == 0:
                 type='Heart Attack'
-                #send to all hospitals at the same time
                 for hptl_username_in_vicinity in list_of_hosp_to_send_message:
                     data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.namecust, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
                     db.session.add(data)
@@ -381,7 +374,6 @@ def otherailments():
         if list_of_hosp_to_send_message != []:
             if db.session.query(Orders).filter(Orders.username_cust == username).count() == 0:
                 type='Other Ailments'
-                #send to all hospitals at the same time
                 for hptl_username_in_vicinity in list_of_hosp_to_send_message:
                     data = Orders(hptl_username_in_vicinity, username, type, profile.address, profile.namecust, profile.aadhar, profile.age, profile.gender, profile.prevmedrcrds)
                     db.session.add(data)
@@ -441,23 +433,18 @@ def accepted(username):
     if db.session.query(Orders).filter(Orders.username_cust == username).count() > 0:
         acc_or_dec = "a"
         name_of_hptl_result = session['name']
-
         message = f"<p>{name_of_hptl_result} has accepted to help you. They will arrive to your place soon.</p>"
         user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
         gmail_id = user.gmail_id
-
-        #send mail to that person!!!!! important
-        emailsend(gmail_id, message)
-        
-        #add data to past orders
+        try:
+            emailsend(gmail_id, message)
+        except:
+            flash('The person had registered with an invalid email. Could not deliver the message.', 'danger')
         user_order = db.session.query(Orders).filter(Orders.username_cust == username).first()
         data = PastOrders(name_of_hptl_result, user_order.username_cust, user_order.type, user_order.address, user_order.namecust, user_order.aadhar, user_order.age, user_order.gender, user_order.prevmedrcrds)
         db.session.add(data)
-
-        #delete data from orders
         edhavudhu = db.session.query(Orders).filter(Orders.username_cust == username).delete()
         db.session.commit()
-
         flash('You have accepted to save '+user.namecust, 'success')
         return redirect(url_for('dashboardmnmg'))
     return render_template('dashboardmnmg.html')
@@ -472,19 +459,13 @@ def declined(username):
         message = f"<p>{name_of_hptl_result} has declined to help you. We are sorry.</p>"
         user = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
         gmail_id = user.gmail_id
-
-        #send mail to that person!!!!! important
-        #emailsend(gmail_id, message)
         try:
             emailsend(gmail_id, message)
         except:
             flash('The person had registered with an invalid email. Could not deliver the message.', 'danger')
-
-        #delete data from orders
         user_order = db.session.query(Orders).filter(Orders.username_cust == username, Orders.hptl_username_in_vicinity == name_of_hptl_result).first()
         db.session.delete(user_order)
         db.session.commit()
-        
         flash('You have declined to save '+user.namecust, 'danger')
         return redirect(url_for('dashboardmnmg'))
     return render_template('dashboardmnmg.html')
@@ -509,7 +490,6 @@ def logout():
     flash('You are now logged out','success')
     return redirect(url_for('home'))
 
-# Shivaram proj
 class profileformhos(db.Model):
     __tablename__ = 'staffdetails'
     name = db.Column(db.String(200))
@@ -519,7 +499,6 @@ class profileformhos(db.Model):
     docid = db.Column(db.Integer, primary_key=True)
     spec = db.Column(db.String(200))
     hospitalid = db.Column(db.String(200))
-
     def __init__(self, name, age, gender, salary, spec, hospitalid):
         self.name = name
         self.age = age
@@ -527,7 +506,6 @@ class profileformhos(db.Model):
         self.salary = salary
         self.spec = spec
         self.hospitalid = hospitalid
-
 
 @app.route('/addprofile_hos', methods=['GET','POST'])
 @is_logged_in
@@ -574,9 +552,6 @@ def editprofilehos(docid):
         spec = request.form['spec']
         if spec != '':
             user.spec = spec
-        '''hospitalid = request.form['hospitalid']
-        if hospitalid != '':
-            user.hospitalid = hospitalid'''
         db.session.commit()
         flash('Profile Updated','success')
         return redirect(url_for('hosdetails'))
