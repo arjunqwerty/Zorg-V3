@@ -30,6 +30,12 @@ db=SQLAlchemy(app)
 def home():
     return render_template('preloader.html')
 
+
+@app.route("/sitemap.xml")
+def sitemap():
+    return render_template('sitemap.xml')
+
+
 @app.route('/index', methods=['GET','POST'])
 def index():
     return render_template('index.html')
