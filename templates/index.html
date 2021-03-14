@@ -6,8 +6,40 @@
 		<meta name="google-site-verification" content="oymJ5XfJ1oFXP05bFjm6rTF1XyKNOx1khN-9zICuTNo" />
 		<title>ZORG</title>
 		<link rel="icon" type="image/png" href="/static/Favicon.png"/>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-		<link rel="stylesheet" href="static/css/index_route.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity = "sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin = "anonymous">
+		<style>
+			h1{
+				font-style: normal;
+			}
+			.carousel-caption {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-15%);
+			}
+			.carousel-caption h1 {
+				font-size: 200%;
+				font-weight: bold;
+				text-transform: uppercase;
+				text-shadow: 1px 1px 10px #000;
+			}
+			.carousel-caption h3 {
+				font-size: 100%;
+				font-weight: 500%;
+				text-shadow: 1px 1px 10px #000;
+			}
+			.centerimg1{
+				padding-top: 8%;
+			}
+			.centerimg2{
+				padding-top: 12%;
+			}
+			.centerimg3{
+				padding-top: 20%;
+			}
+			.centerimg4{
+				padding-top: 12%;
+			}
+		</style>
 	</head>
 	<body>
 	<div id="content">
@@ -34,11 +66,11 @@
 	<div class="container-fluid">
 		<div class="row jumbotron">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
-				<div class="wow fadeInLeft"><img src={{ url_for('static',filename='Img1.jpg') }} class="img-fluid" alt="Image1">
+				<div class="wow fadeInUp"><img src={{ url_for('static',filename='Img1.jpg') }} class="img-fluid" alt="Image1">
 			</div></div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center centerimg1">
-				<div class="wow fadeInLeft"><h1>Ensure your safety</h1></div>
-				<div class="wow fadeInLeft"><h5>With Zorg, if anything happens to you (which we hope doesn't happen), hospitals near you are directly notified with the press of a button</h5></div>
+				<div class="wow fadeInUp"><h1>Ensure your safety</h1></div>
+				<div class="wow fadeInUp"><h5>With Zorg, if anything happens to you (which we hope doesn't happen), hospitals near you are directly notified with the press of a button</h5></div>
 			</div>
 		</div>
 	</div>
@@ -50,11 +82,11 @@
 	<div class="container-fluid padding">
 	<div class="row padding">
 		<div class="col-sm-12 col-md-6 text-center centerimg2">
-			<div class="wow fadeInRight"><h1>How we work</h1></div>
-			<div class="wow fadeInRight"><h5>We use python and have written over 14000 lines of code to make sure your safety comes first</h5></div>
+			<div class="wow fadeInUp"><h1>How we work</h1></div>
+			<div class="wow fadeInUp"><h5>We use python and have written over 14000 lines of code to make sure your safety comes first</h5></div>
 		</div>
 		<div class="col-md-6 text-center">
-		<div class="wow fadeInRight">
+		<div class="wow fadeInUp">
 			<img src={{ url_for('static',filename='Img2.jpg') }} class="img-fluid" alt="Image2">
 		</div>
 		</div>
@@ -67,13 +99,13 @@
 	<div class="container-fluid padding">
 		<div class="row jumbotron">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
-				<div class="wow fadeInLeft"><img src={{ url_for('static',filename='Img3.jpg') }} class="img-fluid" width="60%" alt="Image3">
+				<div class="wow fadeInUp"><img src={{ url_for('static',filename='Img3.jpg') }} class="img-fluid" width="60%" alt="Image3">
 			</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
 				<div class="centerimg3">
-					<div class="wow fadeInLeft"><h1>Who did it?</h1></div>
-					<div class="wow fadeInLeft"><h5>Just 3 friends who have big visions of saving the world from any more sorrows...</h5></div>
+					<div class="wow fadeInUp"><h1>Who did it?</h1></div>
+					<div class="wow fadeInUp"><h5>Just 3 friends who have big visions of saving the world from any more sorrows...</h5></div>
 				</div>
 			</div>
 		</div>
@@ -86,11 +118,11 @@
 	<div class="container-fluid padding">
 	<div class="row padding">
 		<div class="col-sm-12 col-md-6 text-center centerimg2">
-			<div class="wow fadeInRight"><h1>Not sure how to get started?</h1></div>
-			<div class="wow fadeInRight"><h5><a href="/route">Click here</a> to view the detailed walkthrough.</h5></div>
+			<div class="wow fadeInUp"><h1>Not sure how to get started?</h1></div>
+			<div class="wow fadeInUp"><h5><a href="/route">Click here</a> to view the detailed walkthrough.</h5></div>
 		</div>
 		<div class="col-md-6 text-center">
-			<div class="wow fadeInRight"><img src={{ url_for('static',filename='Img4.jpg') }} class="img-fluid" alt="Image4">
+			<div class="wow fadeInUp"><img src={{ url_for('static',filename='Img4.jpg') }} class="img-fluid" alt="Image4">
 		</div>
 		</div>
 	</div>
@@ -99,11 +131,11 @@
 	<hr class="my-4">
 
 	<!-- Section 6-->
-	<div class="wow fadeInLeft">
+	<div class="wow fadeInUp">
 	<div class="container-fluid padding">
 		<div class="row jumbotron text-center">
 			<div class="col-12">
-				<div class="wow fadeInLeft"><h1 class="display-5">Come, Ensure your life, Free of cost</h1></div>
+				<div class="wow fadeInUp"><h1 class="display-5">Come, Ensure your life, Free of cost</h1></div>
 			</div>
 			<div class="col-5"></div>
 			<div class="col-2">
@@ -126,11 +158,11 @@
 	<div class="container-fluid padding">
 		<div class="row padding">
 			<div class="col-sm-12 col-md-6 text-center centerimg2">
-				<div class="wow fadeInRight"><h1>Comments? Suggestions?</h1></div>
-				<div class="wow fadeInRight"><h5>We welcome your valuable suggestions. <a href="/feedback">Click here</a> to send us your feedback.</h5></div>
+				<div class="wow fadeInUp"><h1>Comments? Suggestions?</h1></div>
+				<div class="wow fadeInUp"><h5>We welcome your valuable suggestions. <a href="/feedback">Click here</a> to send us your feedback.</h5></div>
 			</div>
 			<div class="col-md-6 text-center">
-				<div class="wow fadeInRight"><img src={{ url_for('static',filename='Img5.jpg') }} class="img-fluid" alt="Image4">
+				<div class="wow fadeInUp"><img src={{ url_for('static',filename='Img5.jpg') }} class="img-fluid" alt="Image4">
 			</div>
 			</div>
 		</div>

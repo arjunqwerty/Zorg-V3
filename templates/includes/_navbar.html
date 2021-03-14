@@ -1,11 +1,4 @@
 <style>
-.font-size {
-    font-size: 100%;
-}
-
-.bold-size {
-    font-weight: 700;
-}
 .navbar {
   padding: .8rem;
 }
@@ -17,15 +10,15 @@
   font-size: 1.1em !important;
 }
 </style>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top font-size">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
   {% if session.logged_in %}
   {% if session.type == "H" %}
-  <a class="navbar-brand bold-size" href="/dashboardmnmg">Z O R G</a>
+  <a class="navbar-brand" href="/dashboardmnmg">Z O R G</a>
   {% else %}
-  <a class="navbar-brand bold-size" href="/dashboard">Z O R G</a>
+  <a class="navbar-brand" href="/dashboard">Z O R G</a>
   {% endif %}
   {% else %}
-  <a class="navbar-brand bold-size" href="/">Z O R G</a>
+  <a class="navbar-brand" href="/">Z O R G</a>
   {% endif %}
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -34,6 +27,7 @@
     <ul class="navbar-nav navbar-right ml-auto">
       {% if session.logged_in %}
         {% if session.type == "H" %}
+          <!--<li><a class="nav-link active" href="/kindly">Update hospital details</a></li>-->
           <li><a class="nav-link active" href="/patienthistory">Past Requests</a></li>
           <li><a class="nav-link active" href="/hosdetails">Hospital Management</a></li>
           {% else %}
