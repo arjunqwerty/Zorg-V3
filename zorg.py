@@ -10,8 +10,8 @@ from modules import *
 
 app=Flask(__name__)
 
-ENV = 'dev'
-developer='Arjun'
+ENV = 'prod'
+developer=''
 if ENV=='dev':
     app.debug=True
     app.config['SECRET_KEY'] = 'awwfaw'
