@@ -10,8 +10,8 @@ from modules import *
 
 app=Flask(__name__)
 
-ENV = 'prod'
-developer=''
+ENV = 'dev'
+developer='Arjun'
 if ENV=='dev':
     app.debug=True
     app.config['SECRET_KEY'] = 'awwfaw'
@@ -29,12 +29,6 @@ db=SQLAlchemy(app)
 @app.route('/', methods=['GET','POST'])
 def home():
     return render_template('preloader.html')
-
-
-@app.route("/sitemap.xml")
-def sitemap():
-    return render_template('sitemap.xml')
-
 
 @app.route('/index', methods=['GET','POST'])
 def index():
