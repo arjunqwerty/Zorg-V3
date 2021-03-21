@@ -2,10 +2,8 @@ from flask import Flask, render_template, flash, redirect, url_for, session, log
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import sha256_crypt as sa
-import csv
 import os
 import random
-import math
 from modules import *
 
 app=Flask(__name__)
@@ -49,30 +47,18 @@ def feedback():
         return render_template('feedback.html')
     return render_template('feedback.html')
 
-@app.route('/footer',methods=['GET','POST'])
-def footer():
-    return render_template('footer.html')
-    
 @app.route('/route', methods=['GET','POST'])
 def route():
     return render_template('route.html')
 
-@app.route('/google91184105f55d44d3')
-def google91184105f55d44d3():
-    return render_template('google91184105f55d44d3.html')
-
-@app.route('/.well-known/pki-validation/22BF78F1880472211C2C4580C3EBCEF4.txt')
-def ssl():
-    return render_template('ssl.html')
-
 def username_predict(u,t):
-    c=True
+    c = True
     while c:
         if not db.session.query(t).filter(t.username == u).count() == 0:
-            x=random.randint(0,6000)
-            u+=str(x)
-            s=". Try "+u
-            c=False
+            x = random.randint(0,6000)
+            u += str(x)
+            s = ". Try " + u
+            c = False
     return s
 
 class RegisterMnmg(db.Model):
@@ -88,14 +74,14 @@ class RegisterMnmg(db.Model):
         self.password = password
         self.pincode = pincode
         self.address = address
-        
+
 @app.route('/registermnmg', methods=['GET','POST'])
 def registermnmg():
     if request.method == 'POST':
-        namehptl = request.form['namehptl'] 
+        namehptl = request.form['namehptl']
         username = request.form['username']
         password = sa.hash(request.form['password'])
-        pincode = request.form['pincode'] 
+        pincode = request.form['pincode']
         address = request.form['address']
         if db.session.query(RegisterMnmg).filter(RegisterMnmg.username == username).count() == 0:
             data = RegisterMnmg(namehptl, username, password, pincode, address)
@@ -135,7 +121,7 @@ class CustomerDet(db.Model):
 @app.route('/custdetails', methods=['GET','POST'])
 def custdetails():
     if request.method == 'POST':
-        namecust = request.form['namecust'] 
+        namecust = request.form['namecust']
         username = request.form['username']
         password = sa.hash(request.form['password'])
         gmail_id = request.form['gmail_id']
@@ -153,7 +139,7 @@ def custdetails():
             return redirect(url_for('logincustomer'))
         else:
             flash("Username already exists"+username_predict(username, CustomerDet), 'danger')
-    return render_template('recust.html')    
+    return render_template('recust.html')
 
 @app.route('/loginmanagement', methods=['GET','POST'])
 def loginmanagement():
@@ -226,7 +212,7 @@ def dashboard():
         return redirect(url_for('add_profile'))
     else:
         return render_template('dashboard.html', custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).all())
-    return render_template('dashboard.html')  
+    return render_template('dashboard.html')
 
 @app.route('/add_profile', methods=['GET','POST'])
 @is_logged_in
@@ -297,7 +283,7 @@ class Orders(db.Model):
         self.type = type
         self.address = address
         self.namecust = namecust
-        self.aadhar = aadhar 
+        self.aadhar = aadhar
         self.age = age
         self.gender = gender
         self.prevmedrcrds = prevmedrcrds
@@ -308,7 +294,7 @@ def accident():
     username = session['username']
     list_of_hosp_to_send_message = []
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
-    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode = profile.pincode).all() 
+    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode = profile.pincode).all()
     db.session.commit()
     for hospital in hospital_to_send_request:
         list_of_hosp_to_send_message.append(hospital.username)
@@ -337,7 +323,7 @@ def heartattack():
     username = session['username']
     list_of_hosp_to_send_message = []
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
-    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode = profile.pincode).all() 
+    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode = profile.pincode).all()
     db.session.commit()
     for hospital in hospital_to_send_request:
         list_of_hosp_to_send_message.append(hospital.username)
@@ -366,7 +352,7 @@ def otherailments():
     username = session['username']
     list_of_hosp_to_send_message = []
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
-    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode = profile.pincode).all() 
+    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode = profile.pincode).all()
     db.session.commit()
     for hospital in hospital_to_send_request:
         list_of_hosp_to_send_message.append(hospital.username)
@@ -388,7 +374,6 @@ def otherailments():
         flash('please fill in your details so that we can send it to the hospitals','danger')
         return redirect(url_for('add_profile'))
     return render_template('request_sent.html')
-
 
 class PastOrders(db.Model):
     __tablename__ = 'pastorders'
@@ -589,6 +574,6 @@ def displaytables(number):
         flash("No such table exists","danger")
         return redirect(url_for('home'))
     return render_template('displaytables.html')
-    
+
 if __name__=='__main__':
-    app.run() 
+    app.run()
