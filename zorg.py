@@ -4,7 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import sha256_crypt as sa
 import os
 import random
-from modules import *
+import smtplib
+from email.mime.text import MIMEText
 
 app = Flask(__name__)
 
@@ -23,6 +24,25 @@ else:
     app.config['SECRET_KEY'] = os.environ['secret']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db=SQLAlchemy(app)
+
+def emailsend(to,mssg):
+    port = 2525
+    smtp_server = 'smtp.mailtrap.io'
+    login = '18cc8c2ea71e43'
+    password = '27abc8c416d687'
+    #username_mail = 'zorg123546@gmail.com'
+    #password = 'zorg87654321'
+
+    sender_email = 'zorg123546@gmail.com'
+
+    message = MIMEText(mssg, 'html')
+    message['Subject'] = 'Zorg'
+    message['From'] = sender_email
+    message['To'] = str(to)
+
+    with smtplib.SMTP(smtp_server, port) as server:
+        server.login(login,password)
+        server.sendmail(sender_email, to, message.as_string())
 
 @app.route('/', methods=['GET','POST'])
 def home():
