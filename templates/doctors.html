@@ -1,30 +1,29 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <h1>Dashboard <small>Welcome {{session.name}}</small></h1>
-  <table class="table table-striped">
-    <tr>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Gender</th>
-      <th>Salary</th>
-      <th>Specialization</th>
-      <th>Doc id</th>
-      <th><a href="/addprofile_hos" class="btn btn-default pull-right">Add</a></th>
-    </tr>
-    {% for custdata in custdata %}
-      {% if session.name == session.name %}
-        <tr>
-          <td>{{custdata.name}}</td>
-          <td>{{custdata.age}}</td>
-          <td>{{custdata.gender}}</td>
-          <td>{{custdata.salary}}</td>
-          <td>{{custdata.spec}}</td>
-          <td>{{custdata.docid}}</td>
-          <td><a href="/editprofilehos/{{custdata.docid}}" class="btn btn-default pull-right">Edit</a></td>
-        </tr>
-      {% endif %}
-    {% endfor %}
-  </table>
-
+	<h1>Dashboard <small>Welcome {{session.name}}</small></h1>
+	<table class="table table-striped">
+		<tr>
+			<th>Name</th>
+			<th>Age</th>
+			<th>Gender</th>
+			<th>Salary</th>
+			<th>Specialization</th>
+			<th>Doc id</th>
+			<th><a href="/addprofile_hos" class="btn btn-default pull-right">Add</a></th>
+		</tr>
+		{% for custdata in custdata %}
+			{% if session.name == session.name %}
+				<tr>
+					<td>{{custdata.name}}</td>
+					<td>{{custdata.age}}</td>
+					<td>{{custdata.gender}}</td>
+					<td>{{custdata.salary}}</td>
+					<td>{{custdata.spec}}</td>
+					<td>{{custdata.docid}}</td>
+					<td><a href="/editprofilehos/{{custdata.docid}}" class="btn btn-default pull-right">Edit</a></td>
+				</tr>
+			{% endif %}
+		{% endfor %}
+	</table>
 {% endblock %}

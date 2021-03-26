@@ -1,32 +1,31 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <h1>Dashboard <small>Welcome {{session.name}}</small></h1>
-  <table class="table table-striped">
-    <tr>
-      <th>Username</th>
-      <th>Phone number</th>
-      <th>Type</th>
-      <th>Address</th>
-      <th>Age</th>
-      <th>Gender</th>
-      <th>Previous Medical Records</th>
-      <th></th>
-      <th></th>
-    </tr>
-    {% for profile in profile %}
-      <tr>
-        <td>{{profile.username_cust}}</td>
-        <td>{{profile.aadhar}}</td>
-        <td>{{profile.type}}</td>
-        <td>{{profile.address}}</td>
-        <td>{{profile.age}}</td>
-        <td>{{profile.gender}}</td>
-        <td>{{profile.prevmedrcrds}}</td>
-        <td><a href="/accepted/{{profile.username_cust}}" class="btn btn-success pull-right">Accept</a></td>
-        <td><a href="/declined/{{profile.username_cust}}" class="btn btn-danger pull-right">Decline</a></td>
-      </tr>
-    {% endfor %}
-  </table>
-
+	<h1>Dashboard <small>Welcome {{session.name}}</small></h1>
+	<table class="table table-striped">
+		<tr>
+			<th>Username</th>
+			<th>Phone number</th>
+			<th>Type</th>
+			<th>Address</th>
+			<th>Age</th>
+			<th>Gender</th>
+			<th>Previous Medical Records</th>
+			<th></th>
+			<th></th>
+		</tr>
+		{% for profile in profile %}
+			<tr>
+				<td>{{profile.username_cust}}</td>
+				<td>{{profile.aadhar}}</td>
+				<td>{{profile.type}}</td>
+				<td>{{profile.address}}</td>
+				<td>{{profile.age}}</td>
+				<td>{{profile.gender}}</td>
+				<td>{{profile.prevmedrcrds}}</td>
+				<td><a href="/accepted/{{profile.username_cust}}" class="btn btn-success pull-right">Accept</a></td>
+				<td><a href="/declined/{{profile.username_cust}}" class="btn btn-danger pull-right">Decline</a></td>
+			</tr>
+		{% endfor %}
+	</table>
 {% endblock %}

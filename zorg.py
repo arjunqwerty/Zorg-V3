@@ -2,25 +2,23 @@ from flask import Flask, render_template, flash, redirect, url_for, session, log
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import sha256_crypt as sa
-import csv
 import os
 import random
-import math
 from modules import *
 
-app=Flask(__name__)
+app = Flask(__name__)
 
-ENV = 'prod'
-developer=''
-if ENV=='dev':
-    app.debug=True
+ENV = 'dev'
+developer = ''
+if ENV == 'dev':
+    app.debug = True
     app.config['SECRET_KEY'] = 'awwfaw'
-    if developer=='Arjun':
+    if developer == 'Arjun':
         app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Postgre-arj4703@localhost/Zorg'
-    elif developer=='Tarun':
+    elif developer == 'Tarun':
         app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Tarun@postgresql@localhost/Zorg'
 else:
-    app.debug=False
+    app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://hxceiafawftfoj:be308eb925667514c2f0102ea54672bd5b11a3c6643062b2012dedc396304b36@ec2-54-237-155-151.compute-1.amazonaws.com:5432/d82ngqr88afvm9'
     app.config['SECRET_KEY'] = os.environ['secret']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
@@ -29,12 +27,6 @@ db=SQLAlchemy(app)
 @app.route('/', methods=['GET','POST'])
 def home():
     return render_template('preloader.html')
-
-
-@app.route("/sitemap.xml")
-def sitemap():
-    return render_template('sitemap.xml')
-
 
 @app.route('/index', methods=['GET','POST'])
 def index():
@@ -48,37 +40,28 @@ def feedback():
         try:
             emailsend(mailid, "Feedback Submitted:\n"+feedback)
             flash('Your response has been recorded','success')
-            return redirect(url_for('home'))
+            if ENV == "dev":
+                return redirect(url_for('index'))
+            else:
+                return redirect(url_for('home'))
         except:
             flash('Please enter all the details asked for','danger')
             return render_template('feedback.html')
         return render_template('feedback.html')
     return render_template('feedback.html')
 
-@app.route('/footer',methods=['GET','POST'])
-def footer():
-    return render_template('footer.html')
-    
 @app.route('/route', methods=['GET','POST'])
 def route():
     return render_template('route.html')
 
-@app.route('/google91184105f55d44d3')
-def google91184105f55d44d3():
-    return render_template('google91184105f55d44d3.html')
-
-@app.route('/.well-known/pki-validation/22BF78F1880472211C2C4580C3EBCEF4.txt')
-def ssl():
-    return render_template('ssl.html')
-
 def username_predict(u,t):
-    c=True
+    c = True
     while c:
         if not db.session.query(t).filter(t.username == u).count() == 0:
-            x=random.randint(0,6000)
-            u+=str(x)
-            s=". Try "+u
-            c=False
+            x = random.randint(0,6000)
+            u += str(x)
+            s = ". Try " + u
+            c = False
     return s
 
 class RegisterMnmg(db.Model):
@@ -395,7 +378,6 @@ def otherailments():
         return redirect(url_for('add_profile'))
     return render_template('request_sent.html')
 
-
 class PastOrders(db.Model):
     __tablename__ = 'pastorders'
     number = db.Column(db.Integer, primary_key=True)
@@ -496,7 +478,7 @@ def logout():
     flash('You are now logged out','success')
     return redirect(url_for('home'))
 
-class profileformhos(db.Model):
+class ProfileFormHos(db.Model):
     __tablename__ = 'staffdetails'
     name = db.Column(db.String(200))
     age = db.Column(db.String(20))
@@ -524,13 +506,13 @@ def addprofile_hos():
         salary = request.form['salary']
         spec = request.form['spec']
         hospitalid = username
-        if db.session.query(profileformhos).filter(profileformhos.name == name).count() != 0:
-            userdata = db.session.query(profileformhos).filter(profileformhos.name == name).first()
+        if db.session.query(ProfileFormHos).filter(ProfileFormHos.name == name).count() != 0:
+            userdata = db.session.query(ProfileFormHos).filter(ProfileFormHos.name == name).first()
             if userdata.age == age and userdata.gender == gender and userdata.salary == salary and userdata.spec == spec and userdata.hospitalid == hospitalid:
                 flash('Worker already exists','danger')
                 return redirect(url_for('hosdetails'))
         else:
-            data = profileformhos(name, age, gender, salary, spec, hospitalid)
+            data = ProfileFormHos(name, age, gender, salary, spec, hospitalid)
             db.session.add(data)
             db.session.commit()
             flash('Profile Created', 'success')
@@ -540,7 +522,7 @@ def addprofile_hos():
 @app.route('/editprofilehos/<docid>', methods=['GET','POST'])
 @is_logged_in
 def editprofilehos(docid):
-    user = db.session.query(profileformhos).filter(profileformhos.docid == docid).first()
+    user = db.session.query(ProfileFormHos).filter(ProfileFormHos.docid == docid).first()
     db.session.commit()
     if request.method == 'POST':
         name = request.form['name']
@@ -561,11 +543,11 @@ def editprofilehos(docid):
         db.session.commit()
         flash('Profile Updated','success')
         return redirect(url_for('hosdetails'))
-    return render_template('editprofilehos.html',profile = db.session.query(profileformhos).filter(profileformhos.docid == docid).all())
+    return render_template('editprofilehos.html',profile = db.session.query(ProfileFormHos).filter(ProfileFormHos.docid == docid).all())
 
 @app.route('/deletedoc/<docid>',methods=['GET','POST'])
 def deletedoc(docid):
-    data = db.session.query(profileformhos).filter(profileformhos.docid == docid).first()
+    data = db.session.query(ProfileFormHos).filter(ProfileFormHos.docid == docid).first()
     db.session.delete(data)
     db.session.commit()
     return redirect(url_for('hosdetails'))
@@ -574,9 +556,9 @@ def deletedoc(docid):
 @is_logged_in
 def hosdetails():
     username = session['username']
-    help = db.session.query(profileformhos).filter(profileformhos.hospitalid == username).first()
+    help = db.session.query(ProfileFormHos).filter(ProfileFormHos.hospitalid == username).first()
     db.session.commit()
-    return render_template('doctors.html', custdata = db.session.query(profileformhos).filter(profileformhos.hospitalid == username).all())
+    return render_template('doctors.html', custdata = db.session.query(ProfileFormHos).filter(ProfileFormHos.hospitalid == username).all())
 
 @app.route('/displaytables/<number>',methods=['GET','POST'])
 def displaytables(number):
@@ -590,11 +572,132 @@ def displaytables(number):
     elif number == '4':
         return render_template('displaytables.html', pastorders = db.session.query(PastOrders).all())
     elif number == '5':
-        return render_template('displaytables.html', ProfileFormHos = db.session.query(profileformhos).all())
+        return render_template('displaytables.html', profileformhos = db.session.query(ProfileFormHos).all())
     else:
         flash("No such table exists","danger")
         return redirect(url_for('home'))
     return render_template('displaytables.html')
     
+hospital_list = [['Newlife Hospital','newlife123','newlife123','123456','Chennai'],['Medwin Cares Hospital','medwin123','medwin123','321654','Vellore'],['Red Star Hospital','redstar123','redstar123','123456','Madurai'],['Angel Care Hospital','angel123','angel123','321654','Trichy']]
+customer_list = [['1','James','james123','james123','123456','Chennai','james@mail.com','123456789123456','25','M','Fever'],['2','Mary','mary123','mary123','321654','Vellore','mary@mail.com','321654987321654','27','F','Cholera'],['3','John','john123','john123','123456','Madurai','john@mail.com','147258369147258','34','M','Diahorea'],['4','Julie','julie123','julie123','321654','Trichy','julie@mail.com','369258147369258','29','F','Jaundice']]
+staff_list = [['David','34','M','50000','Cardiology','newlife123'],['Lisa','30','F','60000','Oncolgy','newlife123'],['Charles','47','M','55000','Neurology','newlife123'],['Karen','43','F','75000','Urology','newlife123'],['Thomas','44','M','65000','Gastroenterology','medwin123'],['Emily','41','F','60000','Gynaecology','medwin123'],['Donald','39','M','70000','Endocrinology','medwin123'],['Nancy','45','F','80000','Nephrology','medwin123'],['Gary','49','M','90000','Neurology','medwin123'],['Amy','38','F','85000','Physiotherapy','redstar123'],['Nick','31','M','80000','Psychiatry','redstar123'],['Carol','36','F','75000','Urology','redstar123'],['Ryan','40','M','70000','Ophthalmology','angel123'],['Helen','42','F','65000','Neonatology','angel123'],['Justin','44','M','80000','Anaesthesia','angel123'],['Emma','48','F','75000','ENT','angel123'],['Gary','51','M','65000','Dermatology','angel123']]
+
+@app.route("/defaultable", methods=['GET','POST'])
+def defaultable():
+    db.session.query(RegisterMnmg).delete()
+    db.session.query(CustomerDet).delete()
+    db.session.query(Orders).delete()
+    db.session.query(PastOrders).delete()
+    db.session.query(ProfileFormHos).delete()
+    addreghospital(hospital_list)
+    addregcustomer(customer_list)
+    addhospitaldet(staff_list)
+    db.session.commit()
+    return redirect(url_for('index'))
+
+def addreghospital(hospital_list):
+    if len(hospital_list) == 0:
+        chumma = 0
+    else:
+        row = hospital_list[0]
+        data = RegisterMnmg(row[0],row[1],sa.hash(row[2]),row[3],row[4])
+        db.session.add(data)
+        db.session.commit()
+        list1 = []
+        for i in range(len(hospital_list)):
+            if i > 0:
+                list1.append(hospital_list[i])
+        addreghospital(list1)
+
+def addregcustomer(customer_list):
+    if len(customer_list) == 0:
+        chumma = 0
+    else:
+        row = customer_list[0]
+        data = CustomerDet(row[1],row[2],sa.hash(row[3]),row[4],row[5],row[6],row[7],row[8],row[9],row[10])
+        db.session.add(data)
+        db.session.commit()
+        list2 = []
+        for j in range(len(customer_list)):
+            if j > 0:
+                list2.append(customer_list[j])
+        addregcustomer(list2)
+
+def addhospitaldet(staff_list):
+    if len(staff_list) == 0:
+        chumma = 0
+    else:
+        row = staff_list[0]
+        data = ProfileFormHos(row[0],row[1],row[2],row[3],row[4],row[5])
+        db.session.add(data)
+        db.session.commit()
+        list3 = []
+        for k in range(len(staff_list)):
+            if k > 0:
+                list3.append(staff_list[k])
+        addhospitaldet(list3)
+
+@app.route("/deletetables", methods=['GET','POST'])
+def deletetables():
+    db.session.query(HospitalDet).delete()
+    db.session.query(CustomerDet).delete()
+    db.session.query(Orders).delete()
+    db.session.query(PastOrders).delete()
+    db.session.query(StaffDet).delete()
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route("/deletetablerow/<number>", methods=['GET','POST'])
+def deletetablerow(number):
+    session['number'] = number
+    if number == '1':
+        return render_template('deletetablerow.html', registermnmg = db.session.query(RegisterMnmg).all())
+    elif number == '2':
+        return render_template('deletetablerow.html', customerdet = db.session.query(CustomerDet).all())
+    elif number == '3':
+        return render_template('deletetablerow.html', orders = db.session.query(Orders).all())
+    elif number == '4':
+        return render_template('deletetablerow.html', pastorders = db.session.query(PastOrders).all())
+    elif number == '5':
+        return render_template('deletetablerow.html', profileformhos = db.session.query(ProfileFormHos).all())
+    else:
+        flash("No such table exists","danger")
+        return redirect(url_for('index'))
+    return render_template("deletetablerow.html")
+
+@app.route("/deleterow/<chumma>", methods=['GET','POST'])
+def deleterow(chumma):
+    number = session['number']
+    session['chumma'] = chumma
+    if number == '1':
+        data = db.session.query(RegisterMnmg).filter(RegisterMnmg.username == chumma).first()
+        db.session.delete(data)
+        db.session.commit()
+        return redirect(url_for('deletetablerow', number='1'))
+    elif number == '2':
+        data = db.session.query(CustomerDet).filter(CustomerDet.username == chumma).first()
+        db.session.delete(data)
+        db.session.commit()
+        return redirect(url_for('deletetablerow', number='2'))
+    elif number == '3':
+        data = db.session.query(Orders).filter(Orders.number == chumma).first()
+        db.session.delete(data)
+        db.session.commit()
+        return redirect(url_for('deletetablerow', number='3'))
+    elif number == '4':
+        data = db.session.query(PastOrders).filter(PastOrders.number == chumma).first()
+        db.session.delete(data)
+        db.session.commit()
+        return redirect(url_for('deletetablerow', number='4'))
+    elif number == '5':
+        data = db.session.query(ProfileFormHos).filter(ProfileFormHos.docid == chumma).first()
+        db.session.delete(data)
+        db.session.commit()
+        return redirect(url_for('deletetablerow', number='5'))
+    else:
+        flash("No such table exists","danger")
+        return redirect(url_for('index'))
+    return render_template("deletetablerow.html")
+
 if __name__=='__main__':
     app.run() 
