@@ -1,0 +1,161 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+{% if session.number == '1' %}
+  <h1>Hospital Details</h1>
+  <table class="table table-striped">
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Pincode</th>
+      <th>Address</th>
+    </tr>
+    {% for registermnmg in registermnmg %}
+    <tr>
+      <td><a href="/deleterow/{{registermnmg.username}}" class="btn btn-default">Delete</a></td>
+      <td>{{registermnmg.namehptl}}</td>
+      <td>{{registermnmg.username}}</td>
+      <td>{{registermnmg.password}}</td>
+      <td>{{registermnmg.pincode}}</td>
+      <td>{{registermnmg.address}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+{% if session.number == '2' %}
+  <h1>Customer Details</h1>
+  <table class="table table-striped">
+    <tr>
+      <th></th>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Pincode</th>
+      <th>Address</th>
+      <th>Mail Id</th>
+      <th>Aadhar No.</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Prevmedrcrds</th>
+    </tr>
+    {% for customerdet in customerdet %}
+    <tr>
+      <td><a href="/deleterow/{{customerdet.username}}" class="btn btn-default">Delete</a></td>
+      <td>{{customerdet.custid}}</td>
+      <td>{{customerdet.namecust}}</td>
+      <td>{{customerdet.username}}</td>
+      <td>{{customerdet.password}}</td>
+      <td>{{customerdet.pincode}}</td>
+      <td>{{customerdet.address}}</td>
+      <td>{{customerdet.gmail_id}}</td>
+      <td>{{customerdet.aadhar}}</td>
+      <td>{{customerdet.age}}</td>
+      <td>{{customerdet.gender}}</td>
+      <td>{{customerdet.prevmedrcrds}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+{% if session.number == '3' %}
+  <h1>Orders Details</h1>
+  <table class="table table-striped">
+    <tr>
+      <th></th>
+      <th>ID</th>
+      <th>Hospitals</th>
+      <th>Cust Username</th>
+      <th>Type</th>
+      <th>Address</th>
+      <th>Cust name</th>
+      <th>Aadhar No.</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Prevmedrcrds</th>
+    </tr>
+    {% for orders in orders %}
+    <tr>
+      <td><a href="/deleterow/{{orders.number}}" class="btn btn-default">Delete</a></td>
+      <td>{{orders.number}}</td>
+      <td>{{orders.hptl_username_in_vicinity}}</td>
+      <td>{{orders.username_cust}}</td>
+      <td>{{orders.type}}</td>
+      <td>{{orders.address}}</td>
+      <td>{{orders.namecust}}</td>
+      <td>{{orders.aadhar}}</td>
+      <td>{{orders.age}}</td>
+      <td>{{orders.gender}}</td>
+      <td>{{orders.prevmedrcrds}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+
+{% if session.number == '4' %}
+  <h1>Past Orders Details</h1>
+  <table class="table table-striped">
+    <tr>
+      <th></th>
+      <th>ID</th>
+      <th>Hospitals</th>
+      <th>Cust Username</th>
+      <th>Type</th>
+      <th>Address</th>
+      <th>Cust name</th>
+      <th>Aadhar No.</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Prevmedrcrds</th>
+    </tr>
+    {% for pastorders in pastorders %}
+    <tr>
+      <td><a href="/deleterow/{{pastorders.number}}" class="btn btn-default">Delete</a></td>
+      <td>{{pastorders.number}}</td>
+      <td>{{pastorders.name_of_hptl_accepting_responsibilty}}</td>
+      <td>{{pastorders.username_cust}}</td>
+      <td>{{pastorders.type}}</td>
+      <td>{{pastorders.address}}</td>
+      <td>{{pastorders.namecust}}</td>
+      <td>{{pastorders.aadhar}}</td>
+      <td>{{pastorders.age}}</td>
+      <td>{{pastorders.gender}}</td>
+      <td>{{pastorders.prevmedrcrds}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+{% if session.number == '5' %}
+  <h1>Staff Details</h1>
+  <table class="table table-striped">
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Salary</th>
+      <th>Doc id</th>
+      <th>Sepcification</th>
+      <th>Hospital id</th>
+    </tr>
+    {% for profileformhos in profileformhos %}
+    <tr>
+      <td><a href="/deleterow/{{profileformhos.docid}}" class="btn btn-default">Delete</a></td>
+      <td>{{profileformhos.name}}</td>
+      <td>{{profileformhos.age}}</td>
+      <td>{{profileformhos.gender}}</td>
+      <td>{{profileformhos.salary}}</td>
+      <td>{{profileformhos.docid}}</td>
+      <td>{{profileformhos.spec}}</td>
+      <td>{{profileformhos.hospitalid}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+{% endblock %}
