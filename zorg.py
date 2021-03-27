@@ -9,8 +9,8 @@ from email.mime.text import MIMEText
 
 app = Flask(__name__)
 
-ENV = 'prod'
-developer = ''
+ENV = 'dev'
+developer = 'Arjun'
 if ENV == 'dev':
     app.debug = True
     app.config['SECRET_KEY'] = 'awwfaw'
@@ -30,11 +30,7 @@ def emailsend(to,mssg):
     smtp_server = 'smtp.mailtrap.io'
     login = '18cc8c2ea71e43'
     password = '27abc8c416d687'
-    #username_mail = 'zorg123546@gmail.com'
-    #password = 'zorg87654321'
-
     sender_email = 'zorg123546@gmail.com'
-
     message = MIMEText(mssg, 'html')
     message['Subject'] = 'Zorg'
     message['From'] = sender_email
@@ -46,10 +42,13 @@ def emailsend(to,mssg):
 
 @app.route('/', methods=['GET','POST'])
 def home():
+    if ENV == "dev":
+        return redirect(url_for("index"))
     return render_template('preloader.html')
 
 @app.route('/index', methods=['GET','POST'])
 def index():
+    session['ENV'] = ENV
     return render_template('index.html')
 
 @app.route('/feedback', methods=['GET','POST'])

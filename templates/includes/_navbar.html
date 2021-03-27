@@ -24,7 +24,11 @@
 			<a class="navbar-brand bold-size" href="/dashboard">Z O R G</a>
 		{% endif %}
 	{% else %}
-		<a class="navbar-brand bold-size" href="/">Z O R G</a>
+		{% if session.ENV == "dev" %}
+			<a class="navbar-brand bold-size" href="/index">Z O R G</a>
+		{% else %}
+			<a class="navbar-brand bold-size" href="/">Z O R G</a>
+		{% endif %}
 	{% endif %}
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
