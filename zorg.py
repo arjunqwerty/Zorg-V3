@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 
 app = Flask(__name__)
 
-ENV = 'prod'
+ENV = 'dev'
 developer = 'Arjun'
 if ENV == 'dev':
     app.debug = True
@@ -73,6 +73,46 @@ def feedback():
 def route():
     return render_template('route.html')
 
+@app.route("/sitemap")
+@app.route("/sitemap/")
+@app.route("/sitemap.xml")
+def sitemap():
+    """
+        Route to dynamically generate a sitemap of your website/application.
+        lastmod and priority tags omitted on static pages.
+        lastmod included on dynamic content such as blog posts.
+    """
+    from flask import make_response, request, render_template
+    import datetime
+    from urllib.parse import urlparse
+
+    host_components = urlparse(request.host_url)
+    host_base = host_components.scheme + "://" + host_components.netloc
+
+    # Static routes with static content
+    static_urls = list()
+    for rule in app.url_map.iter_rules():
+        if not str(rule).startswith("/admin") and not str(rule).startswith("/user"):
+            if "GET" in rule.methods and len(rule.arguments) == 0:
+                url = {"loc": f"{host_base}{str(rule)}"}
+                static_urls.append(url)
+
+    # Dynamic routes with dynamic content
+    try:
+        dynamic_urls = list()
+        blog_posts = Post.objects(published=True)
+        for post in blog_posts:
+            url = {"loc": f"{host_base}/blog/{post.category.name}/{post.url}", "lastmod": post.date_published.strftime("%Y-%m-%dT%H:%M:%SZ")}
+            dynamic_urls.append(url)
+        xml_sitemap = render_template("sitemap.xml", static_urls=static_urls, dynamic_urls=dynamic_urls, host_base=host_base)
+    except:
+        xml_sitemap = render_template("sitemap.xml", static_urls=static_urls, host_base=host_base)
+
+    response = make_response(xml_sitemap)
+    response.headers["Content-Type"] = "application/xml"
+
+    return response
+
 def username_predict(u,t):
     c = True
     while c:
@@ -96,14 +136,14 @@ class RegisterMnmg(db.Model):
         self.password = password
         self.pincode = pincode
         self.address = address
-        
+
 @app.route('/registermnmg', methods=['GET','POST'])
 def registermnmg():
     if request.method == 'POST':
-        namehptl = request.form['namehptl'] 
+        namehptl = request.form['namehptl']
         username = request.form['username']
         password = sa.hash(request.form['password'])
-        pincode = request.form['pincode'] 
+        pincode = request.form['pincode']
         address = request.form['address']
         if db.session.query(RegisterMnmg).filter(RegisterMnmg.username == username).count() == 0:
             data = RegisterMnmg(namehptl, username, password, pincode, address)
@@ -143,7 +183,7 @@ class CustomerDet(db.Model):
 @app.route('/custdetails', methods=['GET','POST'])
 def custdetails():
     if request.method == 'POST':
-        namecust = request.form['namecust'] 
+        namecust = request.form['namecust']
         username = request.form['username']
         password = sa.hash(request.form['password'])
         gmail_id = request.form['gmail_id']
@@ -161,7 +201,7 @@ def custdetails():
             return redirect(url_for('logincustomer'))
         else:
             flash("Username already exists"+username_predict(username, CustomerDet), 'danger')
-    return render_template('recust.html')    
+    return render_template('recust.html')
 
 @app.route('/loginmanagement', methods=['GET','POST'])
 def loginmanagement():
@@ -234,7 +274,7 @@ def dashboard():
         return redirect(url_for('add_profile'))
     else:
         return render_template('dashboard.html', custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).all())
-    return render_template('dashboard.html')  
+    return render_template('dashboard.html')
 
 @app.route('/add_profile', methods=['GET','POST'])
 @is_logged_in
@@ -305,7 +345,7 @@ class Orders(db.Model):
         self.type = type
         self.address = address
         self.namecust = namecust
-        self.aadhar = aadhar 
+        self.aadhar = aadhar
         self.age = age
         self.gender = gender
         self.prevmedrcrds = prevmedrcrds
@@ -316,7 +356,7 @@ def accident():
     username = session['username']
     list_of_hosp_to_send_message = []
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
-    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode = profile.pincode).all() 
+    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode = profile.pincode).all()
     db.session.commit()
     for hospital in hospital_to_send_request:
         list_of_hosp_to_send_message.append(hospital.username)
@@ -345,7 +385,7 @@ def heartattack():
     username = session['username']
     list_of_hosp_to_send_message = []
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
-    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode = profile.pincode).all() 
+    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode = profile.pincode).all()
     db.session.commit()
     for hospital in hospital_to_send_request:
         list_of_hosp_to_send_message.append(hospital.username)
@@ -374,7 +414,7 @@ def otherailments():
     username = session['username']
     list_of_hosp_to_send_message = []
     profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
-    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode = profile.pincode).all() 
+    hospital_to_send_request = db.session.query(RegisterMnmg).filter_by(pincode = profile.pincode).all()
     db.session.commit()
     for hospital in hospital_to_send_request:
         list_of_hosp_to_send_message.append(hospital.username)
@@ -596,7 +636,7 @@ def displaytables(number):
         flash("No such table exists","danger")
         return redirect(url_for('home'))
     return render_template('displaytables.html')
-    
+
 hospital_list = [['Newlife Hospital','newlife123','newlife123','123456','Chennai'],['Medwin Cares Hospital','medwin123','medwin123','321654','Vellore'],['Red Star Hospital','redstar123','redstar123','123456','Madurai'],['Angel Care Hospital','angel123','angel123','321654','Trichy']]
 customer_list = [['1','James','james123','james123','123456','Chennai','james@mail.com','123456789123456','25','M','Fever'],['2','Mary','mary123','mary123','321654','Vellore','mary@mail.com','321654987321654','27','F','Cholera'],['3','John','john123','john123','123456','Madurai','john@mail.com','147258369147258','34','M','Diahorea'],['4','Julie','julie123','julie123','321654','Trichy','julie@mail.com','369258147369258','29','F','Jaundice']]
 staff_list = [['David','34','M','50000','Cardiology','newlife123'],['Lisa','30','F','60000','Oncolgy','newlife123'],['Charles','47','M','55000','Neurology','newlife123'],['Karen','43','F','75000','Urology','newlife123'],['Thomas','44','M','65000','Gastroenterology','medwin123'],['Emily','41','F','60000','Gynaecology','medwin123'],['Donald','39','M','70000','Endocrinology','medwin123'],['Nancy','45','F','80000','Nephrology','medwin123'],['Gary','49','M','90000','Neurology','medwin123'],['Amy','38','F','85000','Physiotherapy','redstar123'],['Nick','31','M','80000','Psychiatry','redstar123'],['Carol','36','F','75000','Urology','redstar123'],['Ryan','40','M','70000','Ophthalmology','angel123'],['Helen','42','F','65000','Neonatology','angel123'],['Justin','44','M','80000','Anaesthesia','angel123'],['Emma','48','F','75000','ENT','angel123'],['Gary','51','M','65000','Dermatology','angel123']]
@@ -719,4 +759,4 @@ def deleterow(chumma):
     return render_template("deletetablerow.html")
 
 if __name__=='__main__':
-    app.run() 
+    app.run()
