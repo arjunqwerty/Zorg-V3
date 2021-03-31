@@ -19,6 +19,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top font-size">
 	{% if session.admin %}
 		<a class="navbar-brand bod-size" href="/admindash">Z O R G</a>
+	{% else %}
 		{% if session.logged_in %}
 			{% if session.type == "H" %}
 				<a class="navbar-brand bold-size" href="/dashboardmnmg">Z O R G</a>
