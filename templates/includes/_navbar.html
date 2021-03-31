@@ -17,17 +17,20 @@
 	}
 </style>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top font-size">
-	{% if session.logged_in %}
-		{% if session.type == "H" %}
-			<a class="navbar-brand bold-size" href="/dashboardmnmg">Z O R G</a>
+	{% if session.admin %}
+		<a class="navbar-brand bod-size" href="/admindash">Z O R G</a>
+		{% if session.logged_in %}
+			{% if session.type == "H" %}
+				<a class="navbar-brand bold-size" href="/dashboardmnmg">Z O R G</a>
+			{% else %}
+				<a class="navbar-brand bold-size" href="/dashboardcust">Z O R G</a>
+			{% endif %}
 		{% else %}
-			<a class="navbar-brand bold-size" href="/dashboardcust">Z O R G</a>
-		{% endif %}
-	{% else %}
-		{% if session.ENV == "dev" %}
-			<a class="navbar-brand bold-size" href="/index">Z O R G</a>
-		{% else %}
-			<a class="navbar-brand bold-size" href="/">Z O R G</a>
+			{% if session.ENV == "dev" %}
+				<a class="navbar-brand bold-size" href="/index">Z O R G</a>
+			{% else %}
+				<a class="navbar-brand bold-size" href="/">Z O R G</a>
+			{% endif %}
 		{% endif %}
 	{% endif %}
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +38,7 @@
 	</button>
 	<div class="collapse navbar-collapse" id="navbarResponsive">
 		<ul class="navbar-nav navbar-right ml-auto">
-			{% if session.is_admin %}
+			{% if session.admin %}
 				<li><a class="nav-link active" href="/admindash">Dashboard</a></li>
 				<li><a class="nav-link active" href="/logoutadmin">Logout</a></li>
 			{% else %}
