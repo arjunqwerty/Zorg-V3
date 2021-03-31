@@ -40,6 +40,26 @@ def emailsend(to,mssg):
         server.login(login,password)
         server.sendmail(sender_email, to, message.as_string())
 
+def is_logged_in(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('UNAUTHORISED, Please Login','danger')
+            return redirect(url_for('home'))
+    return wrap
+
+def is_admin(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'admin' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('UNAUTHORISED','danger')
+            return redirect(url_for('home'))
+    return wrap
+
 @app.route('/', methods=['GET','POST'])
 def home():
     if ENV == "dev":
@@ -74,21 +94,13 @@ def route():
     return render_template('route.html')
 
 @app.route("/sitemap")
-@app.route("/sitemap/")
-@app.route("/sitemap.xml")
 def sitemap():
-    """
-        Route to dynamically generate a sitemap of your website/application.
-        lastmod and priority tags omitted on static pages.
-        lastmod included on dynamic content such as blog posts.
-    """
+    # Route to dynamically generate a sitemap of your website/application. lastmod and priority tags omitted on static pages. lastmod included on dynamic content such as blog posts.
     from flask import make_response, request, render_template
     import datetime
     from urllib.parse import urlparse
-
     host_components = urlparse(request.host_url)
     host_base = host_components.scheme + "://" + host_components.netloc
-
     # Static routes with static content
     static_urls = list()
     for rule in app.url_map.iter_rules():
@@ -96,7 +108,6 @@ def sitemap():
             if "GET" in rule.methods and len(rule.arguments) == 0:
                 url = {"loc": f"{host_base}{str(rule)}"}
                 static_urls.append(url)
-
     # Dynamic routes with dynamic content
     try:
         dynamic_urls = list()
@@ -107,10 +118,8 @@ def sitemap():
         xml_sitemap = render_template("sitemap.xml", static_urls=static_urls, dynamic_urls=dynamic_urls, host_base=host_base)
     except:
         xml_sitemap = render_template("sitemap.xml", static_urls=static_urls, host_base=host_base)
-
     response = make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml"
-
     return response
 
 def username_predict(u,t):
@@ -246,26 +255,16 @@ def logincustomer():
                 session['name'] = user.namecust
                 session['pincode'] = user.pincode
                 flash('You are now logged in','success')
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('dashboardcust'))
             else:
                 flash('Incorrect password','danger')
                 return render_template('locust.html')
     else:
         return render_template('locust.html')
 
-def is_logged_in(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return f(*args, **kwargs)
-        else:
-            flash('UNAUTHORISED, Please Login','danger')
-            return redirect(url_for('home'))
-    return wrap
-
-@app.route('/dashboard', methods=['GET','POST'])
+@app.route('/dashboardcust', methods=['GET','POST'])
 @is_logged_in
-def dashboard():
+def dashboardcust():
     username = session['username']
     custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
     db.session.commit()
@@ -273,8 +272,8 @@ def dashboard():
         flash("Please fill these details","danger")
         return redirect(url_for('add_profile'))
     else:
-        return render_template('dashboard.html', custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).all())
-    return render_template('dashboard.html')
+        return render_template('dashboardcust.html', custdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).all())
+    return render_template('dashboardcust.html')
 
 @app.route('/add_profile', methods=['GET','POST'])
 @is_logged_in
@@ -295,7 +294,7 @@ def add_profile():
             update.pincode = pincode
             db.session.commit()
             flash('Profile Created', 'success')
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('dashboardcust'))
         else:
             return redirect(url_for('editprofile'))
     return render_template('add_profile.html')
@@ -324,7 +323,7 @@ def editprofile():
             user.gmail_id = gmail_id
         db.session.commit()
         flash('Profile Updated','success')
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboardcust'))
     return render_template('editprofile.html',profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).all())
 
 class Orders(db.Model):
@@ -530,13 +529,6 @@ def patienthistory():
        return render_template('patienthistory.html', profile = db.session.query(PastOrders).filter(PastOrders.name_of_hptl_accepting_responsibilty == username).all())
    return render_template('patienthistory.html')
 
-@app.route('/logout')
-@is_logged_in
-def logout():
-    session.clear()
-    flash('You are now logged out','success')
-    return redirect(url_for('home'))
-
 class ProfileFormHos(db.Model):
     __tablename__ = 'staffdetails'
     name = db.Column(db.String(200))
@@ -619,10 +611,44 @@ def hosdetails():
     db.session.commit()
     return render_template('doctors.html', custdata = db.session.query(ProfileFormHos).filter(ProfileFormHos.hospitalid == username).all())
 
+@app.route('/logout')
+@is_logged_in
+def logout():
+    session.clear()
+    flash('You are now logged out','success')
+    return redirect(url_for('home'))
+
+#### ADMIN PROCESS ####
+
+@app.route('/loginadmin', methods=['GET','POST'])
+def loginadmin():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if username == 'Administrator':
+            if password == 'Administrator':
+                session['admin'] = True
+                return redirect(url_for('admindash'))
+            else:
+                flash('UNAUTHORISED','Danger')
+                return redirect(url_for('home'))
+        else:
+            flash('UNAUTHORISED','Danger')
+            return redirect(url_for('home'))
+    return render_template('loginadmin.html')
+
+@app.route('/admindash', methods=['GET','POST'])
+@is_admin
+def admindash():
+    return render_template('admindash.html')
+
 @app.route('/displaytables/<number>',methods=['GET','POST'])
+@is_admin
 def displaytables(number):
     session['number'] = number
-    if number == '1':
+    if number == "All":
+        return render_template('displaytables.html', registermnmg = db.session.query(RegisterMnmg).all(), customerdet = db.session.query(CustomerDet).all(), orders = db.session.query(Orders).all(), pastorders = db.session.query(PastOrders).all(), profileformhos = db.session.query(ProfileFormHos).all())
+    elif number == '1':
         return render_template('displaytables.html', registermnmg = db.session.query(RegisterMnmg).all())
     elif number == '2':
         return render_template('displaytables.html', customerdet = db.session.query(CustomerDet).all())
@@ -641,18 +667,42 @@ hospital_list = [['Newlife Hospital','newlife123','newlife123','123456','Chennai
 customer_list = [['1','James','james123','james123','123456','Chennai','james@mail.com','123456789123456','25','M','Fever'],['2','Mary','mary123','mary123','321654','Vellore','mary@mail.com','321654987321654','27','F','Cholera'],['3','John','john123','john123','123456','Madurai','john@mail.com','147258369147258','34','M','Diahorea'],['4','Julie','julie123','julie123','321654','Trichy','julie@mail.com','369258147369258','29','F','Jaundice']]
 staff_list = [['David','34','M','50000','Cardiology','newlife123'],['Lisa','30','F','60000','Oncolgy','newlife123'],['Charles','47','M','55000','Neurology','newlife123'],['Karen','43','F','75000','Urology','newlife123'],['Thomas','44','M','65000','Gastroenterology','medwin123'],['Emily','41','F','60000','Gynaecology','medwin123'],['Donald','39','M','70000','Endocrinology','medwin123'],['Nancy','45','F','80000','Nephrology','medwin123'],['Gary','49','M','90000','Neurology','medwin123'],['Amy','38','F','85000','Physiotherapy','redstar123'],['Nick','31','M','80000','Psychiatry','redstar123'],['Carol','36','F','75000','Urology','redstar123'],['Ryan','40','M','70000','Ophthalmology','angel123'],['Helen','42','F','65000','Neonatology','angel123'],['Justin','44','M','80000','Anaesthesia','angel123'],['Emma','48','F','75000','ENT','angel123'],['Gary','51','M','65000','Dermatology','angel123']]
 
-@app.route("/defaultable", methods=['GET','POST'])
-def defaultable():
-    db.session.query(RegisterMnmg).delete()
-    db.session.query(CustomerDet).delete()
-    db.session.query(Orders).delete()
-    db.session.query(PastOrders).delete()
-    db.session.query(ProfileFormHos).delete()
-    addreghospital(hospital_list)
-    addregcustomer(customer_list)
-    addhospitaldet(staff_list)
-    db.session.commit()
-    return redirect(url_for('index'))
+@app.route("/defaultable/<number>", methods=['GET','POST'])
+@is_admin
+def defaultable(number):
+    session['number'] = number
+    if number == "All":
+        db.session.query(RegisterMnmg).delete()
+        db.session.query(CustomerDet).delete()
+        db.session.query(Orders).delete()
+        db.session.query(PastOrders).delete()
+        db.session.query(ProfileFormHos).delete()
+        addreghospital(hospital_list)
+        addregcustomer(customer_list)
+        addhospitaldet(staff_list)
+        db.session.commit()
+    elif number == '1':
+        db.session.query(RegisterMnmg).delete()
+        addreghospital(hospital_list)
+        db.session.commit()
+    elif number == '2':
+        db.session.query(CustomerDet).delete()
+        addregcustomer(customer_list)
+        db.session.commit()
+    elif number == '3':
+        db.session.query(Orders).delete()
+        db.session.commit()
+    elif number == '4':
+        db.session.query(PastOrders).delete()
+        db.session.commit()
+    elif number == '5':
+        db.session.query(ProfileFormHos).delete()
+        addhospitaldet(staff_list)
+        db.session.commit()
+    else:
+        flash("No such table exists","danger")
+        return redirect(url_for('admindash'))
+    return redirect(url_for('admindash'))
 
 def addreghospital(hospital_list):
     if len(hospital_list) == 0:
@@ -696,20 +746,43 @@ def addhospitaldet(staff_list):
                 list3.append(staff_list[k])
         addhospitaldet(list3)
 
-@app.route("/deletetables", methods=['GET','POST'])
-def deletetables():
-    db.session.query(HospitalDet).delete()
-    db.session.query(CustomerDet).delete()
-    db.session.query(Orders).delete()
-    db.session.query(PastOrders).delete()
-    db.session.query(StaffDet).delete()
-    db.session.commit()
-    return redirect(url_for('index'))
+@app.route("/deletetables/<number>", methods=['GET','POST'])
+@is_admin
+def deletetables(number):
+    if number == "All":
+        db.session.query(RegisterMnmg).delete()
+        db.session.query(CustomerDet).delete()
+        db.session.query(Orders).delete()
+        db.session.query(PastOrders).delete()
+        db.session.query(StaffDet).delete()
+        db.session.commit()
+    elif number == '1':
+        db.session.query(RegisterMnmg).delete()
+        db.session.commit()
+    elif number == '2':
+        db.session.query(CustomerDet).delete()
+        db.session.commit()
+    elif number == '3':
+        db.session.query(Orders).delete()
+        db.session.commit()
+    elif number == '4':
+        db.session.query(PastOrders).delete()
+        db.session.commit()
+    elif number == '5':
+        db.session.query(StaffDet).delete()
+        db.session.commit()
+    else:
+        flash("No such table exists","danger")
+        return redirect(url_for('admindash'))
+    return redirect(url_for('admindash'))
 
 @app.route("/deletetablerow/<number>", methods=['GET','POST'])
+@is_admin
 def deletetablerow(number):
     session['number'] = number
-    if number == '1':
+    if number == "All":
+        return render_template('deletetablerow.html', registermnmg = db.session.query(RegisterMnmg).all(), customerdet = db.session.query(CustomerDet).all(), orders = db.session.query(Orders).all(), pastorders = db.session.query(PastOrders).all(), profileformhos = db.session.query(ProfileFormHos).all())
+    elif number == '1':
         return render_template('deletetablerow.html', registermnmg = db.session.query(RegisterMnmg).all())
     elif number == '2':
         return render_template('deletetablerow.html', customerdet = db.session.query(CustomerDet).all())
@@ -721,7 +794,7 @@ def deletetablerow(number):
         return render_template('deletetablerow.html', profileformhos = db.session.query(ProfileFormHos).all())
     else:
         flash("No such table exists","danger")
-        return redirect(url_for('index'))
+        return redirect(url_for('admindash'))
     return render_template("deletetablerow.html")
 
 @app.route("/deleterow/<chumma>", methods=['GET','POST'])
@@ -755,8 +828,14 @@ def deleterow(chumma):
         return redirect(url_for('deletetablerow', number='5'))
     else:
         flash("No such table exists","danger")
-        return redirect(url_for('index'))
+        return redirect(url_for('admindash'))
     return render_template("deletetablerow.html")
+
+@app.route('/logoutadmin')
+@is_admin
+def logoutadmin():
+    session.clear()
+    return redirect(url_for('home'))
 
 if __name__=='__main__':
     app.run()

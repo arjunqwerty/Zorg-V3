@@ -21,7 +21,7 @@
 		{% if session.type == "H" %}
 			<a class="navbar-brand bold-size" href="/dashboardmnmg">Z O R G</a>
 		{% else %}
-			<a class="navbar-brand bold-size" href="/dashboard">Z O R G</a>
+			<a class="navbar-brand bold-size" href="/dashboardcust">Z O R G</a>
 		{% endif %}
 	{% else %}
 		{% if session.ENV == "dev" %}
@@ -35,31 +35,36 @@
 	</button>
 	<div class="collapse navbar-collapse" id="navbarResponsive">
 		<ul class="navbar-nav navbar-right ml-auto">
-		{% if session.logged_in %}
-			{% if session.type == "H" %}
-				<li><a class="nav-link active" href="/patienthistory">Past Requests</a></li>
-				<li><a class="nav-link active" href="/hosdetails">Hospital Management</a></li>
+			{% if session.is_admin %}
+				<li><a class="nav-link active" href="/admindash">Dashboard</a></li>
+				<li><a class="nav-link active" href="/logoutadmin">Logout</a></li>
 			{% else %}
-				<li>
-					<a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown">EMERGENCY</a>
-					<div class="dropdown-menu" aria-labelledby="dropdown01">
-						<a class="dropdown-item" href="/accident">Accident</a>
-						<a class="dropdown-item" href="/heartattack">Heart attack</a>
-						<a class="dropdown-item" href="/otherailments">Other</a>
-					</div>
-				</li>
-				<li><a class="nav-link active" href="/dashboard">Dashboard</a></li>
+				{% if session.logged_in %}
+					{% if session.type == "H" %}
+						<li><a class="nav-link active" href="/patienthistory">Past Requests</a></li>
+						<li><a class="nav-link active" href="/hosdetails">Hospital Management</a></li>
+					{% else %}
+						<li>
+							<a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown">EMERGENCY</a>
+							<div class="dropdown-menu" aria-labelledby="dropdown01">
+								<a class="dropdown-item" href="/accident">Accident</a>
+								<a class="dropdown-item" href="/heartattack">Heart attack</a>
+								<a class="dropdown-item" href="/otherailments">Other</a>
+							</div>
+						</li>
+						<li><a class="nav-link active" href="/dashboardcust">Dashboard</a></li>
+					{% endif %}
+					<li><a class="nav-link active" href="/logout">Logout</a></li>
+				{% else %}
+					<li>
+						<a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown">Login</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown01">
+							<a class="dropdown-item" href="/loginmanagement">Hospital Management</a>
+							<a class="dropdown-item" href="/logincustomer">Customer</a>
+						</div>
+					</li>
+				{% endif %}
 			{% endif %}
-			<li><a class="nav-link active" href="/logout">Logout</a></li>
-		{% else %}
-			<li>
-				<a class="nav-link active dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown">Login</a>
-				<div class="dropdown-menu" aria-labelledby="dropdown01">
-					<a class="dropdown-item" href="/loginmanagement">Hospital Management</a>
-					<a class="dropdown-item" href="/logincustomer">Customer</a>
-				</div>
-			</li>
-		{% endif %}
 		</ul>
 	</div>
 </nav>

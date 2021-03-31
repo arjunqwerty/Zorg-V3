@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+	<h1>Dashboard <small>Welcome {{session.name}}</small></h1>
+	<table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Hospital</th>
+            <th>Customer</th>
+            <th>Reqests</th>
+            <th>Past Requests</th>
+            <th>Staff</th>
+            <th>All</th>
+        </tr>
+        <tr>
+            <td>Display Tables</td>
+            <td><a href="/displaytables/1" class="btn btn-default">Table 1</a></td>
+            <td><a href="/displaytables/2" class="btn btn-default">Table 2</a></td>
+            <td><a href="/displaytables/3" class="btn btn-default">Table 3</a></td>
+            <td><a href="/displaytables/4" class="btn btn-default">Table 4</a></td>
+            <td><a href="/displaytables/5" class="btn btn-default">Table 5</a></td>
+            <td><a href="/displaytables/All" class="btn btn-default">All</a></td>
+        </tr>
+        <tr>
+            <td>Default Table</td>
+            <td><a href="/defaultable/1" class="btn btn-default">Table 1</a></td>
+            <td><a href="/defaultable/2" class="btn btn-default">Table 2</a></td>
+            <td><a href="/defaultable/3" class="btn btn-default">Table 3</a></td>
+            <td><a href="/defaultable/4" class="btn btn-default">Table 4</a></td>
+            <td><a href="/defaultable/5" class="btn btn-default">Table 5</a></td>
+            <td><a href="/defaultable/All" class="btn btn-default">All</a></td>
+        </tr>
+        <tr>
+            <td>Delete Table</td>
+            <td><a href="/deletetables/1" class="btn btn-default">Table 1</a></td>
+            <td><a href="/deletetables/2" class="btn btn-default">Table 2</a></td>
+            <td><a href="/deletetables/3" class="btn btn-default">Table 3</a></td>
+            <td><a href="/deletetables/4" class="btn btn-default">Table 4</a></td>
+            <td><a href="/deletetables/5" class="btn btn-default">Table 5</a></td>
+            <td><a href="/deletetables/All" class="btn btn-default">All</a></td>
+        </tr>
+        <tr>
+            <td>Delete Table Rows</td>
+            <td><a href="/deletetablerow/1" class="btn btn-default">Table 1</a></td>
+            <td><a href="/deletetablerow/2" class="btn btn-default">Table 2</a></td>
+            <td><a href="/deletetablerow/3" class="btn btn-default">Table 3</a></td>
+            <td><a href="/deletetablerow/4" class="btn btn-default">Table 4</a></td>
+            <td><a href="/deletetablerow/5" class="btn btn-default">Table 5</a></td>
+            <td><a href="/deletetablerow/All" class="btn btn-default">All</a></td>
+        </tr>
+	</table>
+{% endblock %}

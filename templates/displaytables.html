@@ -1,4 +1,7 @@
-{% extends 'layout.html' %} {% block body %} {% if session.number == '1' %}
+{% extends 'layout.html' %}
+
+{% block body %}
+{% if registermnmg != asdfljhj %}
 <h1>Hospital Details</h1>
 <table class="table table-striped">
     <tr>
@@ -18,7 +21,9 @@
     </tr>
     {% endfor %}
 </table>
-{% endif %} {% if session.number == '2' %}
+{% endif %}
+
+{% if customerdet != asdfljhj %}
 <h1>Customer Details</h1>
 <table class="table table-striped">
     <tr>
@@ -50,7 +55,9 @@
     </tr>
     {% endfor %}
 </table>
-{% endif %} {% if session.number == '3' %}
+{% endif %}
+
+{% if orders != asdfljhj %}
 <h1>Orders Details</h1>
 <table class="table table-striped">
     <tr>
@@ -80,7 +87,9 @@
     </tr>
     {% endfor %}
 </table>
-{% endif %} {% if session.number == '4' %}
+{% endif %}
+
+{% if pastorders != asdfljhj %}
 <h1>Past Orders Details</h1>
 <table class="table table-striped">
     <tr>
@@ -110,7 +119,9 @@
     </tr>
     {% endfor %}
 </table>
-{% endif %} {% if session.number == '5' %}
+{% endif %}
+
+{% if profileformhos != asdfljhj %}
 <h1>Staff Details</h1>
 <table class="table table-striped">
     <tr>
@@ -134,4 +145,10 @@
     </tr>
     {% endfor %}
 </table>
-{% endif %} {% endblock %}
+{% endif %}
+<br>
+<div class="text-center">
+	<a href="/admindash" class="btn btn-default">Back</a>
+</div>
+<br>
+{% endblock %}
