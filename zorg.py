@@ -75,9 +75,11 @@ def index():
 def feedback():
     if request.method == "POST":
         mailid = request.form['mailid']
+        rating = request.form['rating']
         feedback = request.form['feedback']
         try:
-            emailsend(mailid, "Feedback Submitted:\n"+feedback)
+            feed = rating + "\nFeedback Submitted:\n" + feedback
+            emailsend(mailid, feed)
             flash('Your response has been recorded','success')
             if ENV == "dev":
                 return redirect(url_for('index'))
@@ -189,8 +191,8 @@ class CustomerDet(db.Model):
         self.gender = gender
         self.prevmedrcrds = prevmedrcrds
 
-@app.route('/custdetails', methods=['GET','POST'])
-def custdetails():
+@app.route('/registercust', methods=['GET','POST'])
+def registercust():
     if request.method == 'POST':
         namecust = request.form['namecust']
         username = request.form['username']

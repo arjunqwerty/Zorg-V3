@@ -1,96 +1,121 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>ZORG</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-        <style>
+	<head>
+		<meta charset="utf-8">
+		<title>ZORG</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+		<link rel="icon" type="image/png" href="/static/Favicon.png">
+		<style>
 			html, body {
 				min-height: 100%;
 				background-color: black;
-				color: cornsilk;
-			}
-			.carousel-caption {
-				position: absolute;
-				top: 30%;
-				transform: translateY(-30%);
+				color: white;
 			}
 			.flash-message {
 				position: relative;
 				top: -50%;
 			}
-			.carousel-caption h1 {
-				font-size: 200%;
-				font-weight: bold;
+			.widthreduce {
+				width: 70%;
+				position: relative;
+				left: 15%;
+			}
+			.fontstyle h1 {
+				text-align: center;
+				font-size: 150%;
 				text-transform: uppercase;
 			}
-			.carousel-caption h3 {
-				font-size: 200%;
-				font-weight: 500%;
-				text-shadow: 1px 1px 10px #000;
+			.fontstyle h2 {
+				font-size: 100%;
+				font-weight: bold;
+				transform: translateX(1%);
+			}
+			.radiostretch {
+				width: auto;
 			}
 			form {
 				width: 100%;
 				padding: 20px;
 				position: absolute;
-				top: 0%;
+			}
+			.textbox {
+				background: none;
+				border-color: #000;
+				border-width: 1px;
+				width: 100%;
+				padding-left: 8px;
+				padding-top: 3px;
+				padding-bottom: 3px;
+				font-size: 14px;
 			}
 			button {
-				width: auto;
-				position: absolute;
+				width: 100%;
+				position: relative;
 				align-self: stretch;
 				padding: 10px 0;
 				margin: 0px auto;
-				border-radius: 5px; 
+				border-radius: 5px;
 				border: none;
-				background: #8ebf42; 
 				font-size: 14px;
 				font-weight: 600;
 				color: #fff;
 				text-align: center;
-				transform: translateX(-50%);
 				}
-			button:hover {
-				background: none;
-			}
-			div div div img {
-				width: 100%;
-			}
-        </style>
-    </head>
-    <body>
-        {% include "includes/_navbar.html" %}
-		<div id="slides" class="carousel slide" data-ride="carousel">
-			<div class="carousel-inner">
-				<div class="carousel-item active text-center">
-					<img src={{ url_for('static',filename='background.png')}} alt="Carousel1">
-					<div class="carousel-caption">
-						<div class="flash-message">
-							{% include "includes/_messages.html" %}
-						</div>
-						<form method="POST">
-							<h1>Please give us your valuable feedback.</h1>
-							<div align="center" class="form-group">
-								<h3 class="display-2">Mail Id</h3>
-								<input class="text" type="text" name="mailid" required="">
-							</div>
-							<div align="center" class="form-group">
-								<h3 class="display-2">FEEDBACK</h3>
-								<textarea name="feedback" cols="50" rows="7" required=""></textarea>
-							</div>
-							<button type="submit" class="btn btn-primary" value="submit">SUBMIT</button>
-						</form>
+		</style>
+	</head>
+	<body>
+		{% include "includes/_navbar.html" %}
+		{% include "includes/_messages.html" %}
+		<div>
+			<div class="widthreduce">
+				<form class="fontstyle" method="POST">
+					<h1>Please give us your valuable feedback.</h1>
+					<div class="form-group">
+						<h2>Mail Id</h2>
+						<input class="textbox" type="text" name="mailid" required="">
 					</div>
-				</div>
+					<div class="form-group">
+						<h2>Rate us</h2>
+						<table width="100%">
+							<tr>
+								<td align="center">
+									<input type="radio" id="5" name="rating" value="Very Good">
+									<label class="radiostretch" for="5">Very Good</label>
+								</td>
+								<td align="center">
+									<input type="radio" id="4" name="rating" value="Good">
+									<label class="radiostretch" for="4">Good</label>
+								</td>
+								<td align="center">
+									<input type="radio" id="3" name="rating" value="Moderate">
+									<label class="radiostretch" for="3">Moderate</label>
+								</td>
+								<td align="center">
+									<input type="radio" id="2" name="rating" value="Bad">
+									<label class="radiostretch" for="2">Bad</label>
+								</td>
+								<td align="center">
+									<input type="radio" id="1" name="rating" value="Very Bad">
+									<label class="radiostretch" for="1">Very Bad</label>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group">
+						<h2>Comment</h2>
+						<textarea class="textbox" name="feedback" cols="50" rows="7" required=""></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary" value="submit">SUBMIT</button>
+				</form>
+			</div>
+			<div>
+				<img src={{ url_for('static',filename='feedbackbg.jpg')}} width="100%" alt="Carousel1">
 			</div>
 		</div>
-		{% extends "footer.html" %}    
+		<br class="my-4">
+		{% extends "footer.html" %}
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	</body>
 </html>
- 
