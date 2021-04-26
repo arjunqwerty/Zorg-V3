@@ -26,19 +26,21 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db=SQLAlchemy(app)
 
 def emailsend(to,mssg):
-    port = 2525
-    smtp_server = 'smtp.mailtrap.io'
-    login = '18cc8c2ea71e43'
-    password = '27abc8c416d687'
-    sender_email = 'zorg123546@gmail.com'
-    message = MIMEText(mssg, 'html')
-    message['Subject'] = 'Zorg'
-    message['From'] = sender_email
+    smtp_server = 'smtp.gmail.com'
+    port = 587
+    username = 'zorg123546@gmail.com'
+    password = 'zorg87654321'
+
+    message = MIMEText(mssg)
+    message['Subject'] = 'Feedback'
+    message['From'] = "ZORG"
     message['To'] = str(to)
 
-    with smtplib.SMTP(smtp_server, port) as server:
-        server.login(login,password)
-        server.sendmail(sender_email, to, message.as_string())
+    server = smtplib.SMTP(smtp_server, port)
+    server.starttls()
+    server.login(username, password)
+    server.sendmail(username, to, message.as_string())
+    server.quit()
 
 def is_logged_in(f):
     @wraps(f)
@@ -74,12 +76,14 @@ def index():
 @app.route('/feedback', methods=['GET','POST'])
 def feedback():
     if request.method == "POST":
-        mailid = request.form['mailid']
+        mail = request.form['mailid']
         rating = request.form['rating']
         feedback = request.form['feedback']
         try:
             feed = rating + "\nFeedback Submitted:\n" + feedback
-            emailsend(mailid, feed)
+            emailsend(mail, feed)
+            adminfeed = rating + "\nFeedback Submitted by " + mail + "\n" + feedback
+            emailsend("zorg123546@gmail.com",adminfeed)
             flash('Your response has been recorded','success')
             if ENV == "dev":
                 return redirect(url_for('index'))
@@ -756,7 +760,7 @@ def deletetables(number):
         db.session.query(CustomerDet).delete()
         db.session.query(Orders).delete()
         db.session.query(PastOrders).delete()
-        db.session.query(StaffDet).delete()
+        db.session.query(ProfileFormHos).delete()
         db.session.commit()
     elif number == '1':
         db.session.query(RegisterMnmg).delete()
@@ -771,7 +775,7 @@ def deletetables(number):
         db.session.query(PastOrders).delete()
         db.session.commit()
     elif number == '5':
-        db.session.query(StaffDet).delete()
+        db.session.query(ProfileFormHos).delete()
         db.session.commit()
     else:
         flash("No such table exists","danger")
