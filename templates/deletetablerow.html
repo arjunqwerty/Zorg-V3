@@ -125,7 +125,7 @@
 	</table>
 {% endif %}
 
-{% if profileformhos != asdfljhj %}
+{% if staffdet != asdfljhj %}
 	<h1>Staff Details</h1>
 	<table class="table table-striped">
 		<tr>
@@ -138,16 +138,16 @@
 			<th>Sepcification</th>
 			<th>Hospital id</th>
 		</tr>
-		{% for profileformhos in profileformhos %}
+		{% for staffdet in staffdet %}
 			<tr>
-				<td><a href="/deleterow/{{profileformhos.docid}}" class="btn btn-default">Delete</a></td>
-				<td>{{profileformhos.name}}</td>
-				<td>{{profileformhos.age}}</td>
-				<td>{{profileformhos.gender}}</td>
-				<td>{{profileformhos.salary}}</td>
-				<td>{{profileformhos.docid}}</td>
-				<td>{{profileformhos.spec}}</td>
-				<td>{{profileformhos.hospitalid}}</td>
+				<td><a href="/deleterow/{{staffdet.docid}}" class="btn btn-default">Delete</a></td>
+				<td>{{staffdet.name}}</td>
+				<td>{{staffdet.age}}</td>
+				<td>{{staffdet.gender}}</td>
+				<td>{{staffdet.salary}}</td>
+				<td>{{staffdet.docid}}</td>
+				<td>{{staffdet.spec}}</td>
+				<td>{{staffdet.hospitalid}}</td>
 			</tr>
 		{% endfor %}
 	</table>
