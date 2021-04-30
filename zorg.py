@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 
 app = Flask(__name__)
 
-ENV = 'prod'
+ENV = 'dev'
 developer = 'Arjun'
 if ENV == 'dev':
     app.debug = True
@@ -327,6 +327,95 @@ def editprofile():
         flash('Profile Updated','success')
         return redirect(url_for('dashboardcust'))
     return render_template('editprofile.html',profile = db.session.query(CustomerDet).filter(CustomerDet.username == username).all())
+
+class Appointments(db.Model):
+    __tablename__ = 'appointment'
+    id = db.Column(db.Integer, primary_key=True)
+    PatName = db.Column(db.String(50))
+    PatUsername = db.Column(db.String(50))
+    Problem = db.Column(db.Text())
+    DocName = db.Column(db.String(50))
+    HospName = db.Column(db.String(50))
+    date = db.Column(db.String(10))
+    time = db.Column(db.String(5))
+
+    def __init__(self, PatName, PatUsername, Problem, DocName, HospName, date, time):
+        self.PatName = PatName
+        self.PatUsername = PatUsername
+        self.Problem = Problem
+        self.DocName = DocName
+        self.HospName = HospName
+        self.date = date
+        self.time = time
+
+@app.route('/appointment')
+@is_logged_in
+def appointment():
+    username = session['username']
+    appoint = db.session.query(Appointments).filter(Appointments.PatUsername == username).all()
+    return render_template('appointment.html', apt = appoint)
+
+@app.route('/addappoint')
+def appoint():
+    session['problem'] = ""
+    session['specs'] = ""
+    session['hospname'] = ""
+    session['docname'] = ""
+    return redirect(url_for('addappointment'))
+
+@app.route('/addappointment', methods=['GET','POST'])
+@is_logged_in
+def addappointment():
+    problem = session['problem']
+    specialisation = session['specs']
+    HospName = session['hospname']
+    DocName = session['docname']
+    username = session['username']
+    aptdata = db.session.query(CustomerDet).filter(CustomerDet.username == username).first()
+    PatName = aptdata.namecust
+    PatUsername = aptdata.username
+    if request.method == 'POST':
+        if specialisation == "":
+            problem = request.form['problem']
+            specialisation = request.form['specialisation']
+            session['problem'] = problem
+            session['specs'] = specialisation
+            return redirect(url_for('addappointment'))
+        else:
+            if HospName == "":
+                HospName = request.form['hospital']
+                session['hospname'] = HospName
+                return redirect(url_for('addappointment'))
+            else:
+                if DocName == "":
+                    DocName = request.form['doctor']
+                    session['docname'] = DocName
+                    return redirect(url_for('addappointment'))
+                else:
+                    datetime = request.form['date']
+                    n = datetime.find("T")
+                    date = datetime[:n:]
+                    time = datetime[n+1::]
+                    duplicate = db.session.query(Appointments).filter(Appointments.DocName == DocName, Appointments.date == date, Appointments.time == time).all()
+                    if duplicate == None:
+                        data = Appointments(PatName, PatUsername, problem, DocName, HospName, date, time)
+                        db.session.add(data)
+                        db.session.commit()
+                        flash("Appointment fixed","success")
+                        return redirect(url_for('appointment'))
+                    else:
+                        flash("The Doctor is busy at that time. Please pick another time", "danger")
+                        return redirect(url_for('addappointment'))
+    if specialisation == "":
+        return render_template('addappointment.html', prob = problem, specs = db.session.query(StaffDet).all(), spec = specialisation, hosp = HospName, doc = DocName)
+    else:
+        if HospName == "":
+            return render_template('addappointment.html', prob = problem, spec = specialisation, hosps = db.session.query(StaffDet).filter(StaffDet.spec == specialisation).all(), hosp = HospName, doc = DocName)
+        else:
+            if DocName == "":
+                return render_template('addappointment.html', prob = problem, spec = specialisation, hosps = db.session.query(StaffDet).filter(StaffDet.spec == specialisation, StaffDet.hospitalid == HospName).all(), hosp = HospName, doc = DocName)
+            else:
+                return render_template('addappointment.html', prob = problem, spec = specialisation, hosp = HospName, doc = DocName)
 
 class Orders(db.Model):
     __tablename__ = 'orders'
@@ -649,7 +738,7 @@ def admindash():
 def displaytables(number):
     session['number'] = number
     if number == "All":
-        return render_template('displaytables.html', registermnmg = db.session.query(RegisterMnmg).all(), customerdet = db.session.query(CustomerDet).all(), orders = db.session.query(Orders).all(), pastorders = db.session.query(PastOrders).all(), staffdet = db.session.query(StaffDet).all())
+        return render_template('displaytables.html', registermnmg = db.session.query(RegisterMnmg).all(), customerdet = db.session.query(CustomerDet).all(), orders = db.session.query(Orders).all(), pastorders = db.session.query(PastOrders).all(), staffdet = db.session.query(StaffDet).all(), appoints = db.session.query(Appointments).all())
     elif number == '1':
         return render_template('displaytables.html', registermnmg = db.session.query(RegisterMnmg).all())
     elif number == '2':
@@ -660,6 +749,8 @@ def displaytables(number):
         return render_template('displaytables.html', pastorders = db.session.query(PastOrders).all())
     elif number == '5':
         return render_template('displaytables.html', staffdet = db.session.query(StaffDet).all())
+    elif number == '6':
+        return render_template('displaytables.html', appoints = db.session.query(Appointments).all())
     else:
         flash("No such table exists","danger")
         return redirect(url_for('home'))
@@ -679,6 +770,7 @@ def defaultable(number):
         db.session.query(Orders).delete()
         db.session.query(PastOrders).delete()
         db.session.query(StaffDet).delete()
+        db.session.query(Appointments).delete()
         addreghospital(hospital_list)
         addregcustomer(customer_list)
         addhospitaldet(staff_list)
@@ -700,6 +792,9 @@ def defaultable(number):
     elif number == '5':
         db.session.query(StaffDet).delete()
         addhospitaldet(staff_list)
+        db.session.commit()
+    elif number == '6':
+        db.session.query(Appointments).delete()
         db.session.commit()
     else:
         flash("No such table exists","danger")
@@ -757,6 +852,7 @@ def deletetables(number):
         db.session.query(Orders).delete()
         db.session.query(PastOrders).delete()
         db.session.query(StaffDet).delete()
+        db.session.query(Appointments).delete()
         db.session.commit()
     elif number == '1':
         db.session.query(RegisterMnmg).delete()
@@ -773,6 +869,9 @@ def deletetables(number):
     elif number == '5':
         db.session.query(StaffDet).delete()
         db.session.commit()
+    elif number == '6':
+        db.session.query(Appointments).delete()
+        db.session.commit()
     else:
         flash("No such table exists","danger")
         return redirect(url_for('admindash'))
@@ -783,7 +882,7 @@ def deletetables(number):
 def deletetablerow(number):
     session['number'] = number
     if number == "All":
-        return render_template('deletetablerow.html', registermnmg = db.session.query(RegisterMnmg).all(), customerdet = db.session.query(CustomerDet).all(), orders = db.session.query(Orders).all(), pastorders = db.session.query(PastOrders).all(), staffdet = db.session.query(StaffDet).all())
+        return render_template('deletetablerow.html', registermnmg = db.session.query(RegisterMnmg).all(), customerdet = db.session.query(CustomerDet).all(), orders = db.session.query(Orders).all(), pastorders = db.session.query(PastOrders).all(), staffdet = db.session.query(StaffDet).all(), appoints = db.session.query(Appointments).all())
     elif number == '1':
         return render_template('deletetablerow.html', registermnmg = db.session.query(RegisterMnmg).all())
     elif number == '2':
@@ -794,6 +893,8 @@ def deletetablerow(number):
         return render_template('deletetablerow.html', pastorders = db.session.query(PastOrders).all())
     elif number == '5':
         return render_template('deletetablerow.html', staffdet = db.session.query(StaffDet).all())
+    elif number == '6':
+        return render_template('deletetablerow.html', appoints = db.session.query(Appointments).all())
     else:
         flash("No such table exists","danger")
         return redirect(url_for('admindash'))
@@ -828,6 +929,10 @@ def deleterow(chumma):
         db.session.delete(data)
         db.session.commit()
         return redirect(url_for('deletetablerow', number='5'))
+    elif number == '6':
+        data = db.session.query(Appointments).filter(Appointments.id == chumma).first()
+        db.session.delete(data)
+        db.session.commit()
     else:
         flash("No such table exists","danger")
         return redirect(url_for('admindash'))

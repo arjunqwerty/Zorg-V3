@@ -152,6 +152,35 @@
 		{% endfor %}
 	</table>
 {% endif %}
+
+{% if appoints != asdfljhj %}
+	<h1>Appointments</h1>
+	<table class="table table-stripped">
+		<tr>
+			<th></th>
+            <th>ID</th>
+            <th>Pat Name</th>
+            <th>Hosp Name</th>
+            <th>Doc Name</th>
+            <th>Problem</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+        {% for appoints in appoints %}
+            <tr>
+				<td><a href="/deleterow/{{appoints.id}}" class="btn btn-default">Delete</a></td>
+                <td>{{appoints.id}}</td>
+                <td>{{appoints.PatName}}</td>
+                <td>{{appoints.HospName}}</td>
+                <td>{{appoints.DocName}}</td>
+                <td>{{appoints.Problem}}</td>
+                <td>{{appoints.date}}</td>
+                <td>{{appoints.time}}</td>
+            </tr>
+        {% endfor %}
+	</table>
+{% endif %}
+
 <br>
 <div class="text-center">
 	<a href="/admindash" class="btn btn-default">Back</a>

@@ -2,146 +2,173 @@
 
 {% block body %}
 {% if registermnmg != asdfljhj %}
-<h1>Hospital Details</h1>
-<table class="table table-striped">
-    <tr>
-        <th>Name</th>
-        <th>Username</th>
-        <th>Pincode</th>
-        <th>Address</th>
-    </tr>
-    {% for registermnmg in registermnmg %}
-    <tr>
-        <td>{{registermnmg.namehptl}}</td>
-        <td>{{registermnmg.username}}</td>
-        <td>{{registermnmg.pincode}}</td>
-        <td>{{registermnmg.address}}</td>
-    </tr>
-    {% endfor %}
-</table>
+    <h1>Hospital Details</h1>
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Pincode</th>
+            <th>Address</th>
+        </tr>
+        {% for registermnmg in registermnmg %}
+        <tr>
+            <td>{{registermnmg.namehptl}}</td>
+            <td>{{registermnmg.username}}</td>
+            <td>{{registermnmg.pincode}}</td>
+            <td>{{registermnmg.address}}</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endif %}
 
 {% if customerdet != asdfljhj %}
-<h1>Customer Details</h1>
-<table class="table table-striped">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Username</th>
-        <th>Pincode</th>
-        <th>Address</th>
-        <th>Mail Id</th>
-        <th>Aadhar No.</th>
-        <th>Age</th>
-        <th>Gender</th>
-        <th>Prevmedrcrds</th>
-    </tr>
-    {% for customerdet in customerdet %}
-    <tr>
-        <td>{{customerdet.custid}}</td>
-        <td>{{customerdet.namecust}}</td>
-        <td>{{customerdet.username}}</td>
-        <td>{{customerdet.pincode}}</td>
-        <td>{{customerdet.address}}</td>
-        <td>{{customerdet.gmail_id}}</td>
-        <td>{{customerdet.aadhar}}</td>
-        <td>{{customerdet.age}}</td>
-        <td>{{customerdet.gender}}</td>
-        <td>{{customerdet.prevmedrcrds}}</td>
-    </tr>
-    {% endfor %}
-</table>
+    <h1>Customer Details</h1>
+    <table class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Pincode</th>
+            <th>Address</th>
+            <th>Mail Id</th>
+            <th>Aadhar No.</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Prevmedrcrds</th>
+        </tr>
+        {% for customerdet in customerdet %}
+        <tr>
+            <td>{{customerdet.custid}}</td>
+            <td>{{customerdet.namecust}}</td>
+            <td>{{customerdet.username}}</td>
+            <td>{{customerdet.pincode}}</td>
+            <td>{{customerdet.address}}</td>
+            <td>{{customerdet.gmail_id}}</td>
+            <td>{{customerdet.aadhar}}</td>
+            <td>{{customerdet.age}}</td>
+            <td>{{customerdet.gender}}</td>
+            <td>{{customerdet.prevmedrcrds}}</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endif %}
 
 {% if orders != asdfljhj %}
-<h1>Orders Details</h1>
-<table class="table table-striped">
-    <tr>
-        <th>ID</th>
-        <th>Hospitals</th>
-        <th>Cust Username</th>
-        <th>Type</th>
-        <th>Address</th>
-        <th>Cust name</th>
-        <th>Aadhar No.</th>
-        <th>Age</th>
-        <th>Gender</th>
-        <th>Prevmedrcrds</th>
-    </tr>
-    {% for orders in orders %}
-    <tr>
-        <td>{{orders.number}}</td>
-        <td>{{orders.hptl_username_in_vicinity}}</td>
-        <td>{{orders.username_cust}}</td>
-        <td>{{orders.type}}</td>
-        <td>{{orders.address}}</td>
-        <td>{{orders.namecust}}</td>
-        <td>{{orders.aadhar}}</td>
-        <td>{{orders.age}}</td>
-        <td>{{orders.gender}}</td>
-        <td>{{orders.prevmedrcrds}}</td>
-    </tr>
-    {% endfor %}
-</table>
+    <h1>Orders Details</h1>
+    <table class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th>Hospitals</th>
+            <th>Cust Username</th>
+            <th>Type</th>
+            <th>Address</th>
+            <th>Cust name</th>
+            <th>Aadhar No.</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Prevmedrcrds</th>
+        </tr>
+        {% for orders in orders %}
+        <tr>
+            <td>{{orders.number}}</td>
+            <td>{{orders.hptl_username_in_vicinity}}</td>
+            <td>{{orders.username_cust}}</td>
+            <td>{{orders.type}}</td>
+            <td>{{orders.address}}</td>
+            <td>{{orders.namecust}}</td>
+            <td>{{orders.aadhar}}</td>
+            <td>{{orders.age}}</td>
+            <td>{{orders.gender}}</td>
+            <td>{{orders.prevmedrcrds}}</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endif %}
 
 {% if pastorders != asdfljhj %}
-<h1>Past Orders Details</h1>
-<table class="table table-striped">
-    <tr>
-        <th>ID</th>
-        <th>Hospitals</th>
-        <th>Cust Username</th>
-        <th>Type</th>
-        <th>Address</th>
-        <th>Cust name</th>
-        <th>Aadhar No.</th>
-        <th>Age</th>
-        <th>Gender</th>
-        <th>Prevmedrcrds</th>
-    </tr>
-    {% for pastorders in pastorders %}
-    <tr>
-        <td>{{pastorders.number}}</td>
-        <td>{{pastorders.name_of_hptl_accepting_responsibilty}}</td>
-        <td>{{pastorders.username_cust}}</td>
-        <td>{{pastorders.type}}</td>
-        <td>{{pastorders.address}}</td>
-        <td>{{pastorders.namecust}}</td>
-        <td>{{pastorders.aadhar}}</td>
-        <td>{{pastorders.age}}</td>
-        <td>{{pastorders.gender}}</td>
-        <td>{{pastorders.prevmedrcrds}}</td>
-    </tr>
-    {% endfor %}
-</table>
+    <h1>Past Orders Details</h1>
+    <table class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th>Hospitals</th>
+            <th>Cust Username</th>
+            <th>Type</th>
+            <th>Address</th>
+            <th>Cust name</th>
+            <th>Aadhar No.</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Prevmedrcrds</th>
+        </tr>
+        {% for pastorders in pastorders %}
+        <tr>
+            <td>{{pastorders.number}}</td>
+            <td>{{pastorders.name_of_hptl_accepting_responsibilty}}</td>
+            <td>{{pastorders.username_cust}}</td>
+            <td>{{pastorders.type}}</td>
+            <td>{{pastorders.address}}</td>
+            <td>{{pastorders.namecust}}</td>
+            <td>{{pastorders.aadhar}}</td>
+            <td>{{pastorders.age}}</td>
+            <td>{{pastorders.gender}}</td>
+            <td>{{pastorders.prevmedrcrds}}</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endif %}
 
 {% if staffdet != asdfljhj %}
-<h1>Staff Details</h1>
-<table class="table table-striped">
-    <tr>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Gender</th>
-        <th>Salary</th>
-        <th>Doc id</th>
-        <th>Sepcification</th>
-        <th>Hospital id</th>
-    </tr>
-    {% for staffdet in staffdet %}
-    <tr>
-        <td>{{staffdet.name}}</td>
-        <td>{{staffdet.age}}</td>
-        <td>{{staffdet.gender}}</td>
-        <td>{{staffdet.salary}}</td>
-        <td>{{staffdet.docid}}</td>
-        <td>{{staffdet.spec}}</td>
-        <td>{{staffdet.hospitalid}}</td>
-    </tr>
-    {% endfor %}
-</table>
+    <h1>Staff Details</h1>
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Salary</th>
+            <th>Doc id</th>
+            <th>Sepcification</th>
+            <th>Hospital id</th>
+        </tr>
+        {% for staffdet in staffdet %}
+        <tr>
+            <td>{{staffdet.name}}</td>
+            <td>{{staffdet.age}}</td>
+            <td>{{staffdet.gender}}</td>
+            <td>{{staffdet.salary}}</td>
+            <td>{{staffdet.docid}}</td>
+            <td>{{staffdet.spec}}</td>
+            <td>{{staffdet.hospitalid}}</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endif %}
+
+{% if appoints != asdfljhj %}
+    <h1>Appointmets</h1>
+    <table class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th>Pat Name</th>
+            <th>Hosp Name</th>
+            <th>Doc Name</th>
+            <th>Problem</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+        {% for appoints in appoints %}
+            <tr>
+                <td>{{appoints.id}}</td>
+                <td>{{appoints.PatName}}</td>
+                <td>{{appoints.HospName}}</td>
+                <td>{{appoints.DocName}}</td>
+                <td>{{appoints.Problem}}</td>
+                <td>{{appoints.date}}</td>
+                <td>{{appoints.time}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
 <br>
 <div class="text-center">
 	<a href="/admindash" class="btn btn-default">Back</a>
