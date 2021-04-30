@@ -397,7 +397,7 @@ def addappointment():
                     date = datetime[:n:]
                     time = datetime[n+1::]
                     duplicate = db.session.query(Appointments).filter(Appointments.DocName == DocName, Appointments.date == date, Appointments.time == time).all()
-                    if duplicate == None:
+                    if duplicate == []:
                         data = Appointments(PatName, PatUsername, problem, DocName, HospName, date, time)
                         db.session.add(data)
                         db.session.commit()
