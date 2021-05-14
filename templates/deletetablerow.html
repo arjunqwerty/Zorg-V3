@@ -1,6 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+<style>
+	.btnstretch {
+		width: 100%;
+	}
+</style>
 {% if registermnmg != asdfljhj %}
 	<h1>Hospital Details</h1>
 	<table class="table table-striped">
@@ -13,7 +18,7 @@
 		</tr>
 		{% for registermnmg in registermnmg %}
 			<tr>
-				<td><a href="/deleterow/{{registermnmg.username}}" class="btn btn-default">Delete</a></td>
+				<td><a href="/deleterow/{{registermnmg.username}}" class="btn btn-default btnstretch">Delete</a></td>
 				<td>{{registermnmg.namehptl}}</td>
 				<td>{{registermnmg.username}}</td>
 				<td>{{registermnmg.pincode}}</td>
@@ -41,7 +46,7 @@
 		</tr>
 		{% for customerdet in customerdet %}
 			<tr>
-				<td><a href="/deleterow/{{customerdet.username}}" class="btn btn-default">Delete</a></td>
+				<td><a href="/deleterow/{{customerdet.username}}" class="btn btn-default btnstretch">Delete</a></td>
 				<td>{{customerdet.custid}}</td>
 				<td>{{customerdet.namecust}}</td>
 				<td>{{customerdet.username}}</td>
@@ -75,7 +80,7 @@
 		</tr>
 		{% for orders in orders %}
 			<tr>
-				<td><a href="/deleterow/{{orders.number}}" class="btn btn-default">Delete</a></td>
+				<td><a href="/deleterow/{{orders.number}}" class="btn btn-default btnstretch">Delete</a></td>
 				<td>{{orders.number}}</td>
 				<td>{{orders.hptl_username_in_vicinity}}</td>
 				<td>{{orders.username_cust}}</td>
@@ -109,7 +114,7 @@
 		</tr>
 		{% for pastorders in pastorders %}
 			<tr>
-				<td><a href="/deleterow/{{pastorders.number}}" class="btn btn-default">Delete</a></td>
+				<td><a href="/deleterow/{{pastorders.number}}" class="btn btn-default btnstretch">Delete</a></td>
 				<td>{{pastorders.number}}</td>
 				<td>{{pastorders.name_of_hptl_accepting_responsibilty}}</td>
 				<td>{{pastorders.username_cust}}</td>
@@ -140,7 +145,7 @@
 		</tr>
 		{% for staffdet in staffdet %}
 			<tr>
-				<td><a href="/deleterow/{{staffdet.docid}}" class="btn btn-default">Delete</a></td>
+				<td><a href="/deleterow/{{staffdet.docid}}" class="btn btn-default btnstretch">Delete</a></td>
 				<td>{{staffdet.name}}</td>
 				<td>{{staffdet.age}}</td>
 				<td>{{staffdet.gender}}</td>
@@ -168,7 +173,7 @@
         </tr>
         {% for appoints in appoints %}
             <tr>
-				<td><a href="/deleterow/{{appoints.id}}" class="btn btn-default">Delete</a></td>
+				<td><a href="/deleterow/{{appoints.id}}" class="btn btn-default btnstretch">Delete</a></td>
                 <td>{{appoints.id}}</td>
                 <td>{{appoints.PatName}}</td>
                 <td>{{appoints.HospName}}</td>
@@ -183,7 +188,7 @@
 
 <br>
 <div class="text-center">
-	<a href="/admindash" class="btn btn-default">Back</a>
+	<a href="/admindash" class="btn btn-default btnstretch">Back</a>
 </div>
 <br>
 {% endblock %}

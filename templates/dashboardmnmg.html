@@ -1,31 +1,32 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-	<h1>Dashboard <small>Welcome {{session.name}}</small></h1>
-	<table class="table table-striped">
-		<tr>
-			<th>Username</th>
-			<th>Phone number</th>
-			<th>Type</th>
-			<th>Address</th>
-			<th>Age</th>
-			<th>Gender</th>
-			<th>Previous Medical Records</th>
-			<th></th>
-			<th></th>
-		</tr>
-		{% for profile in profile %}
-			<tr>
-				<td>{{profile.username_cust}}</td>
-				<td>{{profile.aadhar}}</td>
-				<td>{{profile.type}}</td>
-				<td>{{profile.address}}</td>
-				<td>{{profile.age}}</td>
-				<td>{{profile.gender}}</td>
-				<td>{{profile.prevmedrcrds}}</td>
-				<td><a href="/accepted/{{profile.username_cust}}" class="btn btn-success pull-right">Accept</a></td>
-				<td><a href="/declined/{{profile.username_cust}}" class="btn btn-danger pull-right">Decline</a></td>
-			</tr>
-		{% endfor %}
-	</table>
+    <style>
+        .btnstretch {
+            width: 100%;
+        }
+		.space {
+			padding: 10px;
+		}
+    </style>
+	<div class="text-center">
+		<div class="space">
+			<a href="/emergency" class="btn btn-default">Emergency ({{emernum}})</a>
+		</div>
+		<div class="space">
+			<a href="/addappoint" class="btn btn-default">Add Appointment</a>
+		</div>
+		<div class="space">
+			<a href="/patienthistory" class="btn btn-default">Past Requests</a>
+		</div>
+		<div class="space">
+			<a href="/hosdetails" class="btn btn-default">Hospital Management</a>
+		</div>
+		<div class="space">
+			<a href="/appointmenthosp" class="btn btn-default">Appointment ({{aptnum}})</a>
+		</div>
+		<div class="space">
+			<a href="/registercustmnmg" class="btn btn-default">Customer Register</a>
+		</div>
+	</div>
 {% endblock %}

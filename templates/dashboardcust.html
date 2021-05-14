@@ -1,6 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+    <style>
+        .btnstretch {
+            width: 100%;
+        }
+    </style>
 	<h1>Dashboard <small>Welcome {{session.name}}</small></h1>
 	<table class="table table-striped">
 			<tr>
@@ -25,13 +30,13 @@
 						<td>{{custdata.address}}</td>
 						<td>{{custdata.pincode}}</td>
 						<td>{{custdata.gmail_id}}</td>
-						<td><a href="/editprofile" class="btn btn-default pull-right">Edit</a></td>
+						<td><a href="/editprofile" class="btn btn-default btnstretch">Edit</a></td>
 					</tr>
 				{% endif %}
 			{% endfor %}
 	</table>
 	<div>
-		<a href="/appointment" class="btn btn-default pull-right">Appointment</a>
+		<a href="/appointmentcust" class="btn btn-default pull-right">Appointment</a>
 	</div>
 
 	{% endblock %}

@@ -1,6 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+    <style>
+        .btnstretch {
+            width: 100%;
+        }
+    </style>
 	<h1>Dashboard <small>Welcome {{session.name}}</small></h1>
 	<table class="table table-striped">
 		<tr>
@@ -10,18 +15,20 @@
 			<th>Salary</th>
 			<th>Specialization</th>
 			<th>Doc id</th>
-			<th><a href="/addprofile_hos" class="btn btn-default pull-right">Add</a></th>
+			<th><a href="/addprofile_hos" class="btn btn-default btnstretch">Add</a></th>
+			<th>Delete</th>
 		</tr>
-		{% for custdata in custdata %}
+		{% for docdata in docdata %}
 			{% if session.name == session.name %}
 				<tr>
-					<td>{{custdata.name}}</td>
-					<td>{{custdata.age}}</td>
-					<td>{{custdata.gender}}</td>
-					<td>{{custdata.salary}}</td>
-					<td>{{custdata.spec}}</td>
-					<td>{{custdata.docid}}</td>
-					<td><a href="/editprofilehos/{{custdata.docid}}" class="btn btn-default pull-right">Edit</a></td>
+					<td>{{docdata.name}}</td>
+					<td>{{docdata.age}}</td>
+					<td>{{docdata.gender}}</td>
+					<td>{{docdata.salary}}</td>
+					<td>{{docdata.spec}}</td>
+					<td>{{docdata.docid}}</td>
+					<td><a href="/editprofilehos/{{docdata.docid}}" class="btn btn-default btnstretch">Edit</a></td>
+					<td><a href="/deletedoc/{{docdata.docid}}" class="btn btn-default btnstretch">Delete</a></td>
 				</tr>
 			{% endif %}
 		{% endfor %}

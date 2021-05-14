@@ -3,28 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>MINE</title>
+    <title>ZORG</title>
     <link rel="icon" type="image/png" href="/static/Favicon.png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
     {% include "layout.html" %}
     <div class="padding text-center">
-        <form method="POST" action="/addappointment" class="text-center" id="forms">
+        <form method="POST" action="/addappointmenthosp" class="text-center" id="forms">
             <h1>Fix an Appointment</h1>
+            {% for apt in apt %}
+                {{apt.hospitalid}}
+            {% endfor %}
             <div>
                 {% if prob == "" and spec == "" %}
                     <script>window.onload = function() {deafult();}</script>
                 {% endif %}
-                {% if spec != "" and hosp == "" %}
-                    <script>window.onload = function() {hosp();}</script>
-                {% endif %}
-                {% if hosp != "" and doc == "" %}
+                {% if spec != "" and doc == "" %}
                     <script>window.onload = function() {doc();}</script>
                 {% endif %}
                 {% if doc != "" %}
                     <script>window.onload = function() {dati();}</script>
                 {% endif %}
+                <div class="form-group">
+                    <h4>Patient Username</h4>
+                    <select name="patusername" onchange="submit()">
+                        <option value="">{{patuser}}</option>
+                        {% for pat in pat %}
+                            <option value="{{pat.username}}">{{pat.username}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <div class="form-group" id="problem">
                     <h4>Problem</h4>
                     {% if prob == "" %}
@@ -36,40 +45,19 @@
                 <div class="form-group" id="specialisation">
                     <h4>Specialisation required</h4>
                     <select name="specialisation" onchange="submit()">
-                        {% if spec == "" %}
-                            <option value=""></option>
-                            {% for specs in specs %}
-                                <option value={{specs.spec}}>{{specs.spec}}</option>
-                            {% endfor %}
-                        {% else %}
-                            <option value="{{spec}}">{{spec}}</option>
-                        {% endif %}
-                    </select>
-                </div>
-                <div class="form-group" id="hospital">
-                    <h4>Hospital</h4>
-                    <select name="hospital" onchange="submit()">
-                        {% if hosp == "" %}
-                            <option value=""></option>
-                            {% for hosps in hosps %}
-                                <option value="{{hosps.hospitalid}}">{{hosps.hospitalid}}</option>
-                            {% endfor %}
-                        {% else %}
-                            <option value="{{hosps}}">{{hosp}}</option>
-                        {% endif %}
+                        <option value="">{{spec}}</option>
+                        {% for specs in specs %}
+                            <option value={{specs.spec}}>{{specs.spec}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="form-group" id="doctor">
                     <h4>Doctor</h4>
                     <select name="doctor" onchange="submit()">
-                        {% if doc == "" %}
-                            <option value=""></option>
-                            {% for hosps in hosps %}
-                                <option value="{{hosps.name}}">{{hosps.name}}</option>
-                            {% endfor %}
-                        {% else %}
-                            <option value="{{doc}}">{{doc}}</option>
-                        {% endif %}
+                        <option value="">{{doc}}</option>
+                        {% for hosps in hosps %}
+                            <option value="{{hosps.name}}">{{hosps.name}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="form-group" id="datetime">
@@ -84,12 +72,6 @@
         function deafult() {
             document.getElementById("problem").style.display = "initial";
             document.getElementById("specialisation").style.display = "initial";
-            document.getElementById("hospital").style.display = "none";
-            document.getElementById("doctor").style.display = "none";
-            document.getElementById("datetime").style.display = "none";
-            document.getElementById("subtn").style.display = "none";
-        }
-        function hosp() {
             document.getElementById("doctor").style.display = "none";
             document.getElementById("datetime").style.display = "none";
             document.getElementById("subtn").style.display = "none";
