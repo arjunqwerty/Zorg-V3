@@ -1,82 +1,100 @@
-{% extends 'layout.html' %}
-
-{% block body %}
-    <style>
-        .btnstretch {
-            width: 100%;
-        }
-    </style>
-	<h1>Dashboard <small>Welcome {{session.name}}</small></h1>
-	<table class="table table-striped">
-        <tr>
-            <th>Name</th>
-            <th>Hospital</th>
-            <th>Customer</th>
-            <th>Requests</th>
-            <th>Past Requests</th>
-            <th>Staff</th>
-            <th>Appointments</th>
-            <th>All</th>
-        </tr>
-        <tr>
-            <td>Display Tables</td>
-            <td><a href="/displaytables/1" class="btn btn-default btnstretch">Hospital</a></td>
-            <td><a href="/displaytables/2" class="btn btn-default btnstretch">Customer</a></td>
-            <td><a href="/displaytables/3" class="btn btn-default btnstretch">Requests</a></td>
-            <td><a href="/displaytables/4" class="btn btn-default btnstretch">Past Requests</a></td>
-            <td><a href="/displaytables/5" class="btn btn-default btnstretch">Staff</a></td>
-            <td><a href="/displaytables/6" class="btn btn-default btnstretch">Appointments</a></td>
-            <td><a href="/displaytables/All" class="btn btn-default btnstretch">All</a></td>
-        </tr>
-        <tr>
-            <td>Default Table</td>
-            <td><a href="/defaultable/1" class="btn btn-default btnstretch">Hospital</a></td>
-            <td><a href="/defaultable/2" class="btn btn-default btnstretch">Customer</a></td>
-            <td><a href="/defaultable/3" class="btn btn-default btnstretch">Requests</a></td>
-            <td><a href="/defaultable/4" class="btn btn-default btnstretch">Past Requests</a></td>
-            <td><a href="/defaultable/5" class="btn btn-default btnstretch">Staff</a></td>
-            <td><a href="/defaultable/6" class="btn btn-default btnstretch">Appointments</a></td>
-            <td><a href="/defaultable/All" class="btn btn-default btnstretch">All</a></td>
-        </tr>
-        <tr>
-            <td>Delete Table</td>
-            <td><a href="/deletetables/1" class="btn btn-default btnstretch">Hospital</a></td>
-            <td><a href="/deletetables/2" class="btn btn-default btnstretch">Customer</a></td>
-            <td><a href="/deletetables/3" class="btn btn-default btnstretch">Requests</a></td>
-            <td><a href="/deletetables/4" class="btn btn-default btnstretch">Past Requests</a></td>
-            <td><a href="/deletetables/5" class="btn btn-default btnstretch">Staff</a></td>
-            <td><a href="/deletetables/6" class="btn btn-default btnstretch">Appointments</a></td>
-            <td><a href="/deletetables/All" class="btn btn-default btnstretch">All</a></td>
-        </tr>
-        <tr>
-            <td>Delete Table Rows</td>
-            <td><a href="/deletetablerow/1" class="btn btn-default btnstretch">Hospital</a></td>
-            <td><a href="/deletetablerow/2" class="btn btn-default btnstretch">Customer</a></td>
-            <td><a href="/deletetablerow/3" class="btn btn-default btnstretch">Requests</a></td>
-            <td><a href="/deletetablerow/4" class="btn btn-default btnstretch">Past Requests</a></td>
-            <td><a href="/deletetablerow/5" class="btn btn-default btnstretch">Staff</a></td>
-            <td><a href="/deletetablerow/6" class="btn btn-default btnstretch">Appointments</a></td>
-            <td><a href="/deletetablerow/All" class="btn btn-default btnstretch">All</a></td>
-        </tr>
-        <tr>
-            <td>Add Table Rows</td>
-            <td><a href="/addtablerow/1" class="btn btn-default btnstretch">Hospital</a></td>
-            <td><a href="/addtablerow/2" class="btn btn-default btnstretch">Customer</a></td>
-            <td><a href="/addtablerow/3" class="btn btn-default btnstretch">Requests</a></td>
-            <td><a href="/addtablerow/4" class="btn btn-default btnstretch">Past Requests</a></td>
-            <td><a href="/addtablerow/5" class="btn btn-default btnstretch">Staff</a></td>
-            <td><a href="/addtablerow/6" class="btn btn-default btnstretch">Appointments</a></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Edit Table Rows</td>
-            <td><a href="/edittablerow/1" class="btn btn-default btnstretch">Hospital</a></td>
-            <td><a href="/edittablerow/2" class="btn btn-default btnstretch">Customer</a></td>
-            <td><a href="/edittablerow/3" class="btn btn-default btnstretch">Requests</a></td>
-            <td><a href="/edittablerow/4" class="btn btn-default btnstretch">Past Requests</a></td>
-            <td><a href="/edittablerow/5" class="btn btn-default btnstretch">Staff</a></td>
-            <td><a href="/edittablerow/6" class="btn btn-default btnstretch">Appointments</a></td>
-            <td></td>
-        </tr>
-	</table>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>ZORG</title>
+		<link rel="icon" type="image/png" href="/static/Favicon.png">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity = "sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin = "anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<style>
+			html, body {
+				background-color: #c2eb6a;
+			}
+			.btnstretch {
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		{% include "includes/_navbar.html" %}
+		{% include "includes/_messages.html" %}
+        <h1>Dashboard <small>Welcome {{session.name}}</small></h1>
+        <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Hospital</th>
+                <th>Customer</th>
+                <th>Requests</th>
+                <th>Past Requests</th>
+                <th>Staff</th>
+                <th>Appointments</th>
+                <th>All</th>
+            </tr>
+            <tr>
+                <td>Display Tables</td>
+                <td><a href="/displaytables/1" class="btn btn-default btnstretch">Hospital</a></td>
+                <td><a href="/displaytables/2" class="btn btn-default btnstretch">Customer</a></td>
+                <td><a href="/displaytables/3" class="btn btn-default btnstretch">Requests</a></td>
+                <td><a href="/displaytables/4" class="btn btn-default btnstretch">Past Requests</a></td>
+                <td><a href="/displaytables/5" class="btn btn-default btnstretch">Staff</a></td>
+                <td><a href="/displaytables/6" class="btn btn-default btnstretch">Appointments</a></td>
+                <td><a href="/displaytables/All" class="btn btn-default btnstretch">All</a></td>
+            </tr>
+            <tr>
+                <td>Default Table</td>
+                <td><a href="/defaultable/1" class="btn btn-default btnstretch">Hospital</a></td>
+                <td><a href="/defaultable/2" class="btn btn-default btnstretch">Customer</a></td>
+                <td><a href="/defaultable/3" class="btn btn-default btnstretch">Requests</a></td>
+                <td><a href="/defaultable/4" class="btn btn-default btnstretch">Past Requests</a></td>
+                <td><a href="/defaultable/5" class="btn btn-default btnstretch">Staff</a></td>
+                <td><a href="/defaultable/6" class="btn btn-default btnstretch">Appointments</a></td>
+                <td><a href="/defaultable/All" class="btn btn-default btnstretch">All</a></td>
+            </tr>
+            <tr>
+                <td>Delete Table</td>
+                <td><a href="/deletetables/1" class="btn btn-default btnstretch">Hospital</a></td>
+                <td><a href="/deletetables/2" class="btn btn-default btnstretch">Customer</a></td>
+                <td><a href="/deletetables/3" class="btn btn-default btnstretch">Requests</a></td>
+                <td><a href="/deletetables/4" class="btn btn-default btnstretch">Past Requests</a></td>
+                <td><a href="/deletetables/5" class="btn btn-default btnstretch">Staff</a></td>
+                <td><a href="/deletetables/6" class="btn btn-default btnstretch">Appointments</a></td>
+                <td><a href="/deletetables/All" class="btn btn-default btnstretch">All</a></td>
+            </tr>
+            <tr>
+                <td>Delete Table Rows</td>
+                <td><a href="/deletetablerow/1" class="btn btn-default btnstretch">Hospital</a></td>
+                <td><a href="/deletetablerow/2" class="btn btn-default btnstretch">Customer</a></td>
+                <td><a href="/deletetablerow/3" class="btn btn-default btnstretch">Requests</a></td>
+                <td><a href="/deletetablerow/4" class="btn btn-default btnstretch">Past Requests</a></td>
+                <td><a href="/deletetablerow/5" class="btn btn-default btnstretch">Staff</a></td>
+                <td><a href="/deletetablerow/6" class="btn btn-default btnstretch">Appointments</a></td>
+                <td><a href="/deletetablerow/All" class="btn btn-default btnstretch">All</a></td>
+            </tr>
+            <tr>
+                <td>Add Table Rows</td>
+                <td><a href="/addtablerow/1" class="btn btn-default btnstretch">Hospital</a></td>
+                <td><a href="/addtablerow/2" class="btn btn-default btnstretch">Customer</a></td>
+                <td><a href="/addtablerow/3" class="btn btn-default btnstretch">Requests</a></td>
+                <td><a href="/addtablerow/4" class="btn btn-default btnstretch">Past Requests</a></td>
+                <td><a href="/addtablerow/5" class="btn btn-default btnstretch">Staff</a></td>
+                <td><a href="/addtablerow/6" class="btn btn-default btnstretch">Appointments</a></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Edit Table Rows</td>
+                <td><a href="/edittablerow/1" class="btn btn-default btnstretch">Hospital</a></td>
+                <td><a href="/edittablerow/2" class="btn btn-default btnstretch">Customer</a></td>
+                <td><a href="/edittablerow/3" class="btn btn-default btnstretch">Requests</a></td>
+                <td><a href="/edittablerow/4" class="btn btn-default btnstretch">Past Requests</a></td>
+                <td><a href="/edittablerow/5" class="btn btn-default btnstretch">Staff</a></td>
+                <td><a href="/edittablerow/6" class="btn btn-default btnstretch">Appointments</a></td>
+                <td></td>
+            </tr>
+        </table>
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	</body>
+</html>
