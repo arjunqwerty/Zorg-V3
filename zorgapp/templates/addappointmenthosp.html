@@ -10,7 +10,7 @@
 <body>
     {% include "layout.html" %}
     <div class="padding text-center">
-        <form method="POST" action="/hospital/appointment" class="text-center" id="forms">
+        <form method="POST" action="/hospital/appointment/add" class="text-center" id="forms">
             <h1>Fix an Appointment</h1>
             {% for apt in apt %}
                 {{apt.hospitalid}}
