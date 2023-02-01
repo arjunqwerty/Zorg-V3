@@ -1,5 +1,5 @@
 # Zorg-V3
-**Under testing, applying makeup** [zorg6.github.io](zorg6.github.io)
+**Under testing, applying makeup** [https://zorg6.github.io/](https://zorg6.github.io/)
 
 The program flows like :
 i)Management
